@@ -37,9 +37,9 @@ class MainViewController: UITableViewController {
             presentSignInViewController()
         
         var demoFeature = DemoFeature.init(
-            name: NSLocalizedString("User Sign-in",
+            name: NSLocalizedString("My Profile",
                 comment: "Label for demo menu option."),
-            detail: NSLocalizedString("Enable user login with popular 3rd party providers.",
+            detail: NSLocalizedString("add or edit your profile information",
                 comment: "Description for demo menu option."),
             icon: "UserIdentityIcon", storyboard: "UserIdentity")
         
