@@ -14,9 +14,27 @@
 
 import Foundation
 import UIKit
-import AWSMobileHubHelper
+import MapKit
 
 class MapViewController: UIViewController {
     
+    @IBOutlet weak var mapView: MKMapView!
+    
+    let regionRadius: CLLocationDistance = 1000
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        // set initial location to Ann Arbor
+        let initialLocation = CLLocation(latitude: 42.2808, longitude: -83.743)
+        centerMapOnLocation(initialLocation)
 
+    }
+    
+    func centerMapOnLocation(_ location: CLLocation) {
+        let coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate,
+                                                                  regionRadius * 2.0, regionRadius * 2.0)
+        mapView.setRegion(coordinateRegion, animated: true)
+    }
+    
 }
