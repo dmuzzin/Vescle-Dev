@@ -61,6 +61,8 @@ class UserPoolSignUpViewController: UIViewController {
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = DateFormatter.Style.medium
         dateFormatter.timeStyle = DateFormatter.Style.none
+        dateFormatter.locale = Locale(identifier: "en_US")
+        dateFormatter.setLocalizedDateFormatFromTemplate("yyyy-MM-dd")
         dob.text = dateFormatter.string(from: sender.date)
     }
     
@@ -71,10 +73,11 @@ class UserPoolSignUpViewController: UIViewController {
         datePicker.addTarget(self, action: #selector(UserPoolSignUpViewController.datePickerValueChanged(sender:)), for: UIControlEvents.valueChanged)
         
     }
-    
+    /*
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true);
     }
+ */
 
     @IBAction func onDOB(_ sender: AnyObject) {
     
