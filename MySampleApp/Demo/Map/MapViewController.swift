@@ -16,7 +16,16 @@ import Foundation
 import UIKit
 import MapKit
 
+
+//MARK: Global Declarations
+let ann_arbor = CLLocation(latitude: 42.2808, longitude: -83.743);
+let my_house = bubble(name: "my house", lat: 42.271626, long: -83.738549)
+
 class MapViewController: UIViewController {
+    
+    //MARK: Properties and Outlets
+    let vescle = resizeImage(image: UIImage(named: "vescle")!,
+                             targetSize: CGSize.init(width: 50, height: 50))
     
     @IBOutlet weak var mapView: MKMapView!
     
@@ -26,9 +35,10 @@ class MapViewController: UIViewController {
         super.viewDidLoad()
         
         // set initial location to Ann Arbor
-        let initialLocation = CLLocation(latitude: 42.2808, longitude: -83.743)
+        let initialLocation = ann_arbor;
         centerMapOnLocation(initialLocation)
-
+        
+        mapView.addAnnotation(my_house)
     }
     
     func centerMapOnLocation(_ location: CLLocation) {
@@ -37,4 +47,49 @@ class MapViewController: UIViewController {
         mapView.setRegion(coordinateRegion, animated: true)
     }
     
+    func mapView(_ mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
+        if let annotation = annotation as? bubble{
+            if let view = mapView.dequeueReusableAnnotationView(withIdentifier: annotation.identifier){
+                return view
+            }else{
+                let view = MKAnnotationView(annotation: annotation, reuseIdentifier: annotation.identifier)
+                view.image = vescle
+                view.isEnabled = true
+                view.canShowCallout = true
+                view.leftCalloutAccessoryView = UIImageView(image: vescle)
+                return view
+            }
+        }
+        return nil
+    }
 }
+
+func resizeImage(image: UIImage, targetSize: CGSize) -> UIImage {
+    let size = image.size
+    
+    let widthRatio  = targetSize.width  / image.size.width
+    let heightRatio = targetSize.height / image.size.height
+    
+    // Figure out what our orientation is, and use that to form the rectangle
+    var newSize: CGSize
+    if(widthRatio > heightRatio) {
+        newSize = CGSize(width: size.width * heightRatio, height: size.height * heightRatio)
+    } else {
+        newSize = CGSize(width: size.width * widthRatio,  height: size.height * widthRatio)
+    }
+    
+    // This is the rect that we've calculated out and this is what is actually used below
+    let rect = CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height)
+    
+    // Actually do the resizing to the rect using the ImageContext stuff
+    UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
+    image.draw(in: rect)
+    let newImage = UIGraphicsGetImageFromCurrentImageContext()
+    UIGraphicsEndImageContext()
+    
+    return newImage!
+}
+
+
+
+
