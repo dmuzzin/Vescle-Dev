@@ -62,6 +62,15 @@ class MainViewController: UITableViewController {
             icon: "NoSQLIcon", storyboard: "NoSQLDatabase")
         
         demoFeatures.append(demoFeature)
+        
+        demoFeature = DemoFeature.init(
+            name: NSLocalizedString("Map",
+                                    comment: "Label for demo menu option."),
+            detail: NSLocalizedString("testing for mapview",
+                                      comment: "Description for demo menu option."),
+            icon: "NoSQLIcon", storyboard: "MapView")
+        
+        demoFeatures.append(demoFeature)
 
                 signInObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name.AWSIdentityManagerDidSignIn, object: AWSIdentityManager.default(), queue: OperationQueue.main, using: {[weak self] (note: Notification) -> Void in
                         guard let strongSelf = self else { return }
