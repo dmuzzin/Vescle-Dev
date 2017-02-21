@@ -21,7 +21,10 @@ class UserPoolSignUpViewController: UIViewController {
     
     var pool: AWSCognitoIdentityUserPool?
     var sentTo: String?
+    var attributes = [AWSCognitoIdentityUserAttributeType]()
     
+    @IBOutlet weak var fullname: UITextField!
+    @IBOutlet weak var dob: UITextField!
     @IBOutlet weak var userName: UITextField!
     @IBOutlet weak var password: UITextField!
     
@@ -38,6 +41,47 @@ class UserPoolSignUpViewController: UIViewController {
             signUpConfirmationViewController.sentTo = self.sentTo
             signUpConfirmationViewController.user = self.pool?.getUser(self.userName.text!)
         }
+    }
+    @IBAction func onFullName(_ sender: AnyObject) {
+        if let fullNameValue = self.fullname.text, !fullNameValue.isEmpty {
+            let name = AWSCognitoIdentityUserAttributeType()
+            name?.name = "name"
+            name?.value = fullNameValue
+            attributes.append(name!)
+        } else {
+            UIAlertView(title: "Missing Required Fields",
+                        message: "Full name is required for registration.",
+                        delegate: nil,
+                        cancelButtonTitle: "Ok").show()
+            return
+        }
+    }
+    
+    func datePickerValueChanged(sender: UIDatePicker) {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = DateFormatter.Style.medium
+        dateFormatter.timeStyle = DateFormatter.Style.none
+        dob.text = dateFormatter.string(from: sender.date)
+    }
+    
+    @IBAction func dp(_ sender: UITextField) {
+        let datePicker = UIDatePicker()
+        datePicker.datePickerMode = UIDatePickerMode.date
+        sender.inputView = datePicker
+        datePicker.addTarget(self, action: #selector(UserPoolSignUpViewController.datePickerValueChanged(sender:)), for: UIControlEvents.valueChanged)
+        
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true);
+    }
+
+    @IBAction func onDOB(_ sender: AnyObject) {
+    
+    }
+    
+    @IBAction func onUserName(_ sender: AnyObject) {
+        
     }
     
     @IBAction func onSignUp(_ sender: AnyObject) {
