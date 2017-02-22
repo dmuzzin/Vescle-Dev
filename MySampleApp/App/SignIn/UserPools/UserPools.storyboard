@@ -523,7 +523,7 @@
                                 </state>
                                 <connections>
                                     <action selector="onDateOfBirth:" destination="TpG-qX-otf" eventType="touchUpInside" id="Rbc-nY-o0v"/>
-                                    <segue destination="4Vz-Vz-zr3" kind="show" id="pyx-N8-fr0"/>
+                                    <segue destination="4Vz-Vz-zr3" kind="show" identifier="setDOB" id="pyx-N8-fr0"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -589,7 +589,7 @@
                                 </state>
                                 <connections>
                                     <action selector="onPassword:" destination="gyz-eF-LLo" eventType="touchUpInside" id="xLd-Rd-gQS"/>
-                                    <segue destination="tBM-jZ-I7y" kind="show" id="9ny-2Q-D2t"/>
+                                    <segue destination="tBM-jZ-I7y" kind="show" identifier="setPassword" id="9ny-2Q-D2t"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bKU-z9-oAr">
@@ -687,7 +687,7 @@
                                 </state>
                                 <connections>
                                     <action selector="onUserName:" destination="4Vz-Vz-zr3" eventType="touchUpInside" id="aVz-OV-TQ5"/>
-                                    <segue destination="gyz-eF-LLo" kind="show" id="0uO-4C-s2M"/>
+                                    <segue destination="gyz-eF-LLo" kind="show" identifier="setUsername" id="0uO-4C-s2M"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -765,7 +765,7 @@
                                 </state>
                                 <connections>
                                     <action selector="onFullName:" destination="xHQ-pp-ZBt" eventType="touchDown" id="O2p-XF-4nK"/>
-                                    <segue destination="TpG-qX-otf" kind="show" id="jox-ru-adw"/>
+                                    <segue destination="TpG-qX-otf" kind="show" identifier="setName" id="jox-ru-adw"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Full Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rgi-XD-Ukv">

@@ -29,10 +29,13 @@ class UserPoolSignUpViewController: UIViewController {
     @IBOutlet weak var password1: UITextField!
     @IBOutlet weak var password2: UITextField!
     @IBOutlet weak var username: UITextField!
-    
-    
     @IBOutlet weak var phone: UITextField!
-    @IBOutlet weak var email: UITextField!
+    
+    var setName = false
+    var setDOB = false
+    var setUsername = false
+    var setPassword = false
+    var setPhone = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,9 +48,37 @@ class UserPoolSignUpViewController: UIViewController {
             signUpConfirmationViewController.user = self.pool?.getUser(self.username.text!)
         }
     }
+    
+    override func shouldPerformSegue(withIdentifier identifier: String?, sender: Any?) -> Bool {
+        let ident = identifier
+        if ident == "setName" {
+            if !self.setName {
+                return false
+            }
+        } else if ident == "setDOB" {
+            if !self.setDOB {
+                return false
+            }
+        } else if ident == "setUsername" {
+            if !self.setUsername {
+                return false
+            }
+        } else if ident == "setPassword" {
+            if !self.setPassword {
+                return false
+            }
+        } else if ident == "setPhoto" {
+            
+        } else if ident == "setPhone" {
+            
+        }
+        return true
+    }
+    
     @IBAction func onFullName(_ sender: AnyObject) {
         if let fullNameValue = self.fullname.text, !fullNameValue.isEmpty {
             signUpData.fullname = fullNameValue
+            self.setName = true
         } else {
             UIAlertView(title: "Missing Required Fields",
                         message: "Full name is required for registration.",
@@ -65,6 +96,7 @@ class UserPoolSignUpViewController: UIViewController {
             let startyear = dobValue.index(dobValue.startIndex, offsetBy: 6);
             let year = dobValue.substring(from: startyear)
             signUpData.dob = year + "-" + modified_ending
+            self.setDOB = true
         } else {
             UIAlertView(title: "Missing Required Fields",
                         message: "Valid birth date is required for registration.",
@@ -103,6 +135,7 @@ class UserPoolSignUpViewController: UIViewController {
                 return
             } else {
                 self.signUpData.username = usernameValue
+                self.setUsername = true
             }
         } else {
             UIAlertView(title: "Missing Required Fields",
@@ -140,6 +173,7 @@ class UserPoolSignUpViewController: UIViewController {
         }
         
         self.signUpData.password = pass1Value
+        self.setPassword = true
     }
     
     @IBAction func onSignUp(_ sender: AnyObject) {
@@ -161,14 +195,14 @@ class UserPoolSignUpViewController: UIViewController {
             phone?.value = phoneValue
             attributes.append(phone!)
         }
-        
+        /*
         if let emailValue = self.email.text, !emailValue.isEmpty {
             let email = AWSCognitoIdentityUserAttributeType()
             email?.name = "email"
             email?.value = emailValue
             attributes.append(email!)
         }
-        
+        */
         //sign up the user
         self.pool?.signUp(userNameValue, password: passwordValue, userAttributes: attributes, validationData: nil).continueWith {[weak self] (task: AWSTask<AWSCognitoIdentityUserPoolSignUpResponse>) -> AnyObject? in
             guard let strongSelf = self else { return nil }
