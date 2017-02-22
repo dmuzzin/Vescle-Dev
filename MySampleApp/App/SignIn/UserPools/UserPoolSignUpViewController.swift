@@ -18,15 +18,18 @@ import AWSMobileHubHelper
 import AWSCognitoIdentityProvider
 
 class UserPoolSignUpViewController: UIViewController {
+    let signUpData = SignUpData.signUpData
     
     var pool: AWSCognitoIdentityUserPool?
     var sentTo: String?
     var attributes = [AWSCognitoIdentityUserAttributeType]()
-    
+
     @IBOutlet weak var fullname: UITextField!
     @IBOutlet weak var dob: UITextField!
-    @IBOutlet weak var userName: UITextField!
-    @IBOutlet weak var password: UITextField!
+    @IBOutlet weak var password1: UITextField!
+    @IBOutlet weak var password2: UITextField!
+    @IBOutlet weak var username: UITextField!
+    
     
     @IBOutlet weak var phone: UITextField!
     @IBOutlet weak var email: UITextField!
@@ -39,18 +42,32 @@ class UserPoolSignUpViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let signUpConfirmationViewController = segue.destination as? UserPoolSignUpConfirmationViewController {
             signUpConfirmationViewController.sentTo = self.sentTo
-            signUpConfirmationViewController.user = self.pool?.getUser(self.userName.text!)
+            signUpConfirmationViewController.user = self.pool?.getUser(self.username.text!)
         }
     }
     @IBAction func onFullName(_ sender: AnyObject) {
         if let fullNameValue = self.fullname.text, !fullNameValue.isEmpty {
-            let name = AWSCognitoIdentityUserAttributeType()
-            name?.name = "name"
-            name?.value = fullNameValue
-            attributes.append(name!)
+            signUpData.fullname = fullNameValue
         } else {
             UIAlertView(title: "Missing Required Fields",
                         message: "Full name is required for registration.",
+                        delegate: nil,
+                        cancelButtonTitle: "Ok").show()
+            return
+        }
+    }
+    
+    @IBAction func onDateOfBirth(_ sender: AnyObject) {
+        if let dobValue = self.dob.text, !dobValue.isEmpty {
+            let monthday = dobValue.index(dobValue.startIndex, offsetBy: 5);
+            let ending = dobValue.substring(to: monthday);
+            let modified_ending = ending.replacingOccurrences(of: "/", with: "-")
+            let startyear = dobValue.index(dobValue.startIndex, offsetBy: 6);
+            let year = dobValue.substring(from: startyear)
+            signUpData.dob = year + "-" + modified_ending
+        } else {
+            UIAlertView(title: "Missing Required Fields",
+                        message: "Valid birth date is required for registration.",
                         delegate: nil,
                         cancelButtonTitle: "Ok").show()
             return
@@ -73,24 +90,62 @@ class UserPoolSignUpViewController: UIViewController {
         datePicker.addTarget(self, action: #selector(UserPoolSignUpViewController.datePickerValueChanged(sender:)), for: UIControlEvents.valueChanged)
         
     }
-    /*
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.view.endEditing(true);
-    }
- */
-
-    @IBAction func onDOB(_ sender: AnyObject) {
-    
-    }
     
     @IBAction func onUserName(_ sender: AnyObject) {
+        if let usernameValue = self.username.text, !usernameValue.isEmpty {
+            let trimmed_usernameValue = usernameValue.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+            let user = self.pool?.getUser(trimmed_usernameValue).confirmedStatus
+            if user != AWSCognitoIdentityUserStatus.unknown {
+                UIAlertView(title: "Username already exists",
+                            message: "Please choose a new username.",
+                            delegate: nil,
+                            cancelButtonTitle: "Ok").show()
+                return
+            } else {
+                self.signUpData.username = usernameValue
+            }
+        } else {
+            UIAlertView(title: "Missing Required Fields",
+                        message: "Full name is required for registration.",
+                        delegate: nil,
+                        cancelButtonTitle: "Ok").show()
+            return
+        }
+    }
+    
+    @IBAction func onPassword(_ sender: AnyObject) {
+        guard let pass1Value = self.password1.text, !pass1Value.isEmpty,
+            let pass2Value = self.password2.text, !pass2Value.isEmpty else {
+                UIAlertView(title: "Missing Required Fields",
+                            message: "Please enter your password AND confirm your password.",
+                            delegate: nil,
+                            cancelButtonTitle: "Ok").show()
+                return
+        }
         
+        if pass1Value != pass2Value {
+            UIAlertView(title: "Passwords Do Not Match",
+                        message: "Please re-enter and confirm your password.",
+                        delegate: nil,
+                        cancelButtonTitle: "Ok").show()
+            return
+        }
+        
+        if pass1Value.characters.count < 8 {
+            UIAlertView(title: "Password too short",
+                        message: "Passwords must be at least 8 characters.",
+                        delegate: nil,
+                        cancelButtonTitle: "Ok").show()
+            return
+        }
+        
+        self.signUpData.password = pass1Value
     }
     
     @IBAction func onSignUp(_ sender: AnyObject) {
 
-        guard let userNameValue = self.userName.text, !userNameValue.isEmpty,
-            let passwordValue = self.password.text, !passwordValue.isEmpty else {
+        guard let userNameValue = self.username.text, !userNameValue.isEmpty,
+            let passwordValue = self.password1.text, !passwordValue.isEmpty else {
             UIAlertView(title: "Missing Required Fields",
                         message: "Username / Password are required for registration.",
                         delegate: nil,
