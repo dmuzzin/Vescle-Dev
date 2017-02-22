@@ -8,5 +8,6 @@ final class SignUpData {
     var username : String!
     var password : String!
     var phone : String!
+    var photo : String!
     
 }

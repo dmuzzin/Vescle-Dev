@@ -26,5 +26,3 @@ let AWSCognitoUserPoolRegion: AWSRegionType = .USEast1
 
 // Cognito User Pools Client Secret
 let AWSCognitoUserPoolClientSecret: String = "1lil7u5119g2u1ci5h35sciira7bgrd5upkju9ghomj095vvlq5b"
-
-//78tnbgtip46oja11rtic8qdv1p

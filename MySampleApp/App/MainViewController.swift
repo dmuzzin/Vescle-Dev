@@ -27,14 +27,13 @@ class MainViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: nil, action: nil)
-        
         // You need to call `- updateTheme` here in case the sign-in happens before `- viewWillAppear:` is called.
         updateTheme()
         willEnterForegroundObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name.UIApplicationWillEnterForeground, object: nil, queue: OperationQueue.current) { _ in
             self.updateTheme()
         }
 
-            presentSignInViewController()
+        presentSignInViewController()
         
         var demoFeature = DemoFeature.init(
             name: NSLocalizedString("My Profile",
@@ -71,7 +70,7 @@ class MainViewController: UITableViewController {
             icon: "NoSQLIcon", storyboard: "MapView")
         
         demoFeatures.append(demoFeature)
-
+        
                 signInObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name.AWSIdentityManagerDidSignIn, object: AWSIdentityManager.default(), queue: OperationQueue.main, using: {[weak self] (note: Notification) -> Void in
                         guard let strongSelf = self else { return }
                         print("Sign In Observer observed sign in.")
