@@ -68,7 +68,16 @@ class MainViewController: UITableViewController {
                                     comment: "Label for demo menu option."),
             detail: NSLocalizedString("testing for mapview",
                                       comment: "Description for demo menu option."),
-            icon: "NoSQLIcon", storyboard: "MapView")
+            icon: "map_icon", storyboard: "MapView")
+        
+        demoFeatures.append(demoFeature)
+        
+        demoFeature = DemoFeature.init(
+            name: NSLocalizedString("Post A Vescle",
+                                    comment: "Label for demo menu option."),
+            detail: NSLocalizedString("testing for mapview",
+                                      comment: "Description for demo menu option."),
+            icon: "vescle", storyboard: "PostVescleView")
         
         demoFeatures.append(demoFeature)
 
