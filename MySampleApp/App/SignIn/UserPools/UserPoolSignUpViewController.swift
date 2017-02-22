@@ -257,7 +257,8 @@ class UserPoolSignUpViewController: UIViewController {
                             message: "Registration was successful.",
                             delegate: nil,
                             cancelButtonTitle: "Ok").show()
-                        strongSelf.presentingViewController?.dismiss(animated: true, completion: nil)
+                        //strongSelf.presentingViewController?.dismiss(animated: true, completion: nil)
+                        _ = strongSelf.navigationController?.popToRootViewController(animated: true)
                     }
                 }
                 

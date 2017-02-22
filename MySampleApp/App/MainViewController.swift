@@ -33,7 +33,7 @@ class MainViewController: UITableViewController {
             self.updateTheme()
         }
 
-        presentSignInViewController()
+        //presentSignInViewController()
         
         var demoFeature = DemoFeature.init(
             name: NSLocalizedString("My Profile",
@@ -103,6 +103,10 @@ class MainViewController: UITableViewController {
                 navigationItem.rightBarButtonItem!.title = NSLocalizedString("Sign-Out", comment: "Label for the logout button.")
                 navigationItem.rightBarButtonItem!.action = #selector(MainViewController.handleLogout)
             }
+            if !(AWSIdentityManager.default().isLoggedIn) {
+                navigationItem.rightBarButtonItem!.title = NSLocalizedString("Sign-In", comment: "Label for the login button.")
+                navigationItem.rightBarButtonItem!.action = #selector(goToLogin)
+            }
     }
     
     func presentSignInViewController() {
@@ -153,6 +157,12 @@ class MainViewController: UITableViewController {
         }
     }
     
+    func goToLogin() {
+        print("Handling optional sign-in.")
+        let loginStoryboard = UIStoryboard(name: "SignIn", bundle: nil)
+        let loginController = loginStoryboard.instantiateViewController(withIdentifier: "SignIn")
+        navigationController?.pushViewController(loginController, animated: true)
+    }
     
     func handleLogout() {
         if (AWSIdentityManager.default().isLoggedIn) {
@@ -160,7 +170,7 @@ class MainViewController: UITableViewController {
             AWSIdentityManager.default().logout(completionHandler: {(result: Any?, error: Error?) in
                 self.navigationController!.popToRootViewController(animated: false)
                 self.setupRightBarButtonItem()
-                    self.presentSignInViewController()
+                //self.presentSignInViewController()
             })
             // print("Logout Successful: \(signInProvider.getDisplayName)");
         } else {
