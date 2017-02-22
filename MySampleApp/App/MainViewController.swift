@@ -14,18 +14,19 @@
 import UIKit
 import AWSMobileHubHelper
 
-class MainViewController: UITableViewController {
+class MainViewController: UIViewController {
     
     var demoFeatures: [DemoFeature] = []
     var signInObserver: AnyObject!
     var signOutObserver: AnyObject!
     var willEnterForegroundObserver: AnyObject!
-    fileprivate let loginButton: UIBarButtonItem = UIBarButtonItem(title: nil, style: .done, target: nil, action: nil)
+    //fileprivate let loginButton: UIBarButtonItem = UIBarButtonItem(title: nil, style: .done, target: nil, action: nil)
     
     // MARK: - View lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        /*
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: nil, action: nil)
         // You need to call `- updateTheme` here in case the sign-in happens before `- viewWillAppear:` is called.
         updateTheme()
@@ -96,14 +97,16 @@ class MainViewController: UITableViewController {
                 })
                 
                 setupRightBarButtonItem()
+ */
     }
-    
+}
+    /*
     deinit {
         NotificationCenter.default.removeObserver(signInObserver)
         NotificationCenter.default.removeObserver(signOutObserver)
         NotificationCenter.default.removeObserver(willEnterForegroundObserver)
     }
-
+ 
     func setupRightBarButtonItem() {
             navigationItem.rightBarButtonItem = loginButton
             navigationItem.rightBarButtonItem!.target = self
@@ -194,3 +197,4 @@ class FeatureDescriptionViewController: UIViewController {
         navigationItem.backBarButtonItem = UIBarButtonItem.init(title: "Back", style: .plain, target: nil, action: nil)
     }
 }
+ */
