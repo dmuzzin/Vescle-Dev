@@ -34,6 +34,9 @@
                                         <exclude reference="WoT-pp-foU"/>
                                     </mask>
                                 </variation>
+                                <connections>
+                                    <segue destination="QTm-mY-26s" kind="show" id="GBQ-FX-gwm"/>
+                                </connections>
                             </button>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="JBL-6p-4bg">
                                 <frame key="frameInset" minX="20" minY="66" width="560" height="30"/>
@@ -171,6 +174,14 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="K3V-Vr-oX2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="911.25" y="455.28169014084506"/>
+        </scene>
+        <!--Main-->
+        <scene sceneID="5KY-MI-qbx">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Main" id="QTm-mY-26s" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tZS-zE-n0D" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1634" y="374"/>
         </scene>
     </scenes>
 </document>

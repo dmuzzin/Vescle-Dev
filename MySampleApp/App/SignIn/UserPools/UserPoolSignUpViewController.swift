@@ -253,11 +253,6 @@ class UserPoolSignUpViewController: UIViewController {
                         strongSelf.sentTo = result.codeDeliveryDetails?.destination
                         strongSelf.performSegue(withIdentifier: "SignUpConfirmSegue", sender:sender)
                     } else {
-                        UIAlertView(title: "Registration Complete",
-                            message: "Registration was successful.",
-                            delegate: nil,
-                            cancelButtonTitle: "Ok").show()
-                        //strongSelf.presentingViewController?.dismiss(animated: true, completion: nil)
                         _ = strongSelf.navigationController?.popToRootViewController(animated: true)
                     }
                 }

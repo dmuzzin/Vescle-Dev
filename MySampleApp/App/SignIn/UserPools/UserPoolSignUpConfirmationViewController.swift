@@ -48,10 +48,6 @@ class UserPoolSignUpConfirmationViewController : UIViewController {
                                 delegate: nil,
                                 cancelButtonTitle: "Ok").show()
                 } else {
-                    UIAlertView(title: "Registration Complete",
-                                message: "Registration was successful.",
-                                delegate: nil,
-                                cancelButtonTitle: "Ok").show()
                     _ = strongSelf.navigationController?.popToRootViewController(animated: true)
                 }
             })
