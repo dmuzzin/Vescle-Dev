@@ -22,7 +22,6 @@ class UserPoolSignUpViewController: UIViewController {
     
     var pool: AWSCognitoIdentityUserPool?
     var sentTo: String?
-    var attributes = [AWSCognitoIdentityUserAttributeType]()
 
     @IBOutlet weak var fullname: UITextField!
     @IBOutlet weak var dob: UITextField!
@@ -31,11 +30,13 @@ class UserPoolSignUpViewController: UIViewController {
     @IBOutlet weak var username: UITextField!
     @IBOutlet weak var phone: UITextField!
     
+    
     var setName = false
     var setDOB = false
     var setUsername = false
     var setPassword = false
     var setPhone = false
+    var setPhoto = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,7 +46,7 @@ class UserPoolSignUpViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let signUpConfirmationViewController = segue.destination as? UserPoolSignUpConfirmationViewController {
             signUpConfirmationViewController.sentTo = self.sentTo
-            signUpConfirmationViewController.user = self.pool?.getUser(self.username.text!)
+            signUpConfirmationViewController.user = self.pool?.getUser(self.signUpData.username)
         }
     }
     
@@ -68,9 +69,13 @@ class UserPoolSignUpViewController: UIViewController {
                 return false
             }
         } else if ident == "setPhoto" {
-            
+            if !self.setPhoto {
+                return false
+            }
         } else if ident == "setPhone" {
-            
+            if !self.setPhone {
+                return false
+            }
         }
         return true
     }
@@ -176,12 +181,16 @@ class UserPoolSignUpViewController: UIViewController {
         self.setPassword = true
     }
     
+    @IBAction func onPhoto(_ sender: AnyObject) {
+        signUpData.photo = "https://s3.amazonaws.com/vescle-userfiles-mobilehub-1713265082/Icon-57%403x.png"
+        self.setPhoto = true
+    }
+    
     @IBAction func onSignUp(_ sender: AnyObject) {
 
-        guard let userNameValue = self.username.text, !userNameValue.isEmpty,
-            let passwordValue = self.password1.text, !passwordValue.isEmpty else {
+        guard let phoneValue = self.phone.text , !phoneValue.isEmpty else {
             UIAlertView(title: "Missing Required Fields",
-                        message: "Username / Password are required for registration.",
+                        message: "Please enter your phone number with prepended with country code (i.e. +1).",
                         delegate: nil,
                         cancelButtonTitle: "Ok").show()
             return
@@ -189,22 +198,45 @@ class UserPoolSignUpViewController: UIViewController {
         
         var attributes = [AWSCognitoIdentityUserAttributeType]()
         
+        if let nameValue = self.signUpData.fullname, !nameValue.isEmpty {
+            let name = AWSCognitoIdentityUserAttributeType()
+            name?.name = "name"
+            name?.value = nameValue
+            attributes.append(name!)
+        }
+        
+        if let dobValue = self.signUpData.dob, !dobValue.isEmpty {
+            let dob = AWSCognitoIdentityUserAttributeType()
+            dob?.name = "birthdate"
+            dob?.value = dobValue
+            attributes.append(dob!)
+        }
+        
+        if let photoValue = self.signUpData.photo, !photoValue.isEmpty {
+            let photo = AWSCognitoIdentityUserAttributeType()
+            photo?.name = "picture"
+            photo?.value = phoneValue
+            attributes.append(photo!)
+        }
+        
         if let phoneValue = self.phone.text, !phoneValue.isEmpty {
             let phone = AWSCognitoIdentityUserAttributeType()
             phone?.name = "phone_number"
             phone?.value = phoneValue
             attributes.append(phone!)
         }
-        /*
-        if let emailValue = self.email.text, !emailValue.isEmpty {
-            let email = AWSCognitoIdentityUserAttributeType()
-            email?.name = "email"
-            email?.value = emailValue
-            attributes.append(email!)
+        
+        if let usernameValue = self.signUpData.username, !usernameValue.isEmpty {
+            let username = AWSCognitoIdentityUserAttributeType()
+            username?.name = "preferred_username"
+            username?.value = usernameValue
+            attributes.append(username!)
         }
-        */
+        
+        self.setPhone = true
+        
         //sign up the user
-        self.pool?.signUp(userNameValue, password: passwordValue, userAttributes: attributes, validationData: nil).continueWith {[weak self] (task: AWSTask<AWSCognitoIdentityUserPoolSignUpResponse>) -> AnyObject? in
+        self.pool?.signUp(self.signUpData.username, password: self.signUpData.password, userAttributes: attributes, validationData: nil).continueWith {[weak self] (task: AWSTask<AWSCognitoIdentityUserPoolSignUpResponse>) -> AnyObject? in
             guard let strongSelf = self else { return nil }
             DispatchQueue.main.async(execute: { 
                 if let error = task.error as? NSError {
@@ -221,11 +253,7 @@ class UserPoolSignUpViewController: UIViewController {
                         strongSelf.sentTo = result.codeDeliveryDetails?.destination
                         strongSelf.performSegue(withIdentifier: "SignUpConfirmSegue", sender:sender)
                     } else {
-                        UIAlertView(title: "Registration Complete",
-                            message: "Registration was successful.",
-                            delegate: nil,
-                            cancelButtonTitle: "Ok").show()
-                        strongSelf.presentingViewController?.dismiss(animated: true, completion: nil)
+                        _ = strongSelf.navigationController?.popToRootViewController(animated: true)
                     }
                 }
                 
