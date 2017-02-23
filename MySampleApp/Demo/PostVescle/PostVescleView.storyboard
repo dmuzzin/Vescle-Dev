@@ -21,15 +21,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DPU-72-Vkn">
-                                <rect key="frame" x="0.0" y="20" width="375" height="375"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DPU-72-Vkn">
+                                <rect key="frame" x="0.0" y="54" width="375" height="350"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qnj-a7-1So">
-                                <rect key="frame" x="99" y="540" width="177" height="30"/>
+                                <rect key="frame" x="69" y="605" width="236" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Open Photo Library">
-                                    <color key="titleColor" red="1" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="Import From Photo Library">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
                                     <action selector="openPhotoLibraryButtonWithSender:" destination="jzr-gH-HrT" eventType="touchUpInside" id="xZ6-xS-BkP"/>
@@ -47,45 +47,57 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5bq-uB-GcZ">
-                                <rect key="frame" x="140" y="502" width="95" height="30"/>
+                                <rect key="frame" x="113" y="542" width="149" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Open Camera"/>
+                                <state key="normal" title="Open Camera">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
                                 <connections>
                                     <action selector="openCameraButtonWithSender:" destination="jzr-gH-HrT" eventType="touchUpInside" id="NOy-ku-Z0k"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IQg-ZD-MgM">
-                                <rect key="frame" x="0.0" y="0.0" width="46" height="30"/>
+                                <rect key="frame" x="7" y="20" width="67" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Back"/>
+                                <color key="backgroundColor" red="0.40000000600000002" green="0.40000000600000002" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <state key="normal" title="Back">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
                                 <connections>
                                     <segue destination="bat-nU-aEo" kind="show" id="ge1-Ud-UFy"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dcr-E1-DRg">
-                                <rect key="frame" x="276" y="403" width="99" height="30"/>
+                                <rect key="frame" x="232" y="412" width="127" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Post Vescle&gt;&gt;"/>
+                                <state key="normal" title="Post Vescle&gt;&gt;">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
                                 <connections>
                                     <action selector="PostVescle:" destination="jzr-gH-HrT" eventType="touchUpInside" id="vzY-Ch-pq7"/>
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                     <connections>
                         <outlet property="ImagePicked" destination="DPU-72-Vkn" id="alS-ii-Dtp"/>
                         <outlet property="TimePicker" destination="l70-Lb-xEf" id="Zfh-G5-LBX"/>
+                        <outlet property="backButton" destination="IQg-ZD-MgM" id="lEe-zD-jsl"/>
+                        <outlet property="cameraButton" destination="5bq-uB-GcZ" id="Bv2-Gq-2cD"/>
+                        <outlet property="importButton" destination="qnj-a7-1So" id="J4X-6I-Fa4"/>
+                        <outlet property="postButton" destination="Dcr-E1-DRg" id="dUP-WT-TV1"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CO6-yN-WTx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="173.59999999999999" y="191.1544227886057"/>
         </scene>
-        <!--Storyboard Reference-->
+        <!--MapView-->
         <scene sceneID="3P1-Om-VQK">
             <objects>
-                <viewControllerPlaceholder storyboardIdentifier="MapViewController" id="bat-nU-aEo" sceneMemberID="viewController"/>
+                <viewControllerPlaceholder storyboardIdentifier="MapViewController" storyboardName="MapView" id="bat-nU-aEo" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eVV-6O-yso" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="833" y="241"/>
