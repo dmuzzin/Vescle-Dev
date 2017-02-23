@@ -17,6 +17,19 @@ import UIKit
 import AWSMobileHubHelper
 import AWSCognitoIdentityProvider
 
+extension UITextField {
+    func underlined(){
+        self.textColor = UIColor.white
+        let border = CALayer()
+        let width = CGFloat(1.0)
+        border.borderColor = UIColor.white.cgColor
+        border.frame = CGRect(x: 2, y: self.frame.size.height - width, width:  self.frame.size.width, height: self.frame.size.height)
+        border.borderWidth = width
+        self.layer.addSublayer(border)
+        self.layer.masksToBounds = true
+    }
+}
+
 class UserPoolSignUpViewController: UIViewController {
     let signUpData = SignUpData.signUpData
     
@@ -30,7 +43,6 @@ class UserPoolSignUpViewController: UIViewController {
     @IBOutlet weak var username: UITextField!
     @IBOutlet weak var phone: UITextField!
     
-    
     var setName = false
     var setDOB = false
     var setUsername = false
@@ -38,9 +50,56 @@ class UserPoolSignUpViewController: UIViewController {
     var setPhone = false
     var setPhoto = false
     
+    func textFieldDidChange(sender: UITextField) {
+        if (sender.text != "") {
+            for case let button as UIButton in self.view.subviews {
+                button.backgroundColor = UIColor.orange
+                button.titleLabel?.textColor = UIColor.white
+            }
+        } else {
+            for case let button as UIButton in self.view.subviews {
+                button.backgroundColor = UIColor.white
+                button.titleLabel?.textColor = UIColor.orange
+            }
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        UINavigationBar.appearance().shadowImage = UIImage()
+        UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
         self.pool = AWSCognitoIdentityUserPool.init(forKey: AWSCognitoUserPoolsSignInProviderKey)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        if (self.signUpData.photo != nil) {
+            phone.layer.sublayers![0].isHidden = true
+            phone.underlined()
+            phone.addTarget(self, action: #selector(UserPoolSignUpViewController.textFieldDidChange(sender:)), for: UIControlEvents.editingChanged)
+        } else if (self.signUpData.password != nil) {
+            //Do nothing
+        }else if (self.signUpData.username != nil) {
+            password1.layer.sublayers![0].isHidden = true
+            password1.underlined()
+            password2.layer.sublayers![0].isHidden = true
+            password2.underlined()
+            password1.addTarget(self, action: #selector(UserPoolSignUpViewController.textFieldDidChange(sender:)), for: UIControlEvents.editingChanged)
+        } else if (self.signUpData.dob != nil) {
+            username.layer.sublayers![0].isHidden = true
+            username.underlined()
+            username.addTarget(self, action: #selector(UserPoolSignUpViewController.textFieldDidChange(sender:)), for: UIControlEvents.editingChanged)
+        } else if (self.signUpData.fullname != nil) {
+            dob.layer.sublayers![0].isHidden = true
+            dob.underlined()
+        } else {
+            fullname.layer.sublayers![0].isHidden = true
+            fullname.underlined()
+            fullname.addTarget(self, action: #selector(UserPoolSignUpViewController.textFieldDidChange(sender:)), for: UIControlEvents.editingChanged)
+        }
+        
+        for case let button as UIButton in self.view.subviews {
+            button.layer.cornerRadius = 15
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -118,6 +177,10 @@ class UserPoolSignUpViewController: UIViewController {
         dateFormatter.locale = Locale(identifier: "en_US")
         dateFormatter.setLocalizedDateFormatFromTemplate("yyyy-MM-dd")
         dob.text = dateFormatter.string(from: sender.date)
+        for case let button as UIButton in self.view.subviews {
+            button.backgroundColor = UIColor.orange
+            button.titleLabel?.textColor = UIColor.white
+        }
     }
     
     @IBAction func dp(_ sender: UITextField) {
