@@ -30,18 +30,15 @@ class PostVescleViewController: UIViewController, UIImagePickerControllerDelegat
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: nil, action: nil)
         imagePicker.delegate = self
         backButton?.layer.cornerRadius = 10
-        cameraButton?.layer.cornerRadius = 5
+        cameraButton?.layer.cornerRadius = 10
+        importButton?.layer.cornerRadius = 10
+        postButton?.layer.cornerRadius = 10
+        cameraButton?.layer.borderColor = UIColor.white.cgColor
+        importButton?.layer.borderColor = UIColor.white.cgColor
+        postButton?.layer.borderColor = UIColor.white.cgColor
         cameraButton?.layer.borderWidth = 1
-        cameraButton?.layer.borderColor = UIColor.blue.cgColor
-        cameraButton?.layer.backgroundColor = UIColor.blue.cgColor
-        importButton?.layer.cornerRadius = 5
         importButton?.layer.borderWidth = 1
-        importButton?.layer.borderColor = UIColor.orange.cgColor
-        importButton?.layer.backgroundColor = UIColor.orange.cgColor
-        postButton?.layer.cornerRadius = 5
         postButton?.layer.borderWidth = 1
-        postButton?.layer.borderColor = UIColor.blue.cgColor
-        postButton?.layer.backgroundColor = UIColor.blue.cgColor
         
     }
     
@@ -155,27 +152,33 @@ class TimePickerView: UIPickerView, UIPickerViewDataSource, UIPickerViewDelegate
     func setup(){
         self.delegate = self
         self.dataSource = self
-        /*
+        
         let height = CGFloat(20)
-         let offsetX = self.frame.size.width / 3
+         let offsetX = self.frame.size.width/1.5
+         let offsetX2 = self.frame.size.width/3
          let offsetY = self.frame.size.height/2 - height/2
          let marginX = CGFloat(42)
          let width = offsetX - marginX
         
-        let hourLabel = UILabel(frame: CGRect(x: marginX, y: offsetY, width: width, height: height))
+        
+        let dayLabel = UILabel(frame: CGRect(x: marginX, y: offsetY, width: width, height: height))
+        dayLabel.text = "day"
+        self.addSubview(dayLabel)
+        
+        let hourLabel = UILabel(frame: CGRect(x: marginX+offsetX2, y: offsetY, width: width, height: height))
          hourLabel.text = "hour"
          self.addSubview(hourLabel)
          
         let minsLabel = UILabel(frame: CGRect(x: marginX + offsetX, y: offsetY, width: width, height: height))
          minsLabel.text = "min"
          self.addSubview(minsLabel)
-         */
+        
     }
     
     func getDate() -> NSDate{
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "DD:HH:mm"
-        let date = dateFormatter.date(from: String(format: "%02d", self.day) + ":" + String(format: "%02d", self.hour) + ":" + String(format: "%02d", self.minute))
+        dateFormatter.dateFormat = "DD days HH hours mm minutes"
+        let date = dateFormatter.date(from: String(format: "%02d", self.day) + " days " + String(format: "%02d", self.hour) + " hours " + String(format: "%02d", self.minute) + " minutes")
         return date! as NSDate
     }
     
