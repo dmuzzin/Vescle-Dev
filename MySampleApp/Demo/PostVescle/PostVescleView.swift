@@ -75,7 +75,8 @@ class PostVescleViewController: UIViewController, UIImagePickerControllerDelegat
                     
                 }, failureBlock: nil)
             }
-            imageURL = info[UIImagePickerControllerReferenceURL] as! NSURL
+            let path = (NSTemporaryDirectory() as NSString).appendingPathComponent(self.filename)
+            imageURL = NSURL(fileURLWithPath: path as String)
         
         
         }
@@ -102,13 +103,13 @@ class PostVescleViewController: UIViewController, UIImagePickerControllerDelegat
             self.present(alertController, animated: true, completion: nil)
             return
         }
-        let ext = "JPG"
+        let ext = "jpg"
         //let imageURL = info[UIImagePickerControllerReferenceURL] as NSURL
         //let imageURL = Bundle.main.url(forResource: filename, withExtension: "")
         
         //prepare uploader
         let uploadRequest = AWSS3TransferManagerUploadRequest()
-        uploadRequest?.body = imageURL as URL
+        uploadRequest?.body = (imageURL as NSURL) as URL
         uploadRequest?.key = ProcessInfo.processInfo.globallyUniqueString + "." + ext
         uploadRequest?.bucket = S3BucketName
         uploadRequest?.contentType = "image/" + ext
