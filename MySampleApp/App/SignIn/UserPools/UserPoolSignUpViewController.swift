@@ -50,6 +50,33 @@ class UserPoolSignUpViewController: UIViewController {
     var setPhone = false
     var setPhoto = false
     
+    var movingBackwards = false
+    
+    @IBAction func backToName(_ sender: AnyObject) {
+        self.signUpData.fullname = nil
+        present(self.storyboard?.instantiateViewController(withIdentifier: "SignUp") as! UserPoolSignUpViewController, animated: true, completion: nil)
+    }
+    
+    @IBAction func backToDOB(_ sender: AnyObject) {
+        self.signUpData.dob = nil
+        present(self.storyboard?.instantiateViewController(withIdentifier: "DOB-Signup") as! UserPoolSignUpViewController, animated: true, completion: nil)
+    }
+    
+    @IBAction func backToUsername(_ sender: AnyObject) {
+        self.signUpData.username = nil
+        present(self.storyboard?.instantiateViewController(withIdentifier: "Username-Signup") as! UserPoolSignUpViewController, animated: true, completion: nil)
+    }
+    
+    @IBAction func backToPassword(_ sender: AnyObject) {
+        self.signUpData.password = nil
+        present(self.storyboard?.instantiateViewController(withIdentifier: "Password-Signup") as! UserPoolSignUpViewController, animated: true, completion: nil)
+    }
+    
+    @IBAction func backToPhoto(_ sender: AnyObject) {
+        self.signUpData.photo = nil
+        present(self.storyboard?.instantiateViewController(withIdentifier: "Photo-Signup") as! UserPoolSignUpViewController, animated: true, completion: nil)
+    }
+    
     func textFieldDidChange(sender: UITextField) {
         if (sender.text != "") {
             for case let button as UIButton in self.view.subviews {

@@ -22,6 +22,8 @@ class UserPoolSignUpConfirmationViewController : UIViewController {
     var sentTo: String?
     var user: AWSCognitoIdentityUser?
     
+    let signUpData = SignUpData.signUpData
+    
     @IBOutlet weak var codeSentTo: UILabel!
     @IBOutlet weak var confirmationCode: UITextField!
     @IBOutlet weak var userName: UITextField!
@@ -29,6 +31,16 @@ class UserPoolSignUpConfirmationViewController : UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.userName.text = self.user!.username;
+    }
+    
+    @IBAction func backToHome(_ sender: AnyObject) {
+        self.signUpData.photo = nil
+        self.signUpData.password = nil
+        self.signUpData.phone = nil
+        self.signUpData.username = nil
+        self.signUpData.dob = nil
+        self.signUpData.fullname = nil
+        present(self.storyboard?.instantiateViewController(withIdentifier: "MainView") as! MainViewController, animated: true, completion: nil)
     }
     
     @IBAction func onConfirm(_ sender: AnyObject) {
