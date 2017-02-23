@@ -67,9 +67,9 @@
 		F944314A1E5DF9A5004514C4 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F94431471E5DF9A5004514C4 /* MapViewController.swift */; };
 		F944314B1E5DF9A5004514C4 /* MapView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F94431481E5DF9A5004514C4 /* MapView.storyboard */; };
 		F944314C1E5DF9A5004514C4 /* Vescle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F94431491E5DF9A5004514C4 /* Vescle.swift */; };
-		F94431501E5DF9C2004514C4 /* PostVescleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F944314E1E5DF9C2004514C4 /* PostVescleView.swift */; };
-		F94431511E5DF9C2004514C4 /* PostVescleView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F944314F1E5DF9C2004514C4 /* PostVescleView.storyboard */; };
 		F9B5141B1E5E030900C81511 /* SignUpData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9B5141A1E5E030900C81511 /* SignUpData.swift */; };
+		F9B514251E5E830400C81511 /* PostVescleView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F9B514231E5E830400C81511 /* PostVescleView.storyboard */; };
+		F9B514261E5E830400C81511 /* PostVescleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9B514241E5E830400C81511 /* PostVescleView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -149,9 +149,9 @@
 		F94431471E5DF9A5004514C4 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MapViewController.swift; path = MySampleApp/Demo/Map/MapViewController.swift; sourceTree = SOURCE_ROOT; };
 		F94431481E5DF9A5004514C4 /* MapView.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = MapView.storyboard; path = MySampleApp/Demo/Map/MapView.storyboard; sourceTree = SOURCE_ROOT; };
 		F94431491E5DF9A5004514C4 /* Vescle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Vescle.swift; path = MySampleApp/Demo/Map/Vescle.swift; sourceTree = SOURCE_ROOT; };
-		F944314E1E5DF9C2004514C4 /* PostVescleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PostVescleView.swift; path = MySampleApp/Demo/PostVescle/PostVescleView.swift; sourceTree = SOURCE_ROOT; };
-		F944314F1E5DF9C2004514C4 /* PostVescleView.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = PostVescleView.storyboard; path = MySampleApp/Demo/PostVescle/PostVescleView.storyboard; sourceTree = SOURCE_ROOT; };
 		F9B5141A1E5E030900C81511 /* SignUpData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SignUpData.swift; path = MySampleApp/App/SignIn/UserPools/SignUpData.swift; sourceTree = SOURCE_ROOT; };
+		F9B514231E5E830400C81511 /* PostVescleView.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = PostVescleView.storyboard; path = MySampleApp/Demo/PostVescle/PostVescleView.storyboard; sourceTree = SOURCE_ROOT; };
+		F9B514241E5E830400C81511 /* PostVescleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PostVescleView.swift; path = MySampleApp/Demo/PostVescle/PostVescleView.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -418,8 +418,8 @@
 		F944314D1E5DF9A8004514C4 /* PostVescle */ = {
 			isa = PBXGroup;
 			children = (
-				F944314E1E5DF9C2004514C4 /* PostVescleView.swift */,
-				F944314F1E5DF9C2004514C4 /* PostVescleView.storyboard */,
+				F9B514231E5E830400C81511 /* PostVescleView.storyboard */,
+				F9B514241E5E830400C81511 /* PostVescleView.swift */,
 			);
 			name = PostVescle;
 			sourceTree = "<group>";
@@ -491,7 +491,7 @@
 				E7A30F04AB35742400000000 /* UserDataStorage.storyboard in Resources */,
 				E7A30F047AB14BCD00000000 /* UserPools.storyboard in Resources */,
 				E7A30F043F02B73100000000 /* Main.storyboard in Resources */,
-				F94431511E5DF9C2004514C4 /* PostVescleView.storyboard in Resources */,
+				F9B514251E5E830400C81511 /* PostVescleView.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -547,9 +547,9 @@
 				E7A30F04010BD91300000000 /* UserDataStorageViewController.swift in Sources */,
 				E7A30F04EA1619BA00000000 /* UserPoolForgotPasswordViewController.swift in Sources */,
 				E7A30F047CC755A700000000 /* DemoFeature.swift in Sources */,
+				F9B514261E5E830400C81511 /* PostVescleView.swift in Sources */,
 				E7A30F04FEFEB09F00000000 /* AWSConfiguration.swift in Sources */,
 				E7A30F048B5DA78000000000 /* ColorThemeSettings.swift in Sources */,
-				F94431501E5DF9C2004514C4 /* PostVescleView.swift in Sources */,
 				F9B5141B1E5E030900C81511 /* SignUpData.swift in Sources */,
 				E7A30F045E0C8BDF00000000 /* SignInViewControllerExtensions.swift in Sources */,
 				E7A30F04C0FEEEA900000000 /* NoSQLSampleDataGenerator.swift in Sources */,
