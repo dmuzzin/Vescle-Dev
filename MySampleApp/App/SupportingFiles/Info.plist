@@ -4,6 +4,14 @@
 <dict>
 	<key>AWS</key>
 	<dict>
+		<key>S3TransferManager</key>
+		<dict>
+			<key>Default</key>
+			<dict>
+				<key>Region</key>
+				<string>us-east-1</string>
+			</dict>
+		</dict>
 		<key>Cognito</key>
 		<dict>
 			<key>Default</key>
@@ -19,7 +27,7 @@
 				<key>Default</key>
 				<dict>
 					<key>PoolId</key>
-					<string>us-east-1:701ecd85-9e9c-4503-8057-5582c5cbf8ba</string>
+					<string>us-east-1:943d760a-eabf-4a12-9830-d7ff9e23f660</string>
 					<key>Region</key>
 					<string>us-east-1</string>
 				</dict>

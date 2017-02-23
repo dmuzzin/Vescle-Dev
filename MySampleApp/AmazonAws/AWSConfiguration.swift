@@ -16,7 +16,7 @@ import AWSCore
 import AWSS3
 
 // S3 Bucket Name
-let S3BucketName = "vescle-userfiles-mobilehub-1713265082"
+let S3BucketName = "vescle-userfiles-mobilehub-81544248/public"
 
 // Cognito User Pools Identity Id
 let AWSCognitoUserPoolId: String = "us-east-1_MQc9RVwth"
@@ -31,4 +31,4 @@ let AWSCognitoUserPoolRegion: AWSRegionType = .USEast1
 let AWSCognitoUserPoolClientSecret: String = "1lil7u5119g2u1ci5h35sciira7bgrd5upkju9ghomj095vvlq5b"
 
 // Cognito Identity Pool ID
-let AWSCognitoIdentityPoolId: String = "us-east-1:701ecd85-9e9c-4503-8057-5582c5cbf8ba"
+let AWSCognitoIdentityPoolId: String = "us-east-1:943d760a-eabf-4a12-9830-d7ff9e23f660"
