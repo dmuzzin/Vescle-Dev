@@ -6,10 +6,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Map View Controller-->
+        <!--MapView-->
         <scene sceneID="dn3-tQ-yCw">
             <objects>
-                <viewController storyboardIdentifier="MapView" id="nOW-9i-gpi" customClass="MapViewController" customModule="MySampleApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MapView" title="MapView" id="nOW-9i-gpi" customClass="MapViewController" customModule="MySampleApp" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="zTJ-sd-Ew7"/>
                         <viewControllerLayoutGuide type="bottom" id="grH-Qk-qPP"/>
@@ -37,15 +37,10 @@
                                                 <segue destination="QiD-65-nyN" kind="show" id="F0g-Li-ceh"/>
                                             </connections>
                                         </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" image="UserIcon" style="plain" id="vw8-qJ-Akm">
-                                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="gbc-Y9-8WT">
-                                                <rect key="frame" x="342" y="11" width="17" height="22"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <state key="normal" image="profile"/>
-                                            </button>
+                                        <barButtonItem key="rightBarButtonItem" image="UserNotLoggedIn30" id="qCZ-SS-qLt">
                                             <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <connections>
-                                                <segue destination="kxj-I5-V3H" kind="show" id="Jfu-67-tO5"/>
+                                                <segue destination="571-fg-nhT" kind="show" id="JPN-WV-vCY"/>
                                             </connections>
                                         </barButtonItem>
                                     </navigationItem>
@@ -67,12 +62,12 @@
             <point key="canvasLocation" x="240.80000000000001" y="55.322338830584712"/>
         </scene>
         <!--UserIdentity-->
-        <scene sceneID="JUn-Vd-GEm">
+        <scene sceneID="sqc-8Q-ant">
             <objects>
-                <viewControllerPlaceholder storyboardName="UserIdentity" id="kxj-I5-V3H" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="TcW-pY-fCP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewControllerPlaceholder storyboardName="UserIdentity" id="571-fg-nhT" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FJf-Gg-aFn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="910" y="31"/>
+            <point key="canvasLocation" x="911" y="7"/>
         </scene>
         <!--PostVescleView-->
         <scene sceneID="MS5-nd-Zhh">
@@ -85,7 +80,6 @@
     </scenes>
     <resources>
         <image name="Icon-512" width="512" height="512"/>
-        <image name="UserIcon" width="150" height="150"/>
-        <image name="profile" width="17" height="17"/>
+        <image name="UserNotLoggedIn30" width="15" height="15"/>
     </resources>
 </document>

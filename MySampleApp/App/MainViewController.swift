@@ -13,23 +13,21 @@
 
 import UIKit
 import AWSMobileHubHelper
+import AWSCognitoIdentityProvider
 
 class MainViewController: UIViewController {
     
-    var demoFeatures: [DemoFeature] = []
-    var signInObserver: AnyObject!
-    var signOutObserver: AnyObject!
-    var willEnterForegroundObserver: AnyObject!
-    //fileprivate let loginButton: UIBarButtonItem = UIBarButtonItem(title: nil, style: .done, target: nil, action: nil)
-    
-    // MARK: - View lifecycle
+    var pool: AWSCognitoIdentityUserPool?
     
     override func viewDidLoad() {
-        super.viewDidLoad()
-        if !AWSIdentityManager.default().isLoggedIn {
+        if (AWSIdentityManager.default().isLoggedIn) {
             let storyboard = UIStoryboard(name: "MapView", bundle: nil)
             let viewController = storyboard.instantiateViewController(withIdentifier: "MapView")
             self.present(viewController, animated: true, completion: nil)
         }
+        super.viewDidLoad()
+        UINavigationBar.appearance().shadowImage = UIImage()
+        UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
+        self.pool = AWSCognitoIdentityUserPool.init(forKey: AWSCognitoUserPoolsSignInProviderKey)
     }
 }
