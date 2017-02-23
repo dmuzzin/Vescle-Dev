@@ -13,7 +13,10 @@
 //
 
 import AWSCore
+import AWSS3
 
+// configure S3
+let S3BucketName = "vescle-userfiles-mobilehub-1713265082"
 
 // Cognito User Pools Identity Id
 let AWSCognitoUserPoolId: String = "us-east-1_MQc9RVwth"

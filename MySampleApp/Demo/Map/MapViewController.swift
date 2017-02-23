@@ -38,6 +38,7 @@ class MapViewController: UIViewController {
         let initialLocation = ann_arbor;
         centerMapOnLocation(initialLocation)
         
+        // mapView.addAnnotations(all_vescles_we_want)
         mapView.addAnnotation(my_house)
     }
     
