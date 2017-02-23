@@ -31,6 +31,8 @@ class MapViewController: UIViewController {
     
     let regionRadius: CLLocationDistance = 1000
     
+    @IBOutlet weak var postButton: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -40,6 +42,8 @@ class MapViewController: UIViewController {
         
         // mapView.addAnnotations(all_vescles_we_want)
         mapView.addAnnotation(my_house)
+        
+        postButton?.layer.cornerRadius = 20
     }
     
     func centerMapOnLocation(_ location: CLLocation) {

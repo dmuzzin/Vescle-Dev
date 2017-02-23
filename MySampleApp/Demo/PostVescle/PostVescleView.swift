@@ -16,6 +16,11 @@ class PostVescleViewController: UIViewController, UIImagePickerControllerDelegat
     
     @IBOutlet weak var TimePicker: UIPickerView!
     @IBOutlet weak var ImagePicked: UIImageView!
+    @IBOutlet weak var backButton: UIButton?
+    @IBOutlet weak var cameraButton: UIButton?
+    @IBOutlet weak var importButton: UIButton?
+    @IBOutlet weak var postButton: UIButton?
+    
     let imagePicker = UIImagePickerController()
     var imageURL = NSURL()
     var filename = ""
@@ -24,6 +29,20 @@ class PostVescleViewController: UIViewController, UIImagePickerControllerDelegat
         super.viewDidLoad()
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: nil, action: nil)
         imagePicker.delegate = self
+        backButton?.layer.cornerRadius = 10
+        cameraButton?.layer.cornerRadius = 5
+        cameraButton?.layer.borderWidth = 1
+        cameraButton?.layer.borderColor = UIColor.blue.cgColor
+        cameraButton?.layer.backgroundColor = UIColor.blue.cgColor
+        importButton?.layer.cornerRadius = 5
+        importButton?.layer.borderWidth = 1
+        importButton?.layer.borderColor = UIColor.orange.cgColor
+        importButton?.layer.backgroundColor = UIColor.orange.cgColor
+        postButton?.layer.cornerRadius = 5
+        postButton?.layer.borderWidth = 1
+        postButton?.layer.borderColor = UIColor.blue.cgColor
+        postButton?.layer.backgroundColor = UIColor.blue.cgColor
+        
     }
     
     //camera stuff
