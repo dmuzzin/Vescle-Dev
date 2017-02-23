@@ -12,52 +12,75 @@
 //
 //
 
+extension UITextField {
+    func underlined(){
+        self.textColor = UIColor.white
+        let border = CALayer()
+        let width = CGFloat(1.0)
+        border.borderColor = UIColor.white.cgColor
+        border.frame = CGRect(x: 2, y: self.frame.size.height - width, width:  self.frame.size.width, height: self.frame.size.height)
+        border.borderWidth = width
+        self.layer.addSublayer(border)
+        self.layer.masksToBounds = true
+    }
+}
+
 import UIKit
 import AWSMobileHubHelper
 
 class SignInViewController: UIViewController {
-    @IBOutlet weak var anchorView: UIView!
 
-// Support code for Facebook provider UI.
-    @IBOutlet weak var facebookButton: UIButton!
-
-// Support code for Google provider UI.
-    @IBOutlet weak var googleButton: UIButton!
-
-    @IBOutlet weak var customProviderButton: UIButton!
-    @IBOutlet weak var customCreateAccountButton: UIButton!
-    @IBOutlet weak var customForgotPasswordButton: UIButton!
     @IBOutlet weak var customUserIdField: UITextField!
     @IBOutlet weak var customPasswordField: UITextField!
-    @IBOutlet weak var leftHorizontalBar: UIView!
-    @IBOutlet weak var rightHorizontalBar: UIView!
-    @IBOutlet weak var orSignInWithLabel: UIView!
+    @IBOutlet weak var customProviderButton: UIButton!
+
+    @IBOutlet weak var customForgotPasswordButton: UIButton!
     
     var didSignInObserver: AnyObject!
     
     var passwordAuthenticationCompletion: AWSTaskCompletionSource<AnyObject>?
     
+    func textFieldDidChange(sender: UITextField) {
+        if (sender.text != "") {
+            for case let button as UIButton in self.view.subviews {
+                button.backgroundColor = UIColor.orange
+                button.titleLabel?.textColor = UIColor.white
+            }
+        } else {
+            for case let button as UIButton in self.view.subviews {
+                button.backgroundColor = UIColor.white
+                button.titleLabel?.textColor = UIColor.orange
+            }
+        }
+    }
+    
     // MARK: - View lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-         print("Sign In Loading.")
-        
-            didSignInObserver =  NotificationCenter.default.addObserver(forName: NSNotification.Name.AWSIdentityManagerDidSignIn,
-                object: AWSIdentityManager.default(),
-                queue: OperationQueue.main,
-                using: {(note: Notification) -> Void in
-                    // perform successful login actions here
-            })
-
-                facebookButton.removeFromSuperview()
-                googleButton.removeFromSuperview()
-                // Custom UI Setup
-                customProviderButton.addTarget(self, action: #selector(self.handleCustomSignIn), for: .touchUpInside)
-                customCreateAccountButton.addTarget(self, action: #selector(self.handleUserPoolSignUp), for: .touchUpInside)
-                customForgotPasswordButton.addTarget(self, action: #selector(self.handleUserPoolForgotPassword), for: .touchUpInside)
-                customProviderButton.setImage(UIImage(named: "LoginButton"), for: UIControlState())
+        print("Sign In Loading.")
+        didSignInObserver =  NotificationCenter.default.addObserver(forName: NSNotification.Name.AWSIdentityManagerDidSignIn,
+            object: AWSIdentityManager.default(),
+            queue: OperationQueue.main,
+            using: {(note: Notification) -> Void in
+                let storyboard = UIStoryboard(name: "MapView", bundle: nil)
+                let vc = storyboard.instantiateViewController(withIdentifier: "MapView") as! MapViewController
+                self.present(vc, animated: true, completion: nil)
+        })
+        customProviderButton.addTarget(self, action: #selector(self.handleCustomSignIn), for: .touchUpInside)
+        customProviderButton.layer.borderColor = UIColor.white.cgColor
+        customProviderButton.layer.borderWidth = 1
+        customProviderButton.layer.cornerRadius = 15
     }
+    
+    override func viewDidLayoutSubviews() {
+        customUserIdField.layer.sublayers![0].isHidden = true
+        customUserIdField.underlined()
+        
+        customPasswordField.layer.sublayers![0].isHidden = true
+        customPasswordField.underlined()
+    }
+
     
     deinit {
         NotificationCenter.default.removeObserver(didSignInObserver)
