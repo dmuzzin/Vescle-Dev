@@ -154,23 +154,22 @@ class TimePickerView: UIPickerView, UIPickerViewDataSource, UIPickerViewDelegate
         self.dataSource = self
         
         let height = CGFloat(20)
-         let offsetX = self.frame.size.width/1.5
-         let offsetX2 = self.frame.size.width/3
+         let offsetX = self.frame.size.width/3
          let offsetY = self.frame.size.height/2 - height/2
          let marginX = CGFloat(42)
          let width = offsetX - marginX
         
         
-        let dayLabel = UILabel(frame: CGRect(x: marginX, y: offsetY, width: width, height: height))
-        dayLabel.text = "day"
+        let dayLabel = UILabel(frame: CGRect(x: marginX + 15, y: offsetY, width: width, height: height))
+        dayLabel.text = "days"
         self.addSubview(dayLabel)
         
-        let hourLabel = UILabel(frame: CGRect(x: marginX+offsetX2, y: offsetY, width: width, height: height))
-         hourLabel.text = "hour"
+        let hourLabel = UILabel(frame: CGRect(x: marginX+120, y: offsetY, width: width, height: height))
+         hourLabel.text = "hrs"
          self.addSubview(hourLabel)
          
-        let minsLabel = UILabel(frame: CGRect(x: marginX + offsetX, y: offsetY, width: width, height: height))
-         minsLabel.text = "min"
+        let minsLabel = UILabel(frame: CGRect(x: marginX+210, y: offsetY, width: width, height: height))
+         minsLabel.text = "mins"
          self.addSubview(minsLabel)
         
     }
@@ -200,7 +199,10 @@ class TimePickerView: UIPickerView, UIPickerViewDataSource, UIPickerViewDelegate
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        if component == 0 {
+        if component == 0  {
+            return 7
+        }
+        if component == 1 {
             return 24
         }
         
@@ -216,7 +218,7 @@ class TimePickerView: UIPickerView, UIPickerViewDataSource, UIPickerViewDelegate
             (view as! UILabel).text = String(format:"%02lu", row)
             return view!
         }
-        let columnView = UILabel(frame: CGRect(x: 35, y: 0, width: self.frame.size.width/3 - 35, height: 30))
+        let columnView = UILabel(frame: CGRect(x: 0, y: 0, width: self.frame.size.width/3, height: 30))
         columnView.text = String(format:"%02lu", row)
         columnView.textAlignment = NSTextAlignment.center
         
