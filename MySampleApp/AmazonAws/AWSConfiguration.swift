@@ -15,7 +15,7 @@
 import AWSCore
 import AWSS3
 
-// configure S3
+// S3 Bucket Name
 let S3BucketName = "vescle-userfiles-mobilehub-1713265082"
 
 // Cognito User Pools Identity Id
@@ -29,3 +29,6 @@ let AWSCognitoUserPoolRegion: AWSRegionType = .USEast1
 
 // Cognito User Pools Client Secret
 let AWSCognitoUserPoolClientSecret: String = "1lil7u5119g2u1ci5h35sciira7bgrd5upkju9ghomj095vvlq5b"
+
+// Cognito Identity Pool ID
+let AWSCognitoIdentityPoolId: String = "us-east-1:701ecd85-9e9c-4503-8057-5582c5cbf8ba"

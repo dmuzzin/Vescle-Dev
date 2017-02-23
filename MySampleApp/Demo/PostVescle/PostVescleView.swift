@@ -90,7 +90,7 @@ class PostVescleViewController: UIViewController, UIImagePickerControllerDelegat
     
     
     @IBAction func PostVescle(_ sender: Any) {
-        let configuration = AWSServiceConfiguration(region:AWSCognitoUserPoolRegion, credentialsProvider:AWSCognitoCredentialsProvider(regionType: AWSCognitoUserPoolRegion, identityPoolId: AWSCognitoUserPoolId))
+        let configuration = AWSServiceConfiguration(region:AWSCognitoUserPoolRegion, credentialsProvider:AWSCognitoCredentialsProvider(regionType: AWSCognitoUserPoolRegion, identityPoolId: AWSCognitoIdentityPoolId))
         AWSServiceManager.default().defaultServiceConfiguration = configuration
         
         if (filename == "") {
