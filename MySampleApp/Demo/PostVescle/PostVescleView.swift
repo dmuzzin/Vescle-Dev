@@ -151,6 +151,10 @@ class PostVescleViewController: UIViewController, UIImagePickerControllerDelegat
         
         if localFileName == nil
         {
+            let alertController = UIAlertController(title: "Post Error",message: "Picture needs to be selected", preferredStyle: .alert)
+            let actionOk = UIAlertAction(title: "Ok", style: .default, handler: nil)
+            alertController.addAction(actionOk)
+            self.present(alertController, animated:true, completion:nil)
             return
         }
         
@@ -161,6 +165,7 @@ class PostVescleViewController: UIViewController, UIImagePickerControllerDelegat
         let uploadRequest = AWSS3TransferManagerUploadRequest()
         uploadRequest?.body = generateImageUrl(fileName: remoteName) as URL
         uploadRequest?.key = remoteName
+        let s3KeyValue = remoteName
         uploadRequest?.bucket = S3BucketName
         uploadRequest?.contentType = "image/jpeg"
         print(uploadRequest?.body)
@@ -182,8 +187,8 @@ class PostVescleViewController: UIViewController, UIImagePickerControllerDelegat
             }
             
             if task.result != nil {
-                
-                let s3URL = NSURL(string: "https://s3.amazonaws.com/\(S3BucketName)/\(uploadRequest?.key!)")!
+                let location = "https://s3.amazonaws.com/" + S3BucketName + "/" + s3KeyValue
+                let s3URL = NSURL(string: location)
                 print("Uploaded to:\n\(s3URL)")
                 // Remove locally stored file
                 self.remoteImageWithUrl(fileName: (uploadRequest?.key!)!)
@@ -193,6 +198,14 @@ class PostVescleViewController: UIViewController, UIImagePickerControllerDelegat
             }
             return nil
         }
+        
+        let alertController = UIAlertController(title: "Wahooooo!",message: "YoU haVe pOsTed a nEw vEsCle", preferredStyle: .alert)
+        let actionOk = UIAlertAction(title: "Ok", style: .default) { (action) -> Void in
+            let next = self.storyboard?.instantiateViewController(withIdentifier: "MapViewController")
+            self.present(next!, animated: true, completion: nil)
+        }
+        alertController.addAction(actionOk)
+        self.present(alertController, animated:true, completion:nil)
 
         
     }
