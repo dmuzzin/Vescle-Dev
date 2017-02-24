@@ -48,7 +48,6 @@ class PostVescleViewController: UIViewController, UIImagePickerControllerDelegat
     
     let imagePicker = UIImagePickerController()
     var imageURL: NSURL!
-    var usedCamera = false
     var createFileName: String = ""
 
     override func viewDidLoad() {
@@ -93,27 +92,22 @@ class PostVescleViewController: UIViewController, UIImagePickerControllerDelegat
         ImagePicked.backgroundColor = UIColor.clear
         ImagePicked.contentMode = UIViewContentMode.scaleAspectFit
         
-        if(picker.sourceType == UIImagePickerControllerSourceType.camera) {
-            usedCamera = true
-            var imageToSave: UIImage = info[UIImagePickerControllerOriginalImage] as! UIImage
-
-            createFileName = ProcessInfo.processInfo.globallyUniqueString + ".jpeg"
-            
-            let writePath = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(createFileName)
-            
-            //getting actual image
-            let image = info[UIImagePickerControllerOriginalImage] as! UIImage
-            let data = UIImageJPEGRepresentation(ImagePicked.image!, 0.6)
-            do {
-                _ = try data?.write(to: writePath)
-            } catch let error {
-                print(error)
-            }
-
-            imageURL = writePath as NSURL!
-        } else {
-            imageURL = info[UIImagePickerControllerReferenceURL] as! NSURL
+        var imageToSave: UIImage = info[UIImagePickerControllerOriginalImage] as! UIImage
+        
+        createFileName = ProcessInfo.processInfo.globallyUniqueString + ".jpeg"
+        
+        let writePath = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(createFileName)
+        
+        //getting actual image
+        let image = info[UIImagePickerControllerOriginalImage] as! UIImage
+        let data = UIImageJPEGRepresentation(ImagePicked.image!, 0.6)
+        do {
+            _ = try data?.write(to: writePath)
+        } catch let error {
+            print(error)
         }
+        
+        imageURL = writePath as NSURL!
         dismiss(animated: true, completion: nil)
     }
     
@@ -164,105 +158,43 @@ class PostVescleViewController: UIViewController, UIImagePickerControllerDelegat
         let configuration = AWSServiceConfiguration(region:AWSCognitoUserPoolRegion, credentialsProvider:AWSCognitoCredentialsProvider(regionType: AWSCognitoUserPoolRegion, identityPoolId: AWSCognitoIdentityPoolId))
         AWSServiceManager.default().defaultServiceConfiguration = configuration
         
-        if !usedCamera {
-            var localFileName:String?
-            
-            if let imageToUploadUrl = imageURL
-            {
-                let phResult = PHAsset.fetchAssets(withALAssetURLs: [imageURL as URL], options: nil)
-                localFileName = phResult.firstObject?.originalFilename
+        myActivityIndicator.startAnimating()
+        
+        //prepare uploader
+        let uploadRequest = AWSS3TransferManagerUploadRequest()
+        uploadRequest?.body = imageURL as URL
+        uploadRequest?.key = createFileName
+        uploadRequest?.bucket = S3BucketName
+        uploadRequest?.contentType = "image/jpeg"
+        print(uploadRequest?.body)
+        print(uploadRequest?.key)
+        print(uploadRequest?.bucket)
+        //push to server
+        let transferManager = AWSS3TransferManager.default()
+        transferManager.upload(uploadRequest!).continueWith { (task) -> AnyObject! in
+            DispatchQueue.global(qos: .userInitiated).async {
+                self.myActivityIndicator.stopAnimating()
             }
             
-            if localFileName == nil
-            {
-                let alertController = UIAlertController(title: "Post Error",message: "Picture needs to be selected", preferredStyle: .alert)
-                let actionOk = UIAlertAction(title: "Ok", style: .default, handler: nil)
-                alertController.addAction(actionOk)
-                self.present(alertController, animated:true, completion:nil)
-                return
+            if let error = task.error {
+                print("Upload failed with error: (\(error.localizedDescription))")
             }
             
-            myActivityIndicator.startAnimating()
-            let remoteName = localFileName!
-            
-            //prepare uploader
-            let uploadRequest = AWSS3TransferManagerUploadRequest()
-            uploadRequest?.body = generateImageUrl(fileName: remoteName) as URL
-            uploadRequest?.key = remoteName
-            let s3KeyValue = remoteName
-            uploadRequest?.bucket = S3BucketName
-            uploadRequest?.contentType = "image/jpeg"
-            print(uploadRequest?.body)
-            print(uploadRequest?.key)
-            print(uploadRequest?.bucket)
-            //push to server
-            let transferManager = AWSS3TransferManager.default()
-            transferManager.upload(uploadRequest!).continueWith { (task) -> AnyObject! in
-                DispatchQueue.global(qos: .userInitiated).async {
-                    self.myActivityIndicator.stopAnimating()
-                }
-                
-                if let error = task.error {
-                    print("Upload failed with error: (\(error.localizedDescription))")
-                }
-                
-                if let exception = task.error {
-                    print("Upload failed with exception (\(exception))")
-                }
-                
-                if task.result != nil {
-                    let location = "https://s3.amazonaws.com/" + S3BucketName + "/" + s3KeyValue
-                    let s3URL = NSURL(string: location)
-                    print("Uploaded to:\n\(s3URL)")
-                    // Remove locally stored file
-                    self.remoteImageWithUrl(fileName: (uploadRequest?.key!)!)
-                }
-                else {
-                    print("Unexpected empty result.")
-                }
-                return nil
+            if let exception = task.error {
+                print("Upload failed with exception (\(exception))")
             }
-
-        } else {
-            myActivityIndicator.startAnimating()
             
-            //prepare uploader
-            let uploadRequest = AWSS3TransferManagerUploadRequest()
-            uploadRequest?.body = imageURL as URL
-            uploadRequest?.key = createFileName
-            uploadRequest?.bucket = S3BucketName
-            uploadRequest?.contentType = "image/jpeg"
-            print(uploadRequest?.body)
-            print(uploadRequest?.key)
-            print(uploadRequest?.bucket)
-            //push to server
-            let transferManager = AWSS3TransferManager.default()
-            transferManager.upload(uploadRequest!).continueWith { (task) -> AnyObject! in
-                DispatchQueue.global(qos: .userInitiated).async {
-                    self.myActivityIndicator.stopAnimating()
-                }
-                
-                if let error = task.error {
-                    print("Upload failed with error: (\(error.localizedDescription))")
-                }
-                
-                if let exception = task.error {
-                    print("Upload failed with exception (\(exception))")
-                }
-                
-                if task.result != nil {
-                    let location = "https://s3.amazonaws.com/" + S3BucketName + "/" + self.createFileName
-                    let s3URL = NSURL(string: location)
-                    print("Uploaded to:\n\(s3URL)")
-                    // Remove locally stored file
-                    self.remoteImageWithUrl(fileName: (uploadRequest?.key!)!)
-                }
-                else {
-                    print("Unexpected empty result.")
-                }
-                return nil
+            if task.result != nil {
+                let location = "https://s3.amazonaws.com/" + S3BucketName + "/" + self.createFileName
+                let s3URL = NSURL(string: location)
+                print("Uploaded to:\n\(s3URL)")
+                // Remove locally stored file
+                self.remoteImageWithUrl(fileName: (uploadRequest?.key!)!)
             }
-
+            else {
+                print("Unexpected empty result.")
+            }
+            return nil
         }
 
         
