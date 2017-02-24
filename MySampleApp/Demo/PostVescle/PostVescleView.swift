@@ -11,6 +11,29 @@ import UIKit
 import AVFoundation
 import AWSS3
 import AssetsLibrary
+import Photos
+
+extension PHAsset {
+    
+    var originalFilename: String? {
+        
+        var fname:String?
+        
+        if #available(iOS 9.0, *) {
+            let resources = PHAssetResource.assetResources(for: self)
+            if let resource = resources.first {
+                fname = resource.originalFilename
+            }
+        }
+        
+        if fname == nil {
+            // this is an undocumented workaround that works as of iOS 9.1
+            fname = self.value(forKey: "filename") as? String
+        }
+        
+        return fname
+    }
+}
 
 class PostVescleViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate{
     
@@ -20,13 +43,14 @@ class PostVescleViewController: UIViewController, UIImagePickerControllerDelegat
     @IBOutlet weak var cameraButton: UIButton?
     @IBOutlet weak var importButton: UIButton?
     @IBOutlet weak var postButton: UIButton?
+    var myActivityIndicator: UIActivityIndicatorView!
     
     let imagePicker = UIImagePickerController()
-    var imageURL = NSURL()
-    var filename = ""
+    var imageURL: NSURL!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setUpActivityIndicator()
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: nil, action: nil)
         imagePicker.delegate = self
         backButton?.layer.cornerRadius = 10
@@ -61,26 +85,12 @@ class PostVescleViewController: UIViewController, UIImagePickerControllerDelegat
         }
     }
     
-      func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
-            ImagePicked.contentMode = .scaleAspectFit
-            ImagePicked.image = pickedImage
-            
-            if let referenceUrl = info[UIImagePickerControllerReferenceURL] as? NSURL {
-                
-                ALAssetsLibrary().asset(for: referenceUrl as URL!, resultBlock: { asset in
-                    
-                    self.filename = (asset?.defaultRepresentation().filename())!
-                    //do whatever with your file name
-                    
-                }, failureBlock: nil)
-            }
-            let path = (NSTemporaryDirectory() as NSString).appendingPathComponent(self.filename)
-            imageURL = NSURL(fileURLWithPath: path as String)
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        imageURL = info[UIImagePickerControllerReferenceURL] as! NSURL
         
-        
-        }
-        
+        ImagePicked.image = info[UIImagePickerControllerOriginalImage] as? UIImage
+        ImagePicked.backgroundColor = UIColor.clear
+        ImagePicked.contentMode = UIViewContentMode.scaleAspectFit
         dismiss(animated: true, completion: nil)
     }
     
@@ -88,41 +98,95 @@ class PostVescleViewController: UIViewController, UIImagePickerControllerDelegat
         dismiss(animated: true, completion: nil)
     }
     
+    func generateImageUrl(fileName: String) -> NSURL
+    {
+        let fileURL = NSURL(fileURLWithPath: NSTemporaryDirectory().appending(fileName))
+        let data = UIImageJPEGRepresentation(ImagePicked.image!, 0.6)
+        do {
+            _ = try data?.write(to: fileURL as URL, options: .atomic)
+        } catch let error {
+            print(error)
+        }
+        return fileURL
+    }
+    
+    func remoteImageWithUrl(fileName: String)
+    {
+        let fileURL = NSURL(fileURLWithPath: NSTemporaryDirectory().appending(fileName))
+        do {
+            try FileManager.default.removeItem(at: fileURL as URL)
+        } catch
+        {
+            print(error)
+        }
+    }
+    
+    func setUpActivityIndicator()
+    {
+        //Create Activity Indicator
+        myActivityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.gray)
+        
+        // Position Activity Indicator in the center of the main view
+        myActivityIndicator.center = view.center
+        
+        // If needed, you can prevent Acivity Indicator from hiding when stopAnimating() is called
+        myActivityIndicator.hidesWhenStopped = true
+        
+        myActivityIndicator.backgroundColor = UIColor.clear
+        
+        view.addSubview(myActivityIndicator)
+    }
     
     @IBAction func PostVescle(_ sender: Any) {
         let configuration = AWSServiceConfiguration(region:AWSCognitoUserPoolRegion, credentialsProvider:AWSCognitoCredentialsProvider(regionType: AWSCognitoUserPoolRegion, identityPoolId: AWSCognitoIdentityPoolId))
         AWSServiceManager.default().defaultServiceConfiguration = configuration
         
-        if (filename == "") {
-            let alertController = UIAlertController(title: "Post Error", message: "Picture needs to be selected", preferredStyle: .alert)
-            let actionOk = UIAlertAction(title: "OK",
-                                         style: .default,
-                                         handler: nil) //You can use a block here to handle a press on this button
-            
-            alertController.addAction(actionOk)
-            self.present(alertController, animated: true, completion: nil)
+        var localFileName:String?
+        
+        if let imageToUploadUrl = imageURL
+        {
+            let phResult = PHAsset.fetchAssets(withALAssetURLs: [imageURL as URL], options: nil)
+            localFileName = phResult.firstObject?.originalFilename
+        }
+        
+        if localFileName == nil
+        {
             return
         }
-        let ext = "jpg"
-        //let imageURL = info[UIImagePickerControllerReferenceURL] as NSURL
-        //let imageURL = Bundle.main.url(forResource: filename, withExtension: "")
+        
+        myActivityIndicator.startAnimating()
+        let remoteName = localFileName!
         
         //prepare uploader
         let uploadRequest = AWSS3TransferManagerUploadRequest()
-        uploadRequest?.body = (imageURL as NSURL) as URL
-        uploadRequest?.key = ProcessInfo.processInfo.globallyUniqueString + "." + ext
+        uploadRequest?.body = generateImageUrl(fileName: remoteName) as URL
+        uploadRequest?.key = remoteName
         uploadRequest?.bucket = S3BucketName
-        uploadRequest?.contentType = "image/" + ext
-        
+        uploadRequest?.contentType = "image/jpeg"
+        print(uploadRequest?.body)
+        print(uploadRequest?.key)
+        print(uploadRequest?.bucket)
         //push to server
         let transferManager = AWSS3TransferManager.default()
         transferManager.upload(uploadRequest!).continueWith { (task) -> AnyObject! in
-            if let error = task.error {
-                print("Upload failed ❌ (\(error))")
+            DispatchQueue.global(qos: .userInitiated).async {
+                self.myActivityIndicator.stopAnimating()
             }
+            
+            if let error = task.error {
+                print("Upload failed with error: (\(error.localizedDescription))")
+            }
+            
+            if let exception = task.error {
+                print("Upload failed with exception (\(exception))")
+            }
+            
             if task.result != nil {
-                let s3URL = NSURL(string: "http://s3.amazonaws.com/\(S3BucketName)/\(uploadRequest?.key!)")!
+                
+                let s3URL = NSURL(string: "https://s3.amazonaws.com/\(S3BucketName)/\(uploadRequest?.key!)")!
                 print("Uploaded to:\n\(s3URL)")
+                // Remove locally stored file
+                self.remoteImageWithUrl(fileName: (uploadRequest?.key!)!)
             }
             else {
                 print("Unexpected empty result.")
