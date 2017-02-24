@@ -55,7 +55,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="bat-nU-aEo" kind="show" id="ge1-Ud-UFy"/>
+                                    <segue destination="bat-nU-aEo" kind="show" id="4XU-oX-yWU"/>
                                 </connections>
                             </button>
                             <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="l70-Lb-xEf" customClass="TimePickerView" customModule="MySampleApp" customModuleProvider="target">
