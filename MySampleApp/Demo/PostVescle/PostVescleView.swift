@@ -12,7 +12,8 @@ import AVFoundation
 import AWSS3
 import AssetsLibrary
 import Photos
-
+import AWSDynamoDB
+import AWSMobileHubHelper
 
 extension PHAsset {
     
@@ -34,6 +35,10 @@ extension PHAsset {
         
         return fname
     }
+}
+
+func getCurrentMillis()->Int64{
+    return  Int64(NSDate().timeIntervalSince1970 * 1000)
 }
 
 class PostVescleViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate{
@@ -224,13 +229,37 @@ class PostVescleViewController: UIViewController,UIPickerViewDataSource,UIPicker
                 print("Uploaded to:\n\(s3URL)")
                 // Remove locally stored file
                 self.remoteImageWithUrl(fileName: (uploadRequest?.key!)!)
+                
+                //Add to DynamoDB
+                let mapper = AWSDynamoDBObjectMapper.default()
+                
+                let newVescle: Vescles = Vescles()
+                
+                newVescle.userId = AWSIdentityManager.default().identityId!
+                newVescle.pictureS3 = location
+                newVescle.latitude = manager.location?.coordinate.latitude
+                newVescle.longitude = manager.location?.coordinate.longitude
+                newVescle.text = ""
+                let temp = self.timeChosen
+                temp.split(" ")
+                
+                var currentTime = getCurrentMillis()
+                currentTime +=
+                if picker
+                mapper.save(newVescle, completionHandler: {(error: Error?) -> Void in
+                    if let error = error {
+                        print("Amazon DynamoDB Save Error: \(error)")
+                        return
+                    }
+                    print("Item saved.")
+                })
+
             }
             else {
                 print("Unexpected empty result.")
             }
             return nil
         }
-
         
         let alertController = UIAlertController(title: "Wahooooo!",message: "YoU haVe pOsTed a nEw vEsCle", preferredStyle: .alert)
         let actionOk = UIAlertAction(title: "Ok", style: .default) { (action) -> Void in

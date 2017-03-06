@@ -17,7 +17,7 @@ import AWSDynamoDB
 
 class Vescles: AWSDynamoDBObjectModel, AWSDynamoDBModeling {
     
-    var userid:String?
+    var userId:String?
     var pictureS3:String?
     var text:String?
     var longitude:Double?
@@ -33,9 +33,14 @@ class Vescles: AWSDynamoDBObjectModel, AWSDynamoDBModeling {
         return "username"
     }
     
+    class func rangeKeyAttribute() -> String {
+        
+        return ""
+    }
+    
     override class func jsonKeyPathsByPropertyKey() -> [AnyHashable: Any] {
         return [
-               "username" : "username",
+               "userId" : "userId",
         ]
     }
 }
