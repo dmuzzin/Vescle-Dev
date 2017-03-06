@@ -95,6 +95,17 @@ class PostVescleViewController: UIViewController,UIPickerViewDataSource,UIPicker
         return pickerData[component][row]
     }
     
+    
+    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView
+    {
+        let pickerLabel = UILabel()
+        pickerLabel.textColor = UIColor.white
+        pickerLabel.font = UIFont(name: "Arial-BoldMT", size: 18)
+        pickerLabel.textAlignment = NSTextAlignment.center
+        pickerLabel.text = pickerData[component][row]
+        return pickerLabel
+    }
+    
     //MARK - Instance Methods
     func updateLabel(){
         let time = pickerData[0][timePicker.selectedRow(inComponent: 0)]
@@ -194,6 +205,22 @@ class PostVescleViewController: UIViewController,UIPickerViewDataSource,UIPicker
     }
     
     @IBAction func PostVescle(_ sender: Any) {
+        
+        if (createFileName == "") {
+            let alertController = UIAlertController(title: "Error",message: "Please select a photo to post", preferredStyle: .alert)
+            let actionOk = UIAlertAction(title: "Ok", style: .default)
+            alertController.addAction(actionOk)
+            self.present(alertController, animated:true, completion:nil)
+            return
+        }
+        if (timeChosen.text == "Burst Time: Choose Below") {
+            let alertController = UIAlertController(title: "Error",message: "Please select a burst time", preferredStyle: .alert)
+            let actionOk = UIAlertAction(title: "Ok", style: .default)
+            alertController.addAction(actionOk)
+            self.present(alertController, animated:true, completion:nil)
+            return
+        }
+        
         let configuration = AWSServiceConfiguration(region:AWSCognitoUserPoolRegion, credentialsProvider:AWSCognitoCredentialsProvider(regionType: AWSCognitoUserPoolRegion, identityPoolId: AWSCognitoIdentityPoolId))
         AWSServiceManager.default().defaultServiceConfiguration = configuration
         
@@ -240,12 +267,33 @@ class PostVescleViewController: UIViewController,UIPickerViewDataSource,UIPicker
                 newVescle.latitude = manager.location?.coordinate.latitude
                 newVescle.longitude = manager.location?.coordinate.longitude
                 newVescle.text = ""
-                let temp = self.timeChosen
-                temp.split(" ")
-                
+                let tempArr = self.timeChosen.text?.components(separatedBy: " ")
                 var currentTime = getCurrentMillis()
-                currentTime +=
-                if picker
+                currentTime += NumberFormatter().number(from: (tempArr?[2])!) as! Int64
+                let timeType = tempArr?[3]
+                if timeType == "Seconds" {
+                    currentTime *= 1000
+                }
+                else if timeType == "Minutes" {
+                    currentTime *= 60
+                    currentTime *= 1000
+                }
+                else if timeType == "Hours" {
+                    currentTime *= 60
+                    currentTime *= 60
+                    currentTime *= 1000
+                }
+                else if timeType == "Days" {
+                    currentTime *= 60
+                    currentTime *= 60
+                    currentTime *= 60
+                    currentTime *= 1000
+                }
+                else {
+                    print("ERROR RED ALERT RED ALERT RED ALERT")
+                    return nil
+                }
+                
                 mapper.save(newVescle, completionHandler: {(error: Error?) -> Void in
                     if let error = error {
                         print("Amazon DynamoDB Save Error: \(error)")
