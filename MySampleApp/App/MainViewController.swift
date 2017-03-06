@@ -14,8 +14,21 @@
 import UIKit
 import AWSMobileHubHelper
 import AWSCognitoIdentityProvider
+import CoreLocation
 
-class MainViewController: UIViewController {
+let manager = CLLocationManager()
+
+func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    if let location = locations.first {
+        print("Found user's location: \(location)")
+    }
+}
+
+func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+    print("Failed to find user's location: \(error.localizedDescription)")
+}
+
+class MainViewController: UIViewController, CLLocationManagerDelegate {
     
     var pool: AWSCognitoIdentityUserPool?
     
@@ -29,5 +42,8 @@ class MainViewController: UIViewController {
         UINavigationBar.appearance().shadowImage = UIImage()
         UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
         self.pool = AWSCognitoIdentityUserPool.init(forKey: AWSCognitoUserPoolsSignInProviderKey)
+        
+        manager.delegate = self
+        manager.requestWhenInUseAuthorization()
     }
 }
