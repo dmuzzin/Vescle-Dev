@@ -17,21 +17,25 @@ import AWSDynamoDB
 
 class Vescles: AWSDynamoDBObjectModel, AWSDynamoDBModeling {
     
-    var _userId: String?
+    var userid:String?
+    var pictureS3:String?
+    var text:String?
+    var longitude:Double?
+    var latitude:Double?
+    var expiration:NSDate?
     
     class func dynamoDBTableName() -> String {
-
-        return "vescle-mobilehub-1713265082-Vescles"
+        return "vescle-mobilehub-81544248-Vescles"
     }
     
     class func hashKeyAttribute() -> String {
 
-        return "_userId"
+        return "username"
     }
     
     override class func jsonKeyPathsByPropertyKey() -> [AnyHashable: Any] {
         return [
-               "_userId" : "userId",
+               "username" : "username",
         ]
     }
 }

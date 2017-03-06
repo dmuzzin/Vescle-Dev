@@ -37,8 +37,8 @@ class MapViewController: UIViewController {
         super.viewDidLoad()
         
         // set initial location to Ann Arbor
-        let initialLocation = ann_arbor;
-        centerMapOnLocation(initialLocation)
+        //let initialLocation = ann_arbor;
+        centerMapOnLocation(CLLocation(latitude: (manager.location?.coordinate.latitude)!, longitude: (manager.location?.coordinate.longitude)!))
         
         // mapView.addAnnotations(all_vescles_we_want)
         mapView.addAnnotation(my_house)
