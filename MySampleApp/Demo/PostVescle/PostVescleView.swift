@@ -36,9 +36,10 @@ extension PHAsset {
     }
 }
 
-class PostVescleViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate{
+class PostVescleViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate{
     
-    @IBOutlet weak var TimePicker: UIPickerView!
+    @IBOutlet weak var timeChosen: UILabel!
+    @IBOutlet weak var timePicker: UIPickerView!
     @IBOutlet weak var ImagePicked: UIImageView!
     @IBOutlet weak var backButton: UIButton?
     @IBOutlet weak var cameraButton: UIButton?
@@ -65,7 +66,40 @@ class PostVescleViewController: UIViewController, UIImagePickerControllerDelegat
         cameraButton?.layer.borderWidth = 1
         importButton?.layer.borderWidth = 1
         postButton?.layer.borderWidth = 1
+        timePicker.delegate = self
+        timePicker.dataSource = self
         
+    }
+    
+    let pickerData = [
+        ["1","2","3","4","5","6","7","8","9","10",
+         "11","12","13", "14", "15", "16","17","18","19","20",
+         "21","22","23", "24", "25", "26","27","28","29","30"],
+        ["Seconds","Minutes","Hours","Days"]
+    ]
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return pickerData.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView,numberOfRowsInComponent component: Int) -> Int {
+        return pickerData[component].count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView,titleForRow row: Int,forComponent component: Int) -> String? {
+        return pickerData[component][row]
+    }
+    
+    //MARK - Instance Methods
+    func updateLabel(){
+        let time = pickerData[0][timePicker.selectedRow(inComponent: 0)]
+        let type = pickerData[1][timePicker.selectedRow(inComponent: 1)]
+        timeChosen.text = "Burst Time: " + time + " " + type
+    }
+    
+    func pickerView(_ pickerView: UIPickerView,didSelectRow row: Int,inComponent component: Int)
+    {
+        updateLabel()
     }
     
     //camera stuff
@@ -207,99 +241,6 @@ class PostVescleViewController: UIViewController, UIImagePickerControllerDelegat
         self.present(alertController, animated:true, completion:nil)
 
         
-    }
-    
-}
-
-class TimePickerView: UIPickerView, UIPickerViewDataSource, UIPickerViewDelegate {
-    var day:Int = 0
-    var hour:Int = 0
-    var minute:Int = 0
-    
-    required internal init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        self.setup()
-    }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        self.setup()
-    }
-    
-    func setup(){
-        self.delegate = self
-        self.dataSource = self
-        
-        let height = CGFloat(20)
-         let offsetX = self.frame.size.width/3
-         let offsetY = self.frame.size.height/2 - height/2
-         let marginX = CGFloat(42)
-         let width = offsetX - marginX
-        
-        
-        let dayLabel = UILabel(frame: CGRect(x: marginX + 15, y: offsetY, width: width, height: height))
-        dayLabel.text = "days"
-        self.addSubview(dayLabel)
-        
-        let hourLabel = UILabel(frame: CGRect(x: marginX+120, y: offsetY, width: width, height: height))
-         hourLabel.text = "hrs"
-         self.addSubview(hourLabel)
-         
-        let minsLabel = UILabel(frame: CGRect(x: marginX+210, y: offsetY, width: width, height: height))
-         minsLabel.text = "mins"
-         self.addSubview(minsLabel)
-        
-    }
-    
-    func getDate() -> NSDate{
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "DD days HH hours mm minutes"
-        let date = dateFormatter.date(from: String(format: "%02d", self.day) + " days " + String(format: "%02d", self.hour) + " hours " + String(format: "%02d", self.minute) + " minutes")
-        return date! as NSDate
-    }
-    
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 3
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        switch component {
-        case 0:
-            self.day = row
-        case 1:
-            self.hour = row
-        case 2:
-            self.minute = row
-        default:
-            print("No component with number \(component)")
-        }
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        if component == 0  {
-            return 7
-        }
-        if component == 1 {
-            return 24
-        }
-        
-        return 60
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
-        return 30
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
-        if (view != nil) {
-            (view as! UILabel).text = String(format:"%02lu", row)
-            return view!
-        }
-        let columnView = UILabel(frame: CGRect(x: 0, y: 0, width: self.frame.size.width/3, height: 30))
-        columnView.text = String(format:"%02lu", row)
-        columnView.textAlignment = NSTextAlignment.center
-        
-        return columnView
     }
     
 }

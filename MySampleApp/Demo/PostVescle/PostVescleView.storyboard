@@ -58,8 +58,8 @@
                                     <segue destination="bat-nU-aEo" kind="show" id="4XU-oX-yWU"/>
                                 </connections>
                             </button>
-                            <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="l70-Lb-xEf" customClass="TimePickerView" customModule="MySampleApp" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="428" width="287" height="73"/>
+                            <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="l70-Lb-xEf">
+                                <rect key="frame" x="0.0" y="441" width="280" height="60"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             </pickerView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Burst Time" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8eC-q3-5Fg">
@@ -84,11 +84,12 @@
                     </view>
                     <connections>
                         <outlet property="ImagePicked" destination="DPU-72-Vkn" id="alS-ii-Dtp"/>
-                        <outlet property="TimePicker" destination="l70-Lb-xEf" id="Zfh-G5-LBX"/>
                         <outlet property="backButton" destination="IQg-ZD-MgM" id="lEe-zD-jsl"/>
                         <outlet property="cameraButton" destination="5bq-uB-GcZ" id="Bv2-Gq-2cD"/>
                         <outlet property="importButton" destination="qnj-a7-1So" id="J4X-6I-Fa4"/>
                         <outlet property="postButton" destination="Dcr-E1-DRg" id="dUP-WT-TV1"/>
+                        <outlet property="timeChosen" destination="8eC-q3-5Fg" id="Ywe-1d-Jtm"/>
+                        <outlet property="timePicker" destination="l70-Lb-xEf" id="Mvt-pz-WcU"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CO6-yN-WTx" userLabel="First Responder" sceneMemberID="firstResponder"/>
