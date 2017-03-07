@@ -19,4 +19,12 @@ class bubble: NSObject, MKAnnotation{
         coordinate = CLLocationCoordinate2DMake(lat, long)
         s3URL = image
     }
+    
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        if let annotation = view.annotation {
+            if let title = annotation.title! {
+                print("Tapped \(title) pin")
+            }
+        }
+    }
 }
