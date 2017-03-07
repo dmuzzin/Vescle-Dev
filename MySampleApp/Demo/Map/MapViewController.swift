@@ -120,16 +120,6 @@ class MapViewController: UIViewController {
     }
 }
 
-class SeeVescleViewController : UIViewController {
-    @IBOutlet weak var usernameLabel: UILabel?
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        usernameLabel?.text = username_to_show
-    }
-    
-}
-
 
 func resizeImage(image: UIImage, targetSize: CGSize) -> UIImage {
     let size = image.size
