@@ -88,16 +88,19 @@ class MapViewController: UIViewController {
                 view.image = vescle
                 view.isEnabled = true
                 view.canShowCallout = true
-                view.leftCalloutAccessoryView = UIImageView(image: #imageLiteral(resourceName: "Icon-20"))
+                
+                let button = UIButton(type: .custom) as UIButton
+                button.frame = CGRect(x: 20, y: 20, width: 20, height: 20)
+                button.setBackgroundImage(#imageLiteral(resourceName: "Icon-20"), for: .normal)
+                view.leftCalloutAccessoryView = button
                 return view
             }
         }
         return nil
     }
-    func mapView(_ mapView: MKMapView,
-                 annotationView view: MKAnnotationView,
-                 calloutAccessoryControlTapped control: UIControl)
-    {
+    
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        
         if (control == view.leftCalloutAccessoryView) {
             self.performSegue(withIdentifier: "toVescle", sender: self)
         }
@@ -132,7 +135,5 @@ func resizeImage(image: UIImage, targetSize: CGSize) -> UIImage {
     
     return newImage!
 }
-
-
 
 
