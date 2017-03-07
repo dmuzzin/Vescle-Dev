@@ -17,28 +17,34 @@ import AWSDynamoDB
 
 class Vescles: AWSDynamoDBObjectModel, AWSDynamoDBModeling {
     
-    var userId:String?
-    var pictureS3:String?
-    var text:String?
-    var longitude:String?
-    var latitude:String?
-    var expiration:String?
+    var _userId:String?
+    var _username:String?
+    var _pictureS3:String?
+    var _text:String?
+    var _longitude:String?
+    var _latitude:String?
+    var _expiration:String?
     
     class func dynamoDBTableName() -> String {
         return "vescle-mobilehub-81544248-Vescles"
     }
     
     class func hashKeyAttribute() -> String {
-        return "userId"
+        return "_userId"
     }
     
     class func rangeKeyAttribute() -> String {
-        return "pictureS3"
+        return "_pictureS3"
     }
     
     override class func jsonKeyPathsByPropertyKey() -> [AnyHashable: Any] {
         return [
-               "userId" : "userId",
+            "_userId" : "userId",
+            "_pictureS3" : "pictureS3",
+            "_expiration" : "expiration",
+            "_latitude" : "latitude",
+            "_longitude" : "longitude",
+            "_text" : "text",
         ]
     }
 }
