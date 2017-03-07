@@ -91,7 +91,7 @@ class MapViewController: UIViewController {
                 
                 let button = UIButton(type: .custom) as UIButton
                 button.frame = CGRect(x: 20, y: 20, width: 20, height: 20)
-                button.setBackgroundImage(#imageLiteral(resourceName: "Icon-20"), for: .normal)
+                button.setBackgroundImage(#imageLiteral(resourceName: "vescle"), for: .normal)
                 view.leftCalloutAccessoryView = button
                 return view
             }
