@@ -58,7 +58,7 @@
                     </view>
                     <connections>
                         <outlet property="mapView" destination="gbO-oF-yKJ" id="hU6-di-pdF"/>
-                        <segue destination="xaD-mk-sPI" kind="show" identifier="toVescle" id="166-Ju-rt7"/>
+                        <segue destination="xaD-mk-sPI" kind="show" id="d3M-Lt-uma"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OM2-aA-h0w" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -68,7 +68,7 @@
         <!--SeeVescleView-->
         <scene sceneID="Psa-iF-t1f">
             <objects>
-                <viewController storyboardIdentifier="SeeVescleView" title="SeeVescleView" useStoryboardIdentifierAsRestorationIdentifier="YES" id="xaD-mk-sPI" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SeeVescleView" title="SeeVescleView" useStoryboardIdentifierAsRestorationIdentifier="YES" id="xaD-mk-sPI" customClass="SeeVescleViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="haX-Yo-x4Y"/>
                         <viewControllerLayoutGuide type="bottom" id="NOK-iW-CZw"/>
@@ -105,6 +105,9 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <connections>
+                        <outlet property="usernameLabel" destination="G4z-je-FPM" id="6DR-FX-daf"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lXO-Jt-KHu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
