@@ -260,41 +260,41 @@ class PostVescleViewController: UIViewController,UIPickerViewDataSource,UIPicker
                 //Add to DynamoDB
                 let mapper = AWSDynamoDBObjectMapper.default()
                 
-                let newVescle: Vescles = Vescles()
+                let newVescle = Vescles()
                 
-                newVescle.userId = AWSIdentityManager.default().identityId!
-                newVescle.pictureS3 = location
-                newVescle.latitude = manager.location?.coordinate.latitude
-                newVescle.longitude = manager.location?.coordinate.longitude
-                newVescle.text = ""
+                newVescle?.userId = AWSIdentityManager.default().identityId!
+                newVescle?.pictureS3 = location
+                newVescle?.latitude = String((manager.location?.coordinate.latitude)!)
+                newVescle?.longitude = String((manager.location?.coordinate.longitude)!)
+                newVescle?.text = "Placeholder"
+                
                 let tempArr = self.timeChosen.text?.components(separatedBy: " ")
-                var currentTime = getCurrentMillis()
-                currentTime += NumberFormatter().number(from: (tempArr?[2])!) as! Int64
+                var expires = 0
+                expires += NumberFormatter().number(from: (tempArr?[2])!) as! Int
                 let timeType = tempArr?[3]
                 if timeType == "Seconds" {
-                    currentTime *= 1000
-                }
-                else if timeType == "Minutes" {
-                    currentTime *= 60
-                    currentTime *= 1000
-                }
-                else if timeType == "Hours" {
-                    currentTime *= 60
-                    currentTime *= 60
-                    currentTime *= 1000
-                }
-                else if timeType == "Days" {
-                    currentTime *= 60
-                    currentTime *= 60
-                    currentTime *= 60
-                    currentTime *= 1000
-                }
-                else {
+                    expires *= 1000
+                } else if timeType == "Minutes" {
+                    expires *= 60
+                    expires *= 1000
+                } else if timeType == "Hours" {
+                    expires *= 60
+                    expires *= 60
+                    expires *= 1000
+                } else if timeType == "Days" {
+                    expires *= 60
+                    expires *= 60
+                    expires *= 60
+                    expires *= 1000
+                } else {
                     print("ERROR RED ALERT RED ALERT RED ALERT")
                     return nil
                 }
                 
-                mapper.save(newVescle, completionHandler: {(error: Error?) -> Void in
+                let expirationTime = expires + getCurrentMillis()
+                newVescle?.expiration = String(expirationTime)
+                
+                mapper.save(newVescle!, completionHandler: {(error: Error?) -> Void in
                     if let error = error {
                         print("Amazon DynamoDB Save Error: \(error)")
                         return
