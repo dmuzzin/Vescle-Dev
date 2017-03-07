@@ -94,7 +94,16 @@ class MapViewController: UIViewController {
         }
         return nil
     }
+    func mapView(_ mapView: MKMapView,
+                 annotationView view: MKAnnotationView,
+                 calloutAccessoryControlTapped control: UIControl)
+    {
+        
+        self.performSegue(withIdentifier: "toVescle", sender: self)
+    }
 }
+
+
 
 func resizeImage(image: UIImage, targetSize: CGSize) -> UIImage {
     let size = image.size
