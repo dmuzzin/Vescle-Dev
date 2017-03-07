@@ -95,7 +95,7 @@ class MapViewController: UIViewController {
                 view.canShowCallout = true
                 
                 let button = UIButton(type: .custom) as UIButton
-                button.frame = CGRect(x: 30, y: 30, width: 30, height: 30)
+                button.frame = CGRect(x: 50, y: 30, width: 50, height: 30)
                 button.setBackgroundImage(#imageLiteral(resourceName: "vescle"), for: .normal)
                 view.leftCalloutAccessoryView = button
                 return view
@@ -110,8 +110,8 @@ class MapViewController: UIViewController {
             if let annotation = view.annotation as? bubble {
                 username_to_show = annotation.title!
                 imageURL_to_show = annotation.s3URL!
-                self.mapView.removeAnnotation(annotation)
-                self.performSegue(withIdentifier: "toVescle", sender: self)
+                let next = self.storyboard?.instantiateViewController(withIdentifier: "SeeVescleView")
+                self.present(next!, animated: true, completion: nil)
             }
             
             
