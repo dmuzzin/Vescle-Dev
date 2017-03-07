@@ -106,16 +106,18 @@ class MapViewController: UIViewController {
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         
         if (control == view.leftCalloutAccessoryView) {
-            self.mapView.removeAnnotation(view.annotation!)
-            username_to_show = ((view.annotation?.title)!)!
-            imageURL_to_show = ((view.annotation?.subtitle)!)!
-            self.performSegue(withIdentifier: "toVescle", sender: self)
+            if let annotation = view.annotation as? bubble {
+                username_to_show = annotation.title!
+                imageURL_to_show = annotation.s3URL!
+                self.mapView.removeAnnotation(annotation)
+                self.performSegue(withIdentifier: "toVescle", sender: self)
+            }
+            
             
         }
         
     }
 }
-
 
 
 func resizeImage(image: UIImage, targetSize: CGSize) -> UIImage {

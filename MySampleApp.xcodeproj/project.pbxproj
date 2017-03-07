@@ -51,6 +51,8 @@
 		F944314A1E5DF9A5004514C4 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F94431471E5DF9A5004514C4 /* MapViewController.swift */; };
 		F944314B1E5DF9A5004514C4 /* MapView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F94431481E5DF9A5004514C4 /* MapView.storyboard */; };
 		F944314C1E5DF9A5004514C4 /* Vescle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F94431491E5DF9A5004514C4 /* Vescle.swift */; };
+		F9A65C341E6F495300D09F7A /* SeeVescleView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F9A65C321E6F495300D09F7A /* SeeVescleView.storyboard */; };
+		F9A65C351E6F495300D09F7A /* SeeVescleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9A65C331E6F495300D09F7A /* SeeVescleView.swift */; };
 		F9B5141B1E5E030900C81511 /* SignUpData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9B5141A1E5E030900C81511 /* SignUpData.swift */; };
 		F9B514251E5E830400C81511 /* PostVescleView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F9B514231E5E830400C81511 /* PostVescleView.storyboard */; };
 		F9B514261E5E830400C81511 /* PostVescleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9B514241E5E830400C81511 /* PostVescleView.swift */; };
@@ -117,6 +119,8 @@
 		F94431471E5DF9A5004514C4 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MapViewController.swift; path = MySampleApp/Demo/Map/MapViewController.swift; sourceTree = SOURCE_ROOT; };
 		F94431481E5DF9A5004514C4 /* MapView.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = MapView.storyboard; path = MySampleApp/Demo/Map/MapView.storyboard; sourceTree = SOURCE_ROOT; };
 		F94431491E5DF9A5004514C4 /* Vescle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Vescle.swift; path = MySampleApp/Demo/Map/Vescle.swift; sourceTree = SOURCE_ROOT; };
+		F9A65C321E6F495300D09F7A /* SeeVescleView.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SeeVescleView.storyboard; path = MySampleApp/Demo/SeeVescle/SeeVescleView.storyboard; sourceTree = SOURCE_ROOT; };
+		F9A65C331E6F495300D09F7A /* SeeVescleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SeeVescleView.swift; path = MySampleApp/Demo/SeeVescle/SeeVescleView.swift; sourceTree = SOURCE_ROOT; };
 		F9B5141A1E5E030900C81511 /* SignUpData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SignUpData.swift; path = MySampleApp/App/SignIn/UserPools/SignUpData.swift; sourceTree = SOURCE_ROOT; };
 		F9B514231E5E830400C81511 /* PostVescleView.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = PostVescleView.storyboard; path = MySampleApp/Demo/PostVescle/PostVescleView.storyboard; sourceTree = SOURCE_ROOT; };
 		F9B514241E5E830400C81511 /* PostVescleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PostVescleView.swift; path = MySampleApp/Demo/PostVescle/PostVescleView.swift; sourceTree = SOURCE_ROOT; };
@@ -176,6 +180,7 @@
 		B401C9794480299A00000000 /* Demo */ = {
 			isa = PBXGroup;
 			children = (
+				F9A65C311E6F492300D09F7A /* SeeVescle */,
 				F944314D1E5DF9A8004514C4 /* PostVescle */,
 				F94431461E5DF996004514C4 /* Map */,
 				1DD70E2909C83AD400000000 /* DemoFeature.swift */,
@@ -331,6 +336,15 @@
 			name = PostVescle;
 			sourceTree = "<group>";
 		};
+		F9A65C311E6F492300D09F7A /* SeeVescle */ = {
+			isa = PBXGroup;
+			children = (
+				F9A65C321E6F495300D09F7A /* SeeVescleView.storyboard */,
+				F9A65C331E6F495300D09F7A /* SeeVescleView.swift */,
+			);
+			name = SeeVescle;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -398,6 +412,7 @@
 				E7A30F04840227A800000000 /* Images.xcassets in Resources */,
 				E7A30F04E491484D00000000 /* UserIdentity.storyboard in Resources */,
 				E7A30F047AB14BCD00000000 /* UserPools.storyboard in Resources */,
+				F9A65C341E6F495300D09F7A /* SeeVescleView.storyboard in Resources */,
 				E7A30F043F02B73100000000 /* Main.storyboard in Resources */,
 				F9B514251E5E830400C81511 /* PostVescleView.storyboard in Resources */,
 			);
@@ -455,6 +470,7 @@
 				E7A30F047A17AD1100000000 /* UtilityFunctions.swift in Sources */,
 				E7A30F0400097DF700000000 /* MainViewController.swift in Sources */,
 				F944314A1E5DF9A5004514C4 /* MapViewController.swift in Sources */,
+				F9A65C351E6F495300D09F7A /* SeeVescleView.swift in Sources */,
 				E7A30F049C09F4D100000000 /* Vescles.swift in Sources */,
 				E7A30F04EB9FBFBC00000000 /* UserIdentityViewController.swift in Sources */,
 				E7A30F04D14F120500000000 /* AWSMobileClient.swift in Sources */,
