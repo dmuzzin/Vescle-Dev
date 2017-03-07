@@ -88,7 +88,7 @@ class MapViewController: UIViewController {
                 view.image = vescle
                 view.isEnabled = true
                 view.canShowCallout = true
-                view.leftCalloutAccessoryView = UIImageView(image: #imageLiteral(resourceName: "Icon-512"))
+                view.leftCalloutAccessoryView = UIImageView(image: #imageLiteral(resourceName: "Icon-20"))
                 return view
             }
         }
