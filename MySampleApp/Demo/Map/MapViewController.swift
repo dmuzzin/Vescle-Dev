@@ -54,9 +54,8 @@ class MapViewController: UIViewController {
     
     func mapView(_ mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
         if let annotation = annotation as? bubble{
-            if let view = mapView.dequeueReusableAnnotationView(withIdentifier: annotation.identifier){
-                return view
-            }else{
+            let view = mapView.dequeueReusableAnnotationView(withIdentifier: annotation.identifier)
+            if view == nil {
                 let view = MKAnnotationView(annotation: annotation, reuseIdentifier: annotation.identifier)
                 view.image = vescle
                 view.isEnabled = true
