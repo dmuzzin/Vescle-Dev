@@ -20,6 +20,11 @@ import AWSDynamoDB
 
 //MARK: Global Declarations
 let ann_arbor = CLLocation(latitude: 42.2808, longitude: -83.743);
+
+var username_to_show = String()
+var time_remaining_to_show = String()
+var imageURL_to_show = String()
+
 //let my_house = bubble(name: "my house", lat: 42.271626, long: -83.738549)
 
 class MapViewController: UIViewController {
@@ -103,7 +108,10 @@ class MapViewController: UIViewController {
         
         if (control == view.leftCalloutAccessoryView) {
             self.mapView.removeAnnotation(view.annotation!)
+            username_to_show = ((view.annotation?.title)!)!
+            imageURL_to_show = ((view.annotation?.subtitle)!)!
             self.performSegue(withIdentifier: "toVescle", sender: self)
+            
         }
         
     }
