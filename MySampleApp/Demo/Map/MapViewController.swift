@@ -90,7 +90,7 @@ class MapViewController: UIViewController {
                 view.canShowCallout = true
                 
                 let button = UIButton(type: .custom) as UIButton
-                button.frame = CGRect(x: 20, y: 20, width: 20, height: 20)
+                button.frame = CGRect(x: 30, y: 30, width: 30, height: 30)
                 button.setBackgroundImage(#imageLiteral(resourceName: "vescle"), for: .normal)
                 view.leftCalloutAccessoryView = button
                 return view
@@ -102,6 +102,7 @@ class MapViewController: UIViewController {
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         
         if (control == view.leftCalloutAccessoryView) {
+            self.mapView.removeAnnotation(view.annotation!)
             self.performSegue(withIdentifier: "toVescle", sender: self)
         }
         
