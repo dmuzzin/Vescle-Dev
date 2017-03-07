@@ -20,22 +20,20 @@ class Vescles: AWSDynamoDBObjectModel, AWSDynamoDBModeling {
     var userId:String?
     var pictureS3:String?
     var text:String?
-    var longitude:Double?
-    var latitude:Double?
-    var expiration:NSDate?
+    var longitude:String?
+    var latitude:String?
+    var expiration:String?
     
     class func dynamoDBTableName() -> String {
         return "vescle-mobilehub-81544248-Vescles"
     }
     
     class func hashKeyAttribute() -> String {
-
-        return "username"
+        return "userId"
     }
     
     class func rangeKeyAttribute() -> String {
-        
-        return ""
+        return "pictureS3"
     }
     
     override class func jsonKeyPathsByPropertyKey() -> [AnyHashable: Any] {
