@@ -12,7 +12,7 @@
         <!--SeeVescleView-->
         <scene sceneID="g5n-jK-zqe">
             <objects>
-                <viewController storyboardIdentifier="SeeVescleView" title="SeeVescleView" useStoryboardIdentifierAsRestorationIdentifier="YES" id="yIp-zh-aUX" customClass="SeeVescleViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SeeVescleView" title="SeeVescleView" id="yIp-zh-aUX" customClass="SeeVescleViewController" customModule="MySampleApp" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="f5n-l9-jfJ"/>
                         <viewControllerLayoutGuide type="bottom" id="bpd-Z5-rd8"/>
@@ -39,16 +39,23 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Y0J-Oh-nnI">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <navigationItem key="navigationItem" id="d3T-Cr-8ue"/>
                     <connections>
+                        <outlet property="backToMap" destination="Pf9-1x-9tQ" id="A0R-uN-Hz2"/>
+                        <outlet property="userVescle" destination="Y0J-Oh-nnI" id="xBg-9K-mop"/>
                         <outlet property="usernameLabel" destination="OH3-xp-K2j" id="k0d-Zs-GJO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1Zf-iv-qFQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="240.80000000000001" y="818.14092953523243"/>
+            <point key="canvasLocation" x="1180" y="818.14092953523243"/>
         </scene>
     </scenes>
 </document>
