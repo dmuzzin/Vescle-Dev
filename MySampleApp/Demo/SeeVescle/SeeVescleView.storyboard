@@ -32,10 +32,10 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Time Remaining: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0kZ-Ij-vq5">
-                                <rect key="frame" x="16" y="638" width="132" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Time Remaining: " textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0kZ-Ij-vq5">
+                                <rect key="frame" x="16" y="579" width="349" height="80"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -49,6 +49,7 @@
                     <navigationItem key="navigationItem" id="d3T-Cr-8ue"/>
                     <connections>
                         <outlet property="backToMap" destination="Pf9-1x-9tQ" id="A0R-uN-Hz2"/>
+                        <outlet property="expirationLabel" destination="0kZ-Ij-vq5" id="UaP-cj-Nee"/>
                         <outlet property="userVescle" destination="Y0J-Oh-nnI" id="xBg-9K-mop"/>
                         <outlet property="usernameLabel" destination="OH3-xp-K2j" id="k0d-Zs-GJO"/>
                     </connections>

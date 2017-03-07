@@ -59,7 +59,7 @@ class MapViewController: UIViewController {
                     if let paginatedOutput = task.result {
                         for v in paginatedOutput.items as! [Vescles] {
                             if (Int64(v._expiration!)! >= getCurrentMillis()) {
-                                let new_v = bubble(name: v._username!, lat: Double(v._latitude!)!, long: Double(v._longitude!)!, image: v._pictureS3!)
+                                let new_v = bubble(name: v._username!, lat: Double(v._latitude!)!, long: Double(v._longitude!)!, image: v._pictureS3!, expiration_time: v._expiration!)
                                 self.mapView.addAnnotation(new_v)
                             }
                         }
@@ -110,6 +110,7 @@ class MapViewController: UIViewController {
             if let annotation = view.annotation as? bubble {
                 username_to_show = annotation.title!
                 imageURL_to_show = annotation.s3URL!
+                time_remaining_to_show = annotation.expiration_string!
                 let next = self.storyboard?.instantiateViewController(withIdentifier: "SeeVescleView")
                 self.present(next!, animated: true, completion: nil)
             }
