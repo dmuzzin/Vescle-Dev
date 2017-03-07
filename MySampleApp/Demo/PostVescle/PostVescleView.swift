@@ -261,12 +261,13 @@ class PostVescleViewController: UIViewController,UIPickerViewDataSource,UIPicker
                 let mapper = AWSDynamoDBObjectMapper.default()
                 
                 let newVescle = Vescles()
-                
-                newVescle?.userId = AWSIdentityManager.default().identityId!
-                newVescle?.pictureS3 = location
-                newVescle?.latitude = String((manager.location?.coordinate.latitude)!)
-                newVescle?.longitude = String((manager.location?.coordinate.longitude)!)
-                newVescle?.text = "Placeholder"
+                let identity = AWSIdentityManager.default()
+                newVescle?._userId = identity.identityId!
+                newVescle?._username = identity.userName!
+                newVescle?._pictureS3 = location
+                newVescle?._latitude = String((manager.location?.coordinate.latitude)!)
+                newVescle?._longitude = String((manager.location?.coordinate.longitude)!)
+                newVescle?._text = "Placeholder"
                 
                 let tempArr = self.timeChosen.text?.components(separatedBy: " ")
                 var expires = 0
@@ -292,7 +293,7 @@ class PostVescleViewController: UIViewController,UIPickerViewDataSource,UIPicker
                 }
                 
                 let expirationTime = expires + getCurrentMillis()
-                newVescle?.expiration = String(expirationTime)
+                newVescle?._expiration = String(expirationTime)
                 
                 mapper.save(newVescle!, completionHandler: {(error: Error?) -> Void in
                     if let error = error {

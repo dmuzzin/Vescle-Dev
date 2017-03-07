@@ -15,11 +15,17 @@
 import Foundation
 import UIKit
 import MapKit
+import AWSDynamoDB
 
 
 //MARK: Global Declarations
 let ann_arbor = CLLocation(latitude: 42.2808, longitude: -83.743);
-let my_house = bubble(name: "my house", lat: 42.271626, long: -83.738549)
+
+var username_to_show = String()
+var time_remaining_to_show = String()
+var imageURL_to_show = String()
+
+//let my_house = bubble(name: "my house", lat: 42.271626, long: -83.738549)
 
 class MapViewController: UIViewController {
     
@@ -36,12 +42,38 @@ class MapViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // set initial location to Ann Arbor
-        //let initialLocation = ann_arbor;
-        centerMapOnLocation(CLLocation(latitude: (manager.location?.coordinate.latitude)!, longitude: (manager.location?.coordinate.longitude)!))
+        let dynamoDBObjectMapper = AWSDynamoDBObjectMapper.default()
         
-        // mapView.addAnnotations(all_vescles_we_want)
-        mapView.addAnnotation(my_house)
+        if(manager.location != nil) {
+            centerMapOnLocation(CLLocation(latitude: (manager.location?.coordinate.latitude)!, longitude: (manager.location?.coordinate.longitude)!))
+        } else {
+            centerMapOnLocation(ann_arbor)
+        }
+        
+        let scanExpression = AWSDynamoDBScanExpression()
+        scanExpression.limit = 1000
+        
+        dynamoDBObjectMapper.scan(Vescles.self, expression: scanExpression) .continueWith(executor: AWSExecutor.mainThread(), block: { (task:AWSTask!) -> AnyObject! in
+            if (task.error == nil) {
+                if (task.result != nil) {
+                    if let paginatedOutput = task.result {
+                        for v in paginatedOutput.items as! [Vescles] {
+                            if (Int64(v._expiration!)! >= getCurrentMillis()) {
+                                let new_v = bubble(name: v._username!, lat: Double(v._latitude!)!, long: Double(v._longitude!)!, image: v._pictureS3!)
+                                self.mapView.addAnnotation(new_v)
+                            }
+                        }
+                    }
+                }
+            }
+            else {
+                print("Error: \(task.error)")
+                
+            }
+            return nil
+        })
+        
+        //mapView.addAnnotation(my_house)
         
         postButton?.layer.cornerRadius = 20
     }
@@ -60,13 +92,31 @@ class MapViewController: UIViewController {
                 view.image = vescle
                 view.isEnabled = true
                 view.canShowCallout = true
-                view.leftCalloutAccessoryView = UIImageView(image: vescle)
+                
+                let button = UIButton(type: .custom) as UIButton
+                button.frame = CGRect(x: 30, y: 30, width: 30, height: 30)
+                button.setBackgroundImage(#imageLiteral(resourceName: "vescle"), for: .normal)
+                view.leftCalloutAccessoryView = button
                 return view
             }
         }
         return nil
     }
+    
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        
+        if (control == view.leftCalloutAccessoryView) {
+            self.mapView.removeAnnotation(view.annotation!)
+            username_to_show = ((view.annotation?.title)!)!
+            imageURL_to_show = ((view.annotation?.subtitle)!)!
+            self.performSegue(withIdentifier: "toVescle", sender: self)
+            
+        }
+        
+    }
 }
+
+
 
 func resizeImage(image: UIImage, targetSize: CGSize) -> UIImage {
     let size = image.size
@@ -93,7 +143,5 @@ func resizeImage(image: UIImage, targetSize: CGSize) -> UIImage {
     
     return newImage!
 }
-
-
 
 
