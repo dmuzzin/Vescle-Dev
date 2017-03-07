@@ -78,6 +78,13 @@ class MapViewController: UIViewController {
                                                                   regionRadius * 2.0, regionRadius * 2.0)
         mapView.setRegion(coordinateRegion, animated: true)
     }
+    func mapView(_ mapView: MKMapView,
+                 annotationView view: MKAnnotationView,
+                 calloutAccessoryControlTapped control: UIControl)
+    {
+        
+        self.performSegue(withIdentifier: "toVescle", sender: self)
+    }
     
     func mapView(_ mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
         if let annotation = annotation as? bubble{
@@ -88,19 +95,15 @@ class MapViewController: UIViewController {
                 view.image = vescle
                 view.isEnabled = true
                 view.canShowCallout = true
-                view.leftCalloutAccessoryView = UIImageView(image: #imageLiteral(resourceName: "Icon-20"))
+                let leftButton  = UIButton()
+                leftButton.setImage(#imageLiteral(resourceName: "Icon-20"), for: UIControlState.normal)
+                view.leftCalloutAccessoryView = leftButton as UIView
                 return view
             }
         }
         return nil
     }
-    func mapView(_ mapView: MKMapView,
-                 annotationView view: MKAnnotationView,
-                 calloutAccessoryControlTapped control: UIControl)
-    {
-        
-        self.performSegue(withIdentifier: "toVescle", sender: self)
-    }
+    
 }
 
 
