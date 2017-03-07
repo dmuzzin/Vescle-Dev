@@ -49,6 +49,7 @@
                     <navigationItem key="navigationItem" id="d3T-Cr-8ue"/>
                     <connections>
                         <outlet property="backToMap" destination="Pf9-1x-9tQ" id="A0R-uN-Hz2"/>
+                        <outlet property="userVescle" destination="Y0J-Oh-nnI" id="xBg-9K-mop"/>
                         <outlet property="usernameLabel" destination="OH3-xp-K2j" id="k0d-Zs-GJO"/>
                     </connections>
                 </viewController>
