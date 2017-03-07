@@ -58,12 +58,50 @@
                     </view>
                     <connections>
                         <outlet property="mapView" destination="gbO-oF-yKJ" id="hU6-di-pdF"/>
-                        <segue destination="npR-y9-jKv" kind="show" identifier="toVescle" id="oNU-Iz-sNy"/>
+                        <segue destination="xaD-mk-sPI" kind="show" identifier="toVescle" id="166-Ju-rt7"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OM2-aA-h0w" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="240.80000000000001" y="55.322338830584712"/>
+        </scene>
+        <!--SeeVescleView-->
+        <scene sceneID="Psa-iF-t1f">
+            <objects>
+                <viewController storyboardIdentifier="SeeVescleView" title="SeeVescleView" useStoryboardIdentifierAsRestorationIdentifier="YES" id="xaD-mk-sPI" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="haX-Yo-x4Y"/>
+                        <viewControllerLayoutGuide type="bottom" id="NOK-iW-CZw"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="66u-5v-FZ9">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Username" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G4z-je-FPM">
+                                <rect key="frame" x="16" y="0.0" width="85" height="37"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gPu-4r-Y6P">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Time Remaining: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aop-oJ-UPf">
+                                <rect key="frame" x="16" y="638" width="132" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lXO-Jt-KHu" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="240.80000000000001" y="818.14092953523243"/>
         </scene>
         <!--UserIdentity-->
         <scene sceneID="sqc-8Q-ant">
@@ -80,33 +118,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Sbx-cj-eLM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="910" y="77"/>
-        </scene>
-        <!--View Controller-->
-        <scene sceneID="qOM-dI-61k">
-            <objects>
-                <viewController id="npR-y9-jKv" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="Mu1-EC-UiR"/>
-                        <viewControllerLayoutGuide type="bottom" id="i4C-in-2KR"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="v0R-Sq-hI8">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="A COOL VESCLE!!!!!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s74-dV-0r3">
-                                <rect key="frame" x="116" y="274" width="153" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="ydH-7Q-J7N" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="241" y="764"/>
         </scene>
     </scenes>
     <resources>
