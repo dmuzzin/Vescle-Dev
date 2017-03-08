@@ -53,6 +53,7 @@
 		F944314C1E5DF9A5004514C4 /* Vescle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F94431491E5DF9A5004514C4 /* Vescle.swift */; };
 		F9A65C341E6F495300D09F7A /* SeeVescleView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F9A65C321E6F495300D09F7A /* SeeVescleView.storyboard */; };
 		F9A65C351E6F495300D09F7A /* SeeVescleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9A65C331E6F495300D09F7A /* SeeVescleView.swift */; };
+		F9A65C3E1E707EA900D09F7A /* Seen.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F9A65C3C1E707EA900D09F7A /* Seen.xcdatamodeld */; };
 		F9B5141B1E5E030900C81511 /* SignUpData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9B5141A1E5E030900C81511 /* SignUpData.swift */; };
 		F9B514251E5E830400C81511 /* PostVescleView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F9B514231E5E830400C81511 /* PostVescleView.storyboard */; };
 		F9B514261E5E830400C81511 /* PostVescleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9B514241E5E830400C81511 /* PostVescleView.swift */; };
@@ -121,6 +122,7 @@
 		F94431491E5DF9A5004514C4 /* Vescle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Vescle.swift; path = MySampleApp/Demo/Map/Vescle.swift; sourceTree = SOURCE_ROOT; };
 		F9A65C321E6F495300D09F7A /* SeeVescleView.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SeeVescleView.storyboard; path = MySampleApp/Demo/SeeVescle/SeeVescleView.storyboard; sourceTree = SOURCE_ROOT; };
 		F9A65C331E6F495300D09F7A /* SeeVescleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SeeVescleView.swift; path = MySampleApp/Demo/SeeVescle/SeeVescleView.swift; sourceTree = SOURCE_ROOT; };
+		F9A65C3D1E707EA900D09F7A /* Seen.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Seen.xcdatamodel; sourceTree = "<group>"; };
 		F9B5141A1E5E030900C81511 /* SignUpData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SignUpData.swift; path = MySampleApp/App/SignIn/UserPools/SignUpData.swift; sourceTree = SOURCE_ROOT; };
 		F9B514231E5E830400C81511 /* PostVescleView.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = PostVescleView.storyboard; path = MySampleApp/Demo/PostVescle/PostVescleView.storyboard; sourceTree = SOURCE_ROOT; };
 		F9B514241E5E830400C81511 /* PostVescleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PostVescleView.swift; path = MySampleApp/Demo/PostVescle/PostVescleView.swift; sourceTree = SOURCE_ROOT; };
@@ -272,6 +274,7 @@
 				B401C979C5D6DE2600000000 /* App */,
 				B401C9794480299A00000000 /* Demo */,
 				1DD70E299173E21E00000000 /* MySampleApp.entitlements */,
+				F9A65C3C1E707EA900D09F7A /* Seen.xcdatamodeld */,
 			);
 			name = MySampleApp;
 			path = mysampleapp;
@@ -456,6 +459,7 @@
 			files = (
 				E7A30F048E5BABC900000000 /* UserPoolSignUpViewController.swift in Sources */,
 				E7A30F04595A772900000000 /* UserPoolNewPasswordViewController.swift in Sources */,
+				F9A65C3E1E707EA900D09F7A /* Seen.xcdatamodeld in Sources */,
 				E7A30F0455B6C7BD00000000 /* SignInViewController.swift in Sources */,
 				F944314C1E5DF9A5004514C4 /* Vescle.swift in Sources */,
 				E7A30F043E6502B000000000 /* UserPoolSignUpConfirmationViewController.swift in Sources */,
@@ -645,6 +649,20 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		F9A65C3C1E707EA900D09F7A /* Seen.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				F9A65C3D1E707EA900D09F7A /* Seen.xcdatamodel */,
+			);
+			currentVersion = F9A65C3D1E707EA900D09F7A /* Seen.xcdatamodel */;
+			name = Seen.xcdatamodeld;
+			path = ../MySampleApp/Seen.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 96C847930000000000000000 /* Project object */;
 }
