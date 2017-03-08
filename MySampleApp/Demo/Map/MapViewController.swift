@@ -16,6 +16,14 @@ import Foundation
 import UIKit
 import MapKit
 import AWSDynamoDB
+import CoreData
+
+
+class Seen: NSManagedObject {
+    @NSManaged var s3URL: String
+    @NSManaged var expiration: String
+    
+}
 
 
 //MARK: Global Declarations
@@ -59,8 +67,24 @@ class MapViewController: UIViewController {
                     if let paginatedOutput = task.result {
                         for v in paginatedOutput.items as! [Vescles] {
                             if (Int64(v._expiration!)! >= getCurrentMillis()) {
-                                let new_v = bubble(name: v._username!, lat: Double(v._latitude!)!, long: Double(v._longitude!)!, image: v._pictureS3!, expiration_time: v._expiration!)
-                                self.mapView.addAnnotation(new_v)
+                                do {
+                                    if #available(iOS 10.0, *) {
+                                        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                                        let context = appDelegate.persistentContainer.viewContext
+                                        let request = NSFetchRequest<Seen>(entityName: "Seen")
+                                        request.predicate = NSPredicate(format: "s3URL == %@", v._pictureS3!)
+                                        let fetched = try context.fetch(request)
+                                        if fetched.count == 0 {
+                                            let new_v = bubble(name: v._username!, lat: Double(v._latitude!)!, long: Double(v._longitude!)!, image: v._pictureS3!, expiration_time: v._expiration!)
+                                            self.mapView.addAnnotation(new_v)
+                                        }
+                                    } else {
+                                        // Fallback on earlier versions
+                                    }
+                                    
+                                } catch {
+                                    print("There was an error fetching CST Project Details.")
+                                }
                             }
                         }
                     }
@@ -111,6 +135,25 @@ class MapViewController: UIViewController {
                 username_to_show = annotation.title!
                 imageURL_to_show = annotation.s3URL!
                 time_remaining_to_show = annotation.expiration_string!
+                
+                do {
+                    if #available(iOS 10.0, *) {
+                        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                        let context = appDelegate.persistentContainer.viewContext
+                        let entityDes = NSEntityDescription.entity(forEntityName: "Seen", in: context)
+                        let entity = Seen(entity: entityDes!, insertInto: context)
+                        entity.s3URL = imageURL_to_show
+                        entity.expiration = time_remaining_to_show
+                        try context.save()
+                    } else {
+                        // Fallback on earlier versions
+                    }
+                    
+                } catch {
+                    print("There was an error fetching CST Project Details.")
+                }
+
+                
                 let next = self.storyboard?.instantiateViewController(withIdentifier: "SeeVescleView")
                 self.present(next!, animated: true, completion: nil)
             }
