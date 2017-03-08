@@ -283,7 +283,7 @@ class PostVescleViewController: UIViewController,UIPickerViewDataSource,UIPicker
                     expires *= 60
                     expires *= 1000
                 } else if timeType == "Days" {
-                    expires *= 60
+                    expires *= 24
                     expires *= 60
                     expires *= 60
                     expires *= 1000
