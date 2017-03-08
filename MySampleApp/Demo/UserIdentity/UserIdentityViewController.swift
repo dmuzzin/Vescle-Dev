@@ -17,10 +17,11 @@ import AWSMobileHubHelper
 
 class UserIdentityViewController: UIViewController {
     
+    @IBOutlet weak var fullNameLabel: UILabel!
+    @IBOutlet weak var birthdayLabel: UILabel!
+    @IBOutlet weak var phoneNumberLabel: UILabel!
     @IBOutlet weak var userImageView: UIImageView!
     @IBOutlet weak var userName: UILabel!
-    @IBOutlet weak var userID: UILabel!
-    
     // MARK: - View lifecycle
     
     override func viewWillAppear(_ animated: Bool) {
@@ -34,7 +35,6 @@ class UserIdentityViewController: UIViewController {
             userName.text = NSLocalizedString("Guest User", comment: "Placeholder text for the guest user.")
         }
         
-        userID.text = identityManager.identityId
         if let imageURL = identityManager.imageURL {
             let imageData = try! Data(contentsOf: imageURL)
             if let profileImage = UIImage(data: imageData) {
@@ -44,4 +44,6 @@ class UserIdentityViewController: UIViewController {
             }
         }
     }
+    
 }
+
