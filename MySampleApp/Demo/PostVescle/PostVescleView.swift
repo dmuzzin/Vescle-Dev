@@ -264,7 +264,7 @@ class PostVescleViewController: UIViewController,UIPickerViewDataSource,UIPicker
                 let identity = AWSIdentityManager.default()
                 newVescle?._userId = identity.identityId!
                 newVescle?._username = identity.userName!
-                newVescle?._pictureS3 = location
+                newVescle?._pictureS3 = self.createFileName
                 newVescle?._latitude = String((manager.location?.coordinate.latitude)!)
                 newVescle?._longitude = String((manager.location?.coordinate.longitude)!)
                 newVescle?._text = "Placeholder"
