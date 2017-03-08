@@ -10,24 +10,46 @@ import Foundation
 import UIKit
 import MapKit
 import AWSDynamoDB
+import AWSS3
 
 class SeeVescleViewController : UIViewController {
     @IBOutlet weak var usernameLabel: UILabel?
     @IBOutlet weak var backToMap: UIButton!
     @IBOutlet weak var userVescle: UIImageView!
-    @IBOutlet weak var expirationLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         usernameLabel?.text = username_to_show
-        var temp_expiration = NumberFormatter().number(from: (time_remaining_to_show)) as! Int64
-        temp_expiration -= getCurrentMillis()
-        expirationLabel.text = "Time Remaining: \n" + (stringFromTimeInterval(interval: temp_expiration) as String)
         
         backToMap.addTarget(self, action:#selector(self.buttonClicked), for: .touchUpInside)
         
-        //get user vescle from s3 and put in userVescle imageView
+        let transferManager = AWSS3TransferManager.default()
+        let downloadingFileURL = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("vescle.jpg")
+        let downloadRequest = AWSS3TransferManagerDownloadRequest()
+        downloadRequest?.bucket = "myBucket"
+        downloadRequest?.key = "myImage.jpg"
+        downloadRequest?.downloadingFileURL = downloadingFileURL
         
+        transferManager.download(downloadRequest!).continueWith(executor: AWSExecutor.mainThread(), block: { (task:AWSTask<AnyObject>) -> Any? in
+            
+            if let error = task.error as? NSError {
+                if error.domain == AWSS3TransferManagerErrorDomain, let code = AWSS3TransferManagerErrorType(rawValue: error.code) {
+                    switch code {
+                    case .cancelled, .paused:
+                        break
+                    default:
+                        print("Error downloading: \(downloadRequest?.key) Error: \(error)")
+                    }
+                } else {
+                    print("Error downloading: \(downloadRequest?.key) Error: \(error)")
+                }
+                return nil
+            }
+            print("Download complete for: \(downloadRequest?.key)")
+            //let downloadOutput = task.result
+            self.userVescle.image = UIImage(contentsOfFile: downloadingFileURL.path)
+            return nil
+        })
         
     }
     func buttonClicked() {
