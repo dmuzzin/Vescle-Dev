@@ -26,8 +26,8 @@ class SeeVescleViewController : UIViewController {
         let transferManager = AWSS3TransferManager.default()
         let downloadingFileURL = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("vescle.jpg")
         let downloadRequest = AWSS3TransferManagerDownloadRequest()
-        downloadRequest?.bucket = "myBucket"
-        downloadRequest?.key = "myImage.jpg"
+        downloadRequest?.bucket = S3BucketName
+        downloadRequest?.key = imageURL_to_show
         downloadRequest?.downloadingFileURL = downloadingFileURL
         
         transferManager.download(downloadRequest!).continueWith(executor: AWSExecutor.mainThread(), block: { (task:AWSTask<AnyObject>) -> Any? in
