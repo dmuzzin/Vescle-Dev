@@ -48,3 +48,22 @@ class Vescles: AWSDynamoDBObjectModel, AWSDynamoDBModeling {
         ]
     }
 }
+
+class User: AWSDynamoDBObjectModel, AWSDynamoDBModeling {
+    
+    var _userId:String?
+    
+    class func dynamoDBTableName() -> String {
+        return "vescle-mobilehub-81544248-users"
+    }
+    
+    class func hashKeyAttribute() -> String {
+        return "_userId"
+    }
+    
+    override class func jsonKeyPathsByPropertyKey() -> [AnyHashable: Any] {
+        return [
+            "_userId" : "userId",
+        ]
+    }
+}
