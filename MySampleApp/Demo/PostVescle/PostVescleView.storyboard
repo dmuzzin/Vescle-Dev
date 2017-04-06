@@ -45,7 +45,10 @@
                                 <rect key="frame" x="60" y="385" width="254" height="154"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <state key="normal" title="Photo"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="40"/>
+                                <state key="normal" title="Photo">
+                                    <color key="titleColor" red="0.03679052151" green="0.81566089819999998" blue="0.66583196190000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
                                 <connections>
                                     <segue destination="jzr-gH-HrT" kind="show" id="wvy-er-i8h"/>
                                 </connections>
@@ -54,7 +57,10 @@
                                 <rect key="frame" x="60" y="131" width="254" height="154"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <state key="normal" title="Text"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="40"/>
+                                <state key="normal" title="Text">
+                                    <color key="titleColor" red="0.03679052151" green="0.81566089819999998" blue="0.66583196190000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
                                 <connections>
                                     <segue destination="Wwd-iY-g9l" kind="show" id="FYi-yA-EkR"/>
                                 </connections>
