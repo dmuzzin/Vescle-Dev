@@ -47,7 +47,6 @@ class PostVescleViewController: UIViewController, UITextFieldDelegate, UIPickerV
     @IBOutlet weak var timeChosen: UILabel!
     @IBOutlet weak var timePicker: UIPickerView!
     @IBOutlet weak var ImagePicked: UIImageView!
-    @IBOutlet weak var backButton: UIButton?
     @IBOutlet weak var postButton: UIButton?
     var myActivityIndicator: UIActivityIndicatorView!
 
@@ -59,8 +58,6 @@ class PostVescleViewController: UIViewController, UITextFieldDelegate, UIPickerV
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpActivityIndicator()
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: nil, action: nil)
-        backButton?.layer.cornerRadius = 10
         postButton?.layer.cornerRadius = 10
         postButton?.layer.borderColor = UIColor.white.cgColor
         postButton?.layer.borderWidth = 1
@@ -346,6 +343,75 @@ class PostVescleViewController: UIViewController, UITextFieldDelegate, UIPickerV
     
 }
 
+class PostVescleControlController: UIViewController, UINavigationControllerDelegate {
+
+    
+    @IBOutlet weak var backButton: UIButton!
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: nil, action: nil)
+        backButton?.layer.cornerRadius = 10
+        
+    }
+}
+
+class PostVescleControlTextController: UIViewController, UITextFieldDelegate, UIPickerViewDataSource,UIPickerViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    
+    @IBOutlet weak var timePicker: UIPickerView!
+    @IBOutlet weak var timeChosen: UILabel!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        timePicker.delegate = self
+        timePicker.dataSource = self
+        
+    }
+    
+    let pickerData = [
+        ["1","2","3","4","5","6","7","8","9","10",
+         "11","12","13", "14", "15", "16","17","18","19","20",
+         "21","22","23", "24", "25", "26","27","28","29","30"],
+        ["Seconds","Minutes","Hours","Days"]
+    ]
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return pickerData.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView,numberOfRowsInComponent component: Int) -> Int {
+        return pickerData[component].count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView,titleForRow row: Int,forComponent component: Int) -> String? {
+        return pickerData[component][row]
+    }
+    
+    
+    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView
+    {
+        let pickerLabel = UILabel()
+        pickerLabel.textColor = UIColor.white
+        pickerLabel.font = UIFont(name: "Arial-BoldMT", size: 18)
+        pickerLabel.textAlignment = NSTextAlignment.center
+        pickerLabel.text = pickerData[component][row]
+        return pickerLabel
+    }
+    
+    //MARK - Instance Methods
+    func updateLabel(){
+        let time = pickerData[0][timePicker.selectedRow(inComponent: 0)]
+        let type = pickerData[1][timePicker.selectedRow(inComponent: 1)]
+        timeChosen.text = "Burst Time: " + time + " " + type
+    }
+    
+    func pickerView(_ pickerView: UIPickerView,didSelectRow row: Int,inComponent component: Int)
+    {
+        updateLabel()
+    }
+
+    
+}
 
 extension UIViewController
 {
