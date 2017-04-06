@@ -50,6 +50,7 @@ class PostVescleViewController: UIViewController, UITextFieldDelegate, UIPickerV
     @IBOutlet weak var backButton: UIButton?
     @IBOutlet weak var postButton: UIButton?
     var myActivityIndicator: UIActivityIndicatorView!
+
     
     let imagePicker = UIImagePickerController()
     var imageURL: NSURL!
@@ -59,7 +60,6 @@ class PostVescleViewController: UIViewController, UITextFieldDelegate, UIPickerV
         super.viewDidLoad()
         setUpActivityIndicator()
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: nil, action: nil)
-        
         backButton?.layer.cornerRadius = 10
         postButton?.layer.cornerRadius = 10
         postButton?.layer.borderColor = UIColor.white.cgColor
@@ -68,7 +68,34 @@ class PostVescleViewController: UIViewController, UITextFieldDelegate, UIPickerV
         timePicker.dataSource = self
         self.caption.delegate = self
         self.hideKeyboard()
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) { // became first responder
         
+        //move textfields up
+        let myScreenRect: CGRect = UIScreen.main.bounds
+        let keyboardHeight : CGFloat = 216
+        
+        UIView.beginAnimations( "animateView", context: nil)
+        var needToMove: CGFloat = 0
+        
+        var frame : CGRect = self.view.frame
+        if (textField.frame.origin.y + textField.frame.size.height + /*self.navigationController.navigationBar.frame.size.height + */UIApplication.shared.statusBarFrame.size.height > (myScreenRect.size.height - keyboardHeight)) {
+            needToMove = (textField.frame.origin.y + textField.frame.size.height + /*self.navigationController.navigationBar.frame.size.height +*/ UIApplication.shared.statusBarFrame.size.height) - (myScreenRect.size.height - keyboardHeight);
+        }
+        
+        frame.origin.y = -needToMove
+        self.view.frame = frame
+        UIView.commitAnimations()
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        //move textfields back down
+        UIView.beginAnimations( "animateView", context: nil)
+        var frame : CGRect = self.view.frame
+        frame.origin.y = 0
+        self.view.frame = frame
+        UIView.commitAnimations()
     }
     
     override func viewDidAppear(_ animated: Bool) {
