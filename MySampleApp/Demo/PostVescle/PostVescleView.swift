@@ -200,7 +200,7 @@ class PostVescleViewController: UIViewController, UITextFieldDelegate, UIPickerV
         view.addSubview(myActivityIndicator)
     }
     
-    @IBAction func PostVescle(_ sender: Any) {
+    @IBAction func PostVescle(_ sender: UIButton) {
         
         if (createFileName == "") {
             let alertController = UIAlertController(title: "Error",message: "Please select a photo to post", preferredStyle: .alert)
