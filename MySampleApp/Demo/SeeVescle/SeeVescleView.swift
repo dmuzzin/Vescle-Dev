@@ -16,6 +16,7 @@ class SeeVescleViewController : UIViewController {
     @IBOutlet weak var usernameLabel: UILabel?
     @IBOutlet weak var backToMap: UIButton!
     @IBOutlet weak var userVescle: UIImageView!
+    @IBOutlet weak var caption: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,6 +51,7 @@ class SeeVescleViewController : UIViewController {
             print("Download complete for: \(downloadRequest?.key)")
             //let downloadOutput = task.result
             self.userVescle.image = UIImage(contentsOfFile: downloadingFileURL.path)
+            self.caption.text = caption_to_show
             return nil
         })
         

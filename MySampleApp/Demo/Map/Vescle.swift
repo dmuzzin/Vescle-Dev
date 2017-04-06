@@ -14,12 +14,14 @@ class bubble: NSObject, MKAnnotation{
     var title: String?
     var s3URL: String?
     var expiration_string: String?
+    var caption: String?
     var coordinate: CLLocationCoordinate2D
-    init(name:String,lat:CLLocationDegrees,long:CLLocationDegrees,image:String,expiration_time:String){
+    init(name:String,lat:CLLocationDegrees,long:CLLocationDegrees,image:String,expiration_time:String,cap:String){
         title = name
         coordinate = CLLocationCoordinate2DMake(lat, long)
         s3URL = image
         expiration_string = expiration_time
+        caption = cap
     }
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {

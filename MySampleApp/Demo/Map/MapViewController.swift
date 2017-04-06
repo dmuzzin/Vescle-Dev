@@ -32,6 +32,7 @@ let ann_arbor = CLLocation(latitude: 42.2808, longitude: -83.743);
 var username_to_show = String()
 var time_remaining_to_show = String()
 var imageURL_to_show = String()
+var caption_to_show = String()
 
 //let my_house = bubble(name: "my house", lat: 42.271626, long: -83.738549)
 
@@ -75,7 +76,7 @@ class MapViewController: UIViewController {
                                         request.predicate = NSPredicate(format: "s3URL == %@", v._pictureS3!)
                                         let fetched = try context.fetch(request)
                                         if fetched.count == 0 {
-                                            let new_v = bubble(name: v._username!, lat: Double(v._latitude!)!, long: Double(v._longitude!)!, image: v._pictureS3!, expiration_time: v._expiration!)
+                                            let new_v = bubble(name: v._username!, lat: Double(v._latitude!)!, long: Double(v._longitude!)!, image: v._pictureS3!, expiration_time: v._expiration!, cap: v._text!)
                                             self.mapView.addAnnotation(new_v)
                                         }
                                     } else {
@@ -134,6 +135,7 @@ class MapViewController: UIViewController {
                 username_to_show = annotation.title!
                 imageURL_to_show = annotation.s3URL!
                 time_remaining_to_show = annotation.expiration_string!
+                caption_to_show = annotation.caption!
                 
                 do {
                     if #available(iOS 10.0, *) {
