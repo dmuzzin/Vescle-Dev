@@ -41,8 +41,9 @@ func getCurrentMillis()->Int64{
     return  Int64(NSDate().timeIntervalSince1970 * 1000)
 }
 
-class PostVescleViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate{
+class PostVescleViewController: UIViewController, UITextFieldDelegate, UIPickerViewDataSource,UIPickerViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate{
     
+    @IBOutlet weak var caption: UITextField!
     @IBOutlet weak var timeChosen: UILabel!
     @IBOutlet weak var timePicker: UIPickerView!
     @IBOutlet weak var ImagePicked: UIImageView!
@@ -65,6 +66,8 @@ class PostVescleViewController: UIViewController,UIPickerViewDataSource,UIPicker
         postButton?.layer.borderWidth = 1
         timePicker.delegate = self
         timePicker.dataSource = self
+        self.caption.delegate = self
+        self.hideKeyboard()
         
     }
     
@@ -123,6 +126,10 @@ class PostVescleViewController: UIViewController,UIPickerViewDataSource,UIPicker
         updateLabel()
     }
     
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true;
+    }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         ImagePicked.image = info[UIImagePickerControllerOriginalImage] as? UIImage
@@ -174,6 +181,8 @@ class PostVescleViewController: UIViewController,UIPickerViewDataSource,UIPicker
             print(error)
         }
     }
+    
+
     
     func setUpActivityIndicator()
     {
@@ -311,4 +320,19 @@ class PostVescleViewController: UIViewController,UIPickerViewDataSource,UIPicker
 }
 
 
-
+extension UIViewController
+{
+    func hideKeyboard()
+    {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(
+            target: self,
+            action: #selector(UIViewController.dismissKeyboard))
+        
+        view.addGestureRecognizer(tap)
+    }
+    
+    func dismissKeyboard()
+    {
+        view.endEditing(true)
+    }
+}

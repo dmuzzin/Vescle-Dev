@@ -71,6 +71,7 @@
                     <connections>
                         <outlet property="ImagePicked" destination="DPU-72-Vkn" id="alS-ii-Dtp"/>
                         <outlet property="backButton" destination="IQg-ZD-MgM" id="lEe-zD-jsl"/>
+                        <outlet property="caption" destination="ArX-qd-5dK" id="caP-Vd-LM1"/>
                         <outlet property="postButton" destination="iY8-oi-Bx8" id="OQe-Ok-1EI"/>
                         <outlet property="timeChosen" destination="8eC-q3-5Fg" id="Ywe-1d-Jtm"/>
                         <outlet property="timePicker" destination="l70-Lb-xEf" id="Mvt-pz-WcU"/>
