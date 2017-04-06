@@ -16,10 +16,11 @@ import Foundation
 import UIKit
 import AWSMobileHubHelper
 import AWSCognitoIdentityProvider
+import AWSDynamoDB
 
 class UserPoolSignUpViewController: UIViewController {
     let signUpData = SignUpData.signUpData
-    
+    let mapper = AWSDynamoDBObjectMapper.default()
     var pool: AWSCognitoIdentityUserPool?
     var sentTo: String?
 
@@ -206,19 +207,28 @@ class UserPoolSignUpViewController: UIViewController {
     }
     
     @IBAction func onUserName(_ sender: AnyObject) {
+        var user_exists = false
         if let usernameValue = self.username.text, !usernameValue.isEmpty {
             let trimmed_usernameValue = usernameValue.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
-            let user = self.pool?.getUser(trimmed_usernameValue).confirmedStatus
-            if user != AWSCognitoIdentityUserStatus.unknown {
-                UIAlertView(title: "Username already exists",
-                            message: "Please choose a new username.",
-                            delegate: nil,
-                            cancelButtonTitle: "Ok").show()
-                return
-            } else {
-                self.signUpData.username = usernameValue
-                self.setUsername = true
-            }
+            
+            //See if username already exists
+            mapper.load(User.self, hashKey: trimmed_usernameValue, rangeKey:nil).continueWith(block: { (task:AWSTask<AnyObject>!) -> Any? in
+                if let error = task.error as? NSError {
+                    print("The request failed. Error: \(error)")
+                } else if (task.result as? User) != nil {
+                    user_exists = true;
+                    UIAlertView(title: "Username already exists",
+                                message: "Please choose a new username.",
+                                delegate: nil,
+                                cancelButtonTitle: "Ok").show()
+                    return nil
+                } else {
+                    self.signUpData.username = usernameValue
+                    self.setUsername = true
+                    self.performSegue(withIdentifier: "Password-Signup", sender: self)
+                }
+                return nil
+            })
         } else {
             UIAlertView(title: "Missing Required Fields",
                         message: "Full name is required for registration.",
@@ -299,7 +309,7 @@ class UserPoolSignUpViewController: UIViewController {
         if let phoneValue = self.phone.text, !phoneValue.isEmpty {
             let phone = AWSCognitoIdentityUserAttributeType()
             phone?.name = "phone_number"
-            phone?.value = phoneValue
+            phone?.value = "+1" + phoneValue
             attributes.append(phone!)
         }
         
@@ -323,6 +333,18 @@ class UserPoolSignUpViewController: UIViewController {
                         cancelButtonTitle: "Ok").show()
                     return
                 }
+                
+                //Add to DynamoDB
+                let mapper = AWSDynamoDBObjectMapper.default()
+                let newUser = User()
+                newUser?._userId = self?.signUpData.username
+                mapper.save(newUser!, completionHandler: {(error: Error?) -> Void in
+                    if let error = error {
+                        print("Amazon DynamoDB Save Error: \(error)")
+                        return
+                    }
+                    print("Item saved.")
+                })
                 
                 if let result = task.result as AWSCognitoIdentityUserPoolSignUpResponse! {
                     // handle the case where user has to confirm his identity via email / SMS

@@ -750,7 +750,6 @@
                                 </state>
                                 <connections>
                                     <action selector="onUserName:" destination="4Vz-Vz-zr3" eventType="touchUpInside" id="aVz-OV-TQ5"/>
-                                    <segue destination="gyz-eF-LLo" kind="show" identifier="setUsername" id="0uO-4C-s2M"/>
                                 </connections>
                             </button>
                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" progress="0.42859999999999998" translatesAutoresizingMaskIntoConstraints="NO" id="fli-11-w40">
