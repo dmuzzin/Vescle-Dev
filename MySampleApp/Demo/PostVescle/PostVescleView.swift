@@ -47,8 +47,6 @@ class PostVescleViewController: UIViewController,UIPickerViewDataSource,UIPicker
     @IBOutlet weak var timePicker: UIPickerView!
     @IBOutlet weak var ImagePicked: UIImageView!
     @IBOutlet weak var backButton: UIButton?
-    @IBOutlet weak var cameraButton: UIButton?
-    @IBOutlet weak var importButton: UIButton?
     @IBOutlet weak var postButton: UIButton?
     var myActivityIndicator: UIActivityIndicatorView!
     
@@ -60,21 +58,28 @@ class PostVescleViewController: UIViewController,UIPickerViewDataSource,UIPicker
         super.viewDidLoad()
         setUpActivityIndicator()
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: nil, action: nil)
-        imagePicker.delegate = self
+        
         backButton?.layer.cornerRadius = 10
-        cameraButton?.layer.cornerRadius = 10
-        importButton?.layer.cornerRadius = 10
         postButton?.layer.cornerRadius = 10
-        cameraButton?.layer.borderColor = UIColor.white.cgColor
-        importButton?.layer.borderColor = UIColor.white.cgColor
         postButton?.layer.borderColor = UIColor.white.cgColor
-        cameraButton?.layer.borderWidth = 1
-        importButton?.layer.borderWidth = 1
         postButton?.layer.borderWidth = 1
         timePicker.delegate = self
         timePicker.dataSource = self
         
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if self.isBeingPresented || self.isMovingToParentViewController {
+            if UIImagePickerController.isCameraDeviceAvailable(UIImagePickerControllerCameraDevice.front) {
+                imagePicker.delegate = self
+                imagePicker.sourceType = UIImagePickerControllerSourceType.camera
+                present(imagePicker, animated: true, completion: nil)
+            }
+        }
+    }
+    
     
     let pickerData = [
         ["1","2","3","4","5","6","7","8","9","10",
@@ -118,29 +123,11 @@ class PostVescleViewController: UIViewController,UIPickerViewDataSource,UIPicker
         updateLabel()
     }
     
-    //camera stuff
-    @IBAction func openCameraButton(sender: AnyObject) {
-        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.camera) {
-            imagePicker.delegate = self
-            imagePicker.sourceType = UIImagePickerControllerSourceType.camera;
-            imagePicker.allowsEditing = false
-            self.present(imagePicker, animated: true, completion: nil)
-        }
-    }
-    
-    @IBAction func openPhotoLibraryButton(sender: AnyObject) {
-        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.photoLibrary) {
-            imagePicker.delegate = self
-            imagePicker.sourceType = UIImagePickerControllerSourceType.photoLibrary;
-            imagePicker.allowsEditing = true
-            self.present(imagePicker, animated: true, completion: nil)
-        }
-    }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         ImagePicked.image = info[UIImagePickerControllerOriginalImage] as? UIImage
         ImagePicked.backgroundColor = UIColor.clear
-        ImagePicked.contentMode = UIViewContentMode.scaleAspectFit
+        ImagePicked.contentMode = UIViewContentMode.scaleAspectFill
         
         var imageToSave: UIImage = info[UIImagePickerControllerOriginalImage] as! UIImage
         
