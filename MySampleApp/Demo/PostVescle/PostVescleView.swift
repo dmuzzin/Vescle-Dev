@@ -355,17 +355,39 @@ class PostVescleControlController: UIViewController, UINavigationControllerDeleg
     }
 }
 
-class PostVescleControlTextController: UIViewController, UITextFieldDelegate, UIPickerViewDataSource,UIPickerViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class PostVescleControlTextController: UIViewController, UITextFieldDelegate, UITextViewDelegate, UIPickerViewDataSource,UIPickerViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     
     @IBOutlet weak var timePicker: UIPickerView!
     @IBOutlet weak var timeChosen: UILabel!
+    @IBOutlet weak var postButton: UIButton!
+    @IBOutlet weak var textView: UITextView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         timePicker.delegate = self
         timePicker.dataSource = self
+        textView.delegate = self
+        postButton?.layer.cornerRadius = 10
+        postButton?.layer.borderColor = UIColor.white.cgColor
+        postButton?.layer.borderWidth = 1
+        textView.text = "Tap to start crafting ya next sick vescle"
+        textView.textColor = UIColor.lightGray
         
+    }
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.textColor == UIColor.lightGray {
+            textView.text = nil
+            textView.textColor = UIColor.black
+        }
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.isEmpty {
+            textView.text = "Tap to start crafting ya next sick vescle"
+            textView.textColor = UIColor.lightGray
+        }
     }
     
     let pickerData = [
