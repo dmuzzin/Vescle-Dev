@@ -24,6 +24,7 @@ class Vescles: AWSDynamoDBObjectModel, AWSDynamoDBModeling {
     var _longitude:String?
     var _latitude:String?
     var _expiration:String?
+    var _posted:String?
     
     class func dynamoDBTableName() -> String {
         return "vescle-mobilehub-81544248-Vescles"
@@ -45,6 +46,7 @@ class Vescles: AWSDynamoDBObjectModel, AWSDynamoDBModeling {
             "_latitude" : "latitude",
             "_longitude" : "longitude",
             "_text" : "text",
+            "_posted": "posted",
         ]
     }
 }

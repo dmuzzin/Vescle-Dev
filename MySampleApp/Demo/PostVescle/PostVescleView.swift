@@ -315,6 +315,18 @@ class PostVescleViewController: UIViewController, UITextFieldDelegate, UIPickerV
                 let expirationTime = expires + getCurrentMillis()
                 newVescle?._expiration = String(expirationTime)
                 
+                // get the current date and time
+                let currentDateTime = Date()
+                
+                // initialize the date formatter and set the style
+                let formatter = DateFormatter()
+                formatter.timeStyle = .short
+                formatter.dateStyle = .short
+                
+                // get the date time String from the date object
+                newVescle?._posted = String(formatter.string(from: currentDateTime))
+                
+                
                 mapper.save(newVescle!, completionHandler: {(error: Error?) -> Void in
                     if let error = error {
                         print("Amazon DynamoDB Save Error: \(error)")
@@ -448,6 +460,18 @@ class PostVescleControlTextController: UIViewController, UITextFieldDelegate, UI
         
         let expirationTime = expires + getCurrentMillis()
         newVescle?._expiration = String(expirationTime)
+        
+        // get the current date and time
+        let currentDateTime = Date()
+        
+        // initialize the date formatter and set the style
+        let formatter = DateFormatter()
+        formatter.timeStyle = .short
+        formatter.dateStyle = .short
+        
+        // get the date time String from the date object
+        newVescle?._posted = String(formatter.string(from: currentDateTime))
+        
         
         mapper.save(newVescle!, completionHandler: {(error: Error?) -> Void in
             if let error = error {

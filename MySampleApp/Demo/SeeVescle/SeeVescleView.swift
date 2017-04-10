@@ -20,7 +20,8 @@ class SeeVescleViewController : UIViewController {
     @IBOutlet weak var vescleText: UITextView!
     @IBOutlet weak var speechBub: UIImageView!
     @IBOutlet weak var usernameLabel2: UILabel?
-    
+    @IBOutlet weak var time_remaining_label: UILabel!
+    @IBOutlet weak var time_posted_label: UILabel!
     
     
     override func viewDidLoad() {
@@ -38,9 +39,11 @@ class SeeVescleViewController : UIViewController {
         downloadRequest?.key = imageURL_to_show
         print(imageURL_to_show)
         
-        
+        time_remaining_label.text = String("Time Remaining: " + (stringFromTimeInterval(interval: Int64(time_remaining_to_show)!) as String))
         if String(imageURL_to_show.characters.suffix(5)) == ".jpeg" {
             usernameLabel2?.alpha = 0
+            speechBub.alpha = 0
+            time_posted_label.alpha = 0
             downloadRequest?.downloadingFileURL = downloadingFileURL
             
             transferManager.download(downloadRequest!).continueWith(executor: AWSExecutor.mainThread(), block: { (task:AWSTask<AnyObject>) -> Any? in
@@ -63,6 +66,7 @@ class SeeVescleViewController : UIViewController {
                 self.userVescle.image = UIImage(contentsOfFile: downloadingFileURL.path)
                 self.caption.text = caption_to_show
                 
+                
                 return nil
             })
         }
@@ -73,7 +77,7 @@ class SeeVescleViewController : UIViewController {
             caption.alpha = 0
             vescleText.alpha = 1
             vescleText.text = caption_to_show
-            speechBub.alpha = 1
+            time_posted_label.text = posted_time_to_show
             
         }
         
