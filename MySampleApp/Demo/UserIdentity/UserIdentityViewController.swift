@@ -14,19 +14,16 @@
 import Foundation
 import UIKit
 import AWSMobileHubHelper
+import AWSCognitoIdentityProvider
 
 class UserIdentityViewController: UIViewController {
-    
-    @IBOutlet weak var fullNameLabel: UILabel!
-    @IBOutlet weak var birthdayLabel: UILabel!
-    @IBOutlet weak var phoneNumberLabel: UILabel!
     @IBOutlet weak var userImageView: UIImageView!
     @IBOutlet weak var userName: UILabel!
     // MARK: - View lifecycle
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
+        
         let identityManager = AWSIdentityManager.default()
         
         if let identityUserName = identityManager.userName {
