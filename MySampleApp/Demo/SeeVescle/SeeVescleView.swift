@@ -91,13 +91,30 @@ class SeeVescleViewController : UIViewController {
     
     func stringFromTimeInterval(interval: Int64) -> NSString {
         
-        var ti = NSInteger(interval)
+        let ti2 = interval - getCurrentMillis()
+        var ti = NSInteger(ti2)
         ti /= 1000
         let seconds = ti % 60
         let minutes = (ti / 60) % 60
         let hours = (ti / 3600)
         let days = (ti / 3600) / 24
         
+        if days > 0 {
+            return NSString(format: "%0.2d days %0.2d hrs",days,hours)
+        }
+        else {
+            if hours > 0 {
+                return NSString(format: "%0.2d hrs %0.2d mins %0.2d secs",hours,minutes,seconds)
+            }
+            else {
+                if minutes > 0 {
+                    return NSString(format: "%0.2d mins %0.2d secs",minutes,seconds)
+                }
+                else {
+                    return NSString(format: "%0.2d secondss",seconds)
+                }
+            }
+        }
         return NSString(format: "%0.2d days %0.2d hrs %0.2d mins %0.2d secs",days,hours,minutes,seconds)
     }
     
