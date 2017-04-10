@@ -22,8 +22,9 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pf9-1x-9tQ">
-                                <rect key="frame" x="0.0" y="9" width="375" height="658"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.03679052151" green="0.81566089819999998" blue="0.66583196190000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Y0J-Oh-nnI">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
@@ -48,6 +49,29 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
+                            <imageView userInteractionEnabled="NO" alpha="0.0" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="1312152981502006818speech-bubble-md-hi" translatesAutoresizingMaskIntoConstraints="NO" id="8rL-gy-4FM">
+                                <rect key="frame" x="0.0" y="184" width="343" height="308"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="ee6-XP-56K">
+                                <rect key="frame" x="67" y="199" width="240" height="128"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LYF-70-0Us" userLabel="Username Label 2">
+                                <rect key="frame" x="99" y="376" width="260" height="37"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <attributedString key="attributedText">
+                                    <fragment content="Username">
+                                        <attributes>
+                                            <font key="NSFont" size="24" name="MarkerFelt-Wide"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="right" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -55,8 +79,11 @@
                     <connections>
                         <outlet property="backToMap" destination="Pf9-1x-9tQ" id="A0R-uN-Hz2"/>
                         <outlet property="caption" destination="o5w-XX-Nnk" id="Vg9-XQ-yQD"/>
+                        <outlet property="speechBub" destination="8rL-gy-4FM" id="1Dv-NH-Uow"/>
                         <outlet property="userVescle" destination="Y0J-Oh-nnI" id="xBg-9K-mop"/>
                         <outlet property="usernameLabel" destination="OH3-xp-K2j" id="k0d-Zs-GJO"/>
+                        <outlet property="usernameLabel2" destination="LYF-70-0Us" id="OJv-oz-SPq"/>
+                        <outlet property="vescleText" destination="ee6-XP-56K" id="ksM-SP-ow0"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1Zf-iv-qFQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -64,4 +91,7 @@
             <point key="canvasLocation" x="1180" y="818.14092953523243"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="1312152981502006818speech-bubble-md-hi" width="600" height="512"/>
+    </resources>
 </document>

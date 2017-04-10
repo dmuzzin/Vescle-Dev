@@ -197,20 +197,21 @@
                                 <rect key="frame" x="125" y="65" width="140" height="120"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="RDl-3n-6y4">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" keyboardDismissMode="interactive" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="RDl-3n-6y4">
                                 <rect key="frame" x="52" y="261" width="259" height="139"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IqY-uA-YE9">
-                                <rect key="frame" x="281" y="508" width="71" height="41"/>
+                                <rect key="frame" x="281" y="527" width="71" height="41"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" title="&gt;&gt;">
                                     <color key="titleColor" red="0.03679052151" green="0.81566089819999998" blue="0.66583196190000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
+                                    <action selector="PostTextVescle:" destination="Wwd-iY-g9l" eventType="touchUpInside" id="TcS-BG-fFi"/>
                                     <action selector="PostVescle:" destination="jzr-gH-HrT" eventType="touchUpInside" id="TZm-Lg-TvD"/>
                                 </connections>
                             </button>

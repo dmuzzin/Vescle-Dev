@@ -362,9 +362,12 @@ class PostVescleControlTextController: UIViewController, UITextFieldDelegate, UI
     @IBOutlet weak var timeChosen: UILabel!
     @IBOutlet weak var postButton: UIButton!
     @IBOutlet weak var textView: UITextView!
-    
+    var myActivityIndicator: UIActivityIndicatorView!
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        setUpActivityIndicator()
+        self.hideKeyboard()
         timePicker.delegate = self
         timePicker.dataSource = self
         textView.delegate = self
@@ -374,6 +377,96 @@ class PostVescleControlTextController: UIViewController, UITextFieldDelegate, UI
         textView.text = "Tap to start crafting ya next sick vescle"
         textView.textColor = UIColor.lightGray
         
+    }
+    
+    func setUpActivityIndicator()
+    {
+        //Create Activity Indicator
+        myActivityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.gray)
+        
+        // Position Activity Indicator in the center of the main view
+        myActivityIndicator.center = view.center
+        
+        // If needed, you can prevent Acivity Indicator from hiding when stopAnimating() is called
+        myActivityIndicator.hidesWhenStopped = true
+        
+        myActivityIndicator.backgroundColor = UIColor.clear
+        
+        view.addSubview(myActivityIndicator)
+    }
+    
+    @IBAction func PostTextVescle(_ sender: UIButton) {
+        if (!textView.hasText) {
+            let alertController = UIAlertController(title: "Error",message: "Don't send an empty vescle! fill dat ish up", preferredStyle: .alert)
+            let actionOk = UIAlertAction(title: "Ok", style: .default)
+            alertController.addAction(actionOk)
+            self.present(alertController, animated:true, completion:nil)
+            return
+        }
+        if (timeChosen.text == "Burst Time: Choose Below") {
+            let alertController = UIAlertController(title: "Error",message: "Please select a burst time", preferredStyle: .alert)
+            let actionOk = UIAlertAction(title: "Ok", style: .default)
+            alertController.addAction(actionOk)
+            self.present(alertController, animated:true, completion:nil)
+            return
+        }
+        
+        //Add to DynamoDB
+        let mapper = AWSDynamoDBObjectMapper.default()
+        
+        let newVescle = Vescles()
+        let identity = AWSIdentityManager.default()
+        newVescle?._userId = identity.identityId!
+        newVescle?._username = identity.userName!
+        newVescle?._pictureS3 = ProcessInfo.processInfo.globallyUniqueString
+        newVescle?._latitude = String((manager.location?.coordinate.latitude)!)
+        newVescle?._longitude = String((manager.location?.coordinate.longitude)!)
+        newVescle?._text = String(describing: (self.textView.text)!)
+        
+        let tempArr = self.timeChosen.text?.components(separatedBy: " ")
+        var expires = 0
+        expires += NumberFormatter().number(from: (tempArr?[2])!) as! Int
+        let timeType = tempArr?[3]
+        if timeType == "Seconds" {
+            expires *= 1000
+        } else if timeType == "Minutes" {
+            expires *= 60
+            expires *= 1000
+        } else if timeType == "Hours" {
+            expires *= 60
+            expires *= 60
+            expires *= 1000
+        } else if timeType == "Days" {
+            expires *= 24
+            expires *= 60
+            expires *= 60
+            expires *= 1000
+        } else {
+            print("ERROR RED ALERT RED ALERT RED ALERT")
+            return
+        }
+        
+        let expirationTime = expires + getCurrentMillis()
+        newVescle?._expiration = String(expirationTime)
+        
+        mapper.save(newVescle!, completionHandler: {(error: Error?) -> Void in
+            if let error = error {
+                print("Amazon DynamoDB Save Error: \(error)")
+                return
+            }
+            print("Item saved.")
+        })
+    
+        
+        let alertController = UIAlertController(title: "Wahooooo!",message: "YoU haVe pOsTed a nEw vEsCle", preferredStyle: .alert)
+        let actionOk = UIAlertAction(title: "Ok", style: .default) { (action) -> Void in
+            let next = self.storyboard?.instantiateViewController(withIdentifier: "MapViewController")
+            self.present(next!, animated: true, completion: nil)
+        }
+        alertController.addAction(actionOk)
+        self.present(alertController, animated:true, completion:nil)
+        
+
     }
     
     func textViewDidBeginEditing(_ textView: UITextView) {

@@ -133,7 +133,10 @@ class MapViewController: UIViewController {
         if (control == view.leftCalloutAccessoryView) {
             if let annotation = view.annotation as? bubble {
                 username_to_show = annotation.title!
-                imageURL_to_show = annotation.s3URL!
+                if (annotation.s3URL != nil) {
+                    imageURL_to_show = annotation.s3URL!
+                }
+                
                 time_remaining_to_show = annotation.expiration_string!
                 caption_to_show = annotation.caption!
                 

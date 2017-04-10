@@ -17,10 +17,16 @@ class SeeVescleViewController : UIViewController {
     @IBOutlet weak var backToMap: UIButton!
     @IBOutlet weak var userVescle: UIImageView!
     @IBOutlet weak var caption: UITextField!
+    @IBOutlet weak var vescleText: UITextView!
+    @IBOutlet weak var speechBub: UIImageView!
+    @IBOutlet weak var usernameLabel2: UILabel?
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         usernameLabel?.text = username_to_show
+        usernameLabel2?.text = username_to_show
         
         backToMap.addTarget(self, action:#selector(self.buttonClicked), for: .touchUpInside)
         
@@ -31,29 +37,47 @@ class SeeVescleViewController : UIViewController {
         downloadRequest?.bucket = S3BucketName
         downloadRequest?.key = imageURL_to_show
         print(imageURL_to_show)
-        downloadRequest?.downloadingFileURL = downloadingFileURL
         
-        transferManager.download(downloadRequest!).continueWith(executor: AWSExecutor.mainThread(), block: { (task:AWSTask<AnyObject>) -> Any? in
+        
+        if String(imageURL_to_show.characters.suffix(5)) == ".jpeg" {
+            usernameLabel2?.alpha = 0
+            downloadRequest?.downloadingFileURL = downloadingFileURL
             
-            if let error = task.error as? NSError {
-                if error.domain == AWSS3TransferManagerErrorDomain, let code = AWSS3TransferManagerErrorType(rawValue: error.code) {
-                    switch code {
-                    case .cancelled, .paused:
-                        break
-                    default:
+            transferManager.download(downloadRequest!).continueWith(executor: AWSExecutor.mainThread(), block: { (task:AWSTask<AnyObject>) -> Any? in
+                
+                if let error = task.error as? NSError {
+                    if error.domain == AWSS3TransferManagerErrorDomain, let code = AWSS3TransferManagerErrorType(rawValue: error.code) {
+                        switch code {
+                        case .cancelled, .paused:
+                            break
+                        default:
+                            print("Error downloading: \(downloadRequest?.key) Error: \(error)")
+                        }
+                    } else {
                         print("Error downloading: \(downloadRequest?.key) Error: \(error)")
                     }
-                } else {
-                    print("Error downloading: \(downloadRequest?.key) Error: \(error)")
+                    return nil
                 }
+                print("Download complete for: \(downloadRequest?.key)")
+                //let downloadOutput = task.result
+                self.userVescle.image = UIImage(contentsOfFile: downloadingFileURL.path)
+                self.caption.text = caption_to_show
+                
                 return nil
-            }
-            print("Download complete for: \(downloadRequest?.key)")
-            //let downloadOutput = task.result
-            self.userVescle.image = UIImage(contentsOfFile: downloadingFileURL.path)
-            self.caption.text = caption_to_show
-            return nil
-        })
+            })
+        }
+        
+        else {
+            usernameLabel?.alpha = 0
+            userVescle.alpha = 0
+            caption.alpha = 0
+            vescleText.alpha = 1
+            vescleText.text = caption_to_show
+            speechBub.alpha = 1
+            
+        }
+        
+        
         
     }
     func buttonClicked() {
