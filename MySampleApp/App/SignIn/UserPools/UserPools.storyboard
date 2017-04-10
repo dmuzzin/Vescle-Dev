@@ -526,7 +526,6 @@
                                 </state>
                                 <connections>
                                     <action selector="onDateOfBirth:" destination="TpG-qX-otf" eventType="touchUpInside" id="Rbc-nY-o0v"/>
-                                    <segue destination="4Vz-Vz-zr3" kind="show" id="7bw-Ob-fmE"/>
                                 </connections>
                             </button>
                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" progress="0.28570000000000001" translatesAutoresizingMaskIntoConstraints="NO" id="x9d-rW-KSo">

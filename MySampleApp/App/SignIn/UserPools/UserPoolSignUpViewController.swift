@@ -176,6 +176,8 @@ class UserPoolSignUpViewController: UIViewController {
             let year = dobValue.substring(from: startyear)
             signUpData.dob = year + "-" + modified_ending
             self.setDOB = true
+            //self.performSegue(withIdentifier: "Username-Signup", sender: self)
+            present(self.storyboard?.instantiateViewController(withIdentifier: "Username-Signup") as! UserPoolSignUpViewController, animated: true, completion: nil)
         } else {
             UIAlertView(title: "Missing Required Fields",
                         message: "Valid birth date is required for registration.",
@@ -210,25 +212,9 @@ class UserPoolSignUpViewController: UIViewController {
         var user_exists = false
         if let usernameValue = self.username.text, !usernameValue.isEmpty {
             let trimmed_usernameValue = usernameValue.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
-            
-            //See if username already exists
-            mapper.load(User.self, hashKey: trimmed_usernameValue, rangeKey:nil).continueWith(block: { (task:AWSTask<AnyObject>!) -> Any? in
-                if let error = task.error as? NSError {
-                    print("The request failed. Error: \(error)")
-                } else if (task.result as? User) != nil {
-                    user_exists = true;
-                    UIAlertView(title: "Username already exists",
-                                message: "Please choose a new username.",
-                                delegate: nil,
-                                cancelButtonTitle: "Ok").show()
-                    return nil
-                } else {
-                    self.signUpData.username = usernameValue
-                    self.setUsername = true
-                    self.performSegue(withIdentifier: "Password-Signup", sender: self)
-                }
-                return nil
-            })
+            self.signUpData.username = usernameValue
+            self.setUsername = true
+            present(self.storyboard?.instantiateViewController(withIdentifier: "Password-Signup") as! UserPoolSignUpViewController, animated: true, completion: nil)
         } else {
             UIAlertView(title: "Missing Required Fields",
                         message: "Full name is required for registration.",
