@@ -26,6 +26,19 @@ class UserIdentityViewController: UIViewController {
     @IBOutlet weak var indicator: UIActivityIndicatorView!
     // MARK: - View lifecycle
     
+    @IBAction func handleLogout(_ sender: AnyObject) {
+        if (AWSIdentityManager.default().isLoggedIn) {
+            AWSIdentityManager.default().logout(completionHandler: {(result: Any?, error: Error?) in
+                let storyboard = UIStoryboard(name: "SignIn", bundle: nil)
+                let viewController = storyboard.instantiateViewController(withIdentifier: "SignIn")
+                self.present(viewController, animated: true, completion: nil)
+            })
+            // print("Logout Successful: \(signInProvider.getDisplayName)");
+        } else {
+            assert(false)
+        }
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         

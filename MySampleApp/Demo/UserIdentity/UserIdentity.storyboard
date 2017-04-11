@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1217" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="YUc-hJ-O2D">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="YUc-hJ-O2D">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -49,7 +49,7 @@
                                                 </barButtonItem>
                                                 <barButtonItem key="rightBarButtonItem" title="Log Out" id="cXx-K8-Z2n">
                                                     <connections>
-                                                        <segue destination="dzT-bP-db2" kind="show" id="g9Q-aj-p96"/>
+                                                        <action selector="handleLogout:" destination="YUc-hJ-O2D" id="AAt-IT-Wlx"/>
                                                     </connections>
                                                 </barButtonItem>
                                             </navigationItem>
@@ -132,14 +132,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="auM-Gd-CGx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2181" y="181"/>
-        </scene>
-        <!--Main-->
-        <scene sceneID="xgG-S4-bTD">
-            <objects>
-                <viewControllerPlaceholder storyboardName="Main" id="dzT-bP-db2" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Qs6-Ce-wwC" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2189" y="363"/>
         </scene>
     </scenes>
     <resources>

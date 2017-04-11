@@ -34,16 +34,24 @@ class MainViewController: UIViewController, CLLocationManagerDelegate {
     
     override func viewDidLoad() {
         if (AWSIdentityManager.default().isLoggedIn) {
+            self.pool = AWSCognitoIdentityUserPool.init(forKey: AWSCognitoUserPoolsSignInProviderKey)
+            manager.delegate = self
+            manager.requestWhenInUseAuthorization()
+            
             let storyboard = UIStoryboard(name: "MapView", bundle: nil)
             let viewController = storyboard.instantiateViewController(withIdentifier: "MapView")
-            self.present(viewController, animated: true, completion: nil)
+            DispatchQueue.main.async(execute: {
+                self.present(viewController, animated: true, completion: nil)
+            })
+            return
+        } else {
+            self.pool = AWSCognitoIdentityUserPool.init(forKey: AWSCognitoUserPoolsSignInProviderKey)
+            manager.delegate = self
+            manager.requestWhenInUseAuthorization()
+            
+            super.viewDidLoad()
+            UINavigationBar.appearance().shadowImage = UIImage()
+            UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
         }
-        super.viewDidLoad()
-        UINavigationBar.appearance().shadowImage = UIImage()
-        UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
-        self.pool = AWSCognitoIdentityUserPool.init(forKey: AWSCognitoUserPoolsSignInProviderKey)
-        
-        manager.delegate = self
-        manager.requestWhenInUseAuthorization()
     }
 }
