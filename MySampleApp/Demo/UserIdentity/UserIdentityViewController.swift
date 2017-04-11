@@ -20,6 +20,8 @@ import AWSCognitoIdentityProvider
 class UserIdentityViewController: UIViewController {
     @IBOutlet weak var userImageView: UIImageView!
     @IBOutlet weak var userName: UILabel!
+    @IBOutlet weak var fullName: UILabel!
+    @IBOutlet weak var dob: UILabel!
     // MARK: - View lifecycle
     
     override func viewWillAppear(_ animated: Bool) {
@@ -66,10 +68,18 @@ class UserIdentityViewController: UIViewController {
                         }
                         print("Download complete for: \(downloadRequest?.key)")
                         self.userImageView.image = UIImage(contentsOfFile: downloadingFileURL.path)
+                        self.userImageView.layer.cornerRadius = self.userImageView.frame.size.height/2
+                        self.userImageView.layer.masksToBounds = false
+                        self.userImageView.clipsToBounds = true
+
                         return nil
                     })
 
 
+                } else if attribute.name == "birthdate" {
+                    self.dob.text = NSLocalizedString(attribute.value!, comment: "Replaced")
+                } else if attribute.name == "name" {
+                    self.fullName.text = NSLocalizedString(attribute.value!, comment: "Replaced")
                 }
             }
             return nil
