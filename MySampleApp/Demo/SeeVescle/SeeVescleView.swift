@@ -28,6 +28,9 @@ class SeeVescleViewController : UIViewController {
     @IBOutlet weak var cover: UILabel!
     @IBOutlet weak var indicator: UIActivityIndicatorView!
     
+    var timer = Timer()
+    var secondsRemaining = 100
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         usernameLabel?.text = username_to_show
@@ -43,7 +46,11 @@ class SeeVescleViewController : UIViewController {
         downloadRequest?.key = imageURL_to_show
         print(imageURL_to_show)
         
-        time_remaining_label.text = String("Time Remaining: " + (stringFromTimeInterval(interval: Int64(time_remaining_to_show)!) as String))
+        getInterval(interval: Int64 (time_remaining_to_show)!)
+        runTimer()
+        
+//        time_remaining_label.text = String("Time Remaining: " + (stringFromTimeInterval(interval: Int64(time_remaining_to_show)!) as String))
+        
         if String(imageURL_to_show.characters.suffix(5)) == ".jpeg" {
             usernameLabel2?.alpha = 0
             speechBub.alpha = 0
@@ -109,29 +116,45 @@ class SeeVescleViewController : UIViewController {
         self.present(next!, animated: true, completion: nil)
     }
     
-    func stringFromTimeInterval(interval: Int64) -> NSString {
-        
+    func runTimer() {
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self,   selector: (#selector(updateTimer)), userInfo: nil, repeats: true)
+    }
+    
+    func updateTimer() {
+        secondsRemaining -= 1
+        if secondsRemaining == 0 {
+            buttonClicked()
+        }
+        stringFromTimeInterval()
+    }
+    
+    func getInterval(interval: Int64) {
         let ti2 = interval - getCurrentMillis()
         var ti = NSInteger(ti2)
         ti /= 1000
+        secondsRemaining = ti
+    }
+    
+    func stringFromTimeInterval() {
+        var ti = NSInteger(secondsRemaining)
         let seconds = ti % 60
         let minutes = (ti / 60) % 60
         let hours = (ti / 3600)
         let days = (ti / 3600) / 24
         
         if days > 0 {
-            return NSString(format: "%0.2d days %0.2d hrs",days,hours)
+            time_remaining_label.text = NSString(format: "%0.2d days %0.2d hrs",days,hours) as String
         }
         else {
             if hours > 0 {
-                return NSString(format: "%0.2d hrs %0.2d mins",hours,minutes)
+                time_remaining_label.text = NSString(format: "%0.2d hrs %0.2d mins",hours,minutes) as String
             }
             else {
                 if minutes > 0 {
-                    return NSString(format: "%0.2d mins %0.2d secs",minutes,seconds)
+                    time_remaining_label.text = NSString(format: "%0.2d mins %0.2d secs",minutes,seconds) as String
                 }
                 else {
-                    return NSString(format: "%0.2d seconds",seconds)
+                    time_remaining_label.text = NSString(format: "%0.2d seconds",seconds) as String
                 }
             }
         }
