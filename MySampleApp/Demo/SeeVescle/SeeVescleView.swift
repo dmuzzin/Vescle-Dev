@@ -22,7 +22,9 @@ class SeeVescleViewController : UIViewController {
     @IBOutlet weak var usernameLabel2: UILabel?
     @IBOutlet weak var time_remaining_label: UILabel!
     @IBOutlet weak var time_posted_label: UILabel!
-    
+    @IBOutlet weak var vescle_logo: UIImageView!
+    @IBOutlet weak var top_username_background: UILabel!
+    var indicator = UIActivityIndicatorView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,8 +45,17 @@ class SeeVescleViewController : UIViewController {
         if String(imageURL_to_show.characters.suffix(5)) == ".jpeg" {
             usernameLabel2?.alpha = 0
             speechBub.alpha = 0
+            vescle_logo.alpha = 0
             time_posted_label.alpha = 0
+            if caption_to_show == "198423cyiqshkfcajkhmz1kaskjdfbhi2ueg01285u" {
+                self.caption.alpha = 0
+            } else {
+                self.caption.text = caption_to_show
+            }
             downloadRequest?.downloadingFileURL = downloadingFileURL
+            
+            indicator.startAnimating()
+            indicator.backgroundColor = UIColor.white
             
             transferManager.download(downloadRequest!).continueWith(executor: AWSExecutor.mainThread(), block: { (task:AWSTask<AnyObject>) -> Any? in
                 
@@ -64,11 +75,12 @@ class SeeVescleViewController : UIViewController {
                 print("Download complete for: \(downloadRequest?.key)")
                 //let downloadOutput = task.result
                 self.userVescle.image = UIImage(contentsOfFile: downloadingFileURL.path)
-                self.caption.text = caption_to_show
-                
                 
                 return nil
             })
+            indicator.stopAnimating()
+            indicator.hidesWhenStopped = true
+            
         }
         
         else {
@@ -76,7 +88,10 @@ class SeeVescleViewController : UIViewController {
             userVescle.alpha = 0
             caption.alpha = 0
             vescleText.alpha = 1
+            top_username_background.alpha = 0
             vescleText.text = caption_to_show
+            
+            
             time_posted_label.text = posted_time_to_show
             
         }
@@ -84,6 +99,14 @@ class SeeVescleViewController : UIViewController {
         
         
     }
+    
+    func activityIndicator() {
+        indicator = UIActivityIndicatorView(frame: CGRect(x:0, y:0, width:40, height:40))
+        indicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
+        indicator.center = self.view.center
+        self.view.addSubview(indicator)
+    }
+    
     func buttonClicked() {
         let next = self.storyboard?.instantiateViewController(withIdentifier: "MapView")
         self.present(next!, animated: true, completion: nil)
@@ -104,18 +127,17 @@ class SeeVescleViewController : UIViewController {
         }
         else {
             if hours > 0 {
-                return NSString(format: "%0.2d hrs %0.2d mins %0.2d secs",hours,minutes,seconds)
+                return NSString(format: "%0.2d hrs %0.2d mins",hours,minutes)
             }
             else {
                 if minutes > 0 {
                     return NSString(format: "%0.2d mins %0.2d secs",minutes,seconds)
                 }
                 else {
-                    return NSString(format: "%0.2d secondss",seconds)
+                    return NSString(format: "%0.2d seconds",seconds)
                 }
             }
         }
-        return NSString(format: "%0.2d days %0.2d hrs %0.2d mins %0.2d secs",days,hours,minutes,seconds)
     }
     
 }

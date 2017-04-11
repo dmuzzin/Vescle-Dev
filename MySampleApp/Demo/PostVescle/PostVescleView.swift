@@ -287,7 +287,12 @@ class PostVescleViewController: UIViewController, UITextFieldDelegate, UIPickerV
                 newVescle?._pictureS3 = self.createFileName
                 newVescle?._latitude = String((manager.location?.coordinate.latitude)!)
                 newVescle?._longitude = String((manager.location?.coordinate.longitude)!)
-                newVescle?._text = String(describing: (self.caption.text)!)
+                if (self.caption.text?.isEmpty)! {
+                    newVescle?._text = "198423cyiqshkfcajkhmz1kaskjdfbhi2ueg01285u"
+                } else {
+                    newVescle?._text = String(describing: (self.caption.text)!)
+                }
+                
                 
                 let tempArr = self.timeChosen.text?.components(separatedBy: " ")
                 var expires = 0
