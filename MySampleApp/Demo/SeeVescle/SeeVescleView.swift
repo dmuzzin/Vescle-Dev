@@ -24,7 +24,8 @@ class SeeVescleViewController : UIViewController {
     @IBOutlet weak var time_posted_label: UILabel!
     @IBOutlet weak var vescle_logo: UIImageView!
     @IBOutlet weak var top_username_background: UILabel!
-    var indicator = UIActivityIndicatorView()
+    @IBOutlet weak var cover: UILabel!
+    @IBOutlet weak var indicator: UIActivityIndicatorView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,9 +55,6 @@ class SeeVescleViewController : UIViewController {
             }
             downloadRequest?.downloadingFileURL = downloadingFileURL
             
-            indicator.startAnimating()
-            indicator.backgroundColor = UIColor.white
-            
             transferManager.download(downloadRequest!).continueWith(executor: AWSExecutor.mainThread(), block: { (task:AWSTask<AnyObject>) -> Any? in
                 
                 if let error = task.error as? NSError {
@@ -76,14 +74,17 @@ class SeeVescleViewController : UIViewController {
                 //let downloadOutput = task.result
                 self.userVescle.image = UIImage(contentsOfFile: downloadingFileURL.path)
                 
+                self.indicator.stopAnimating()
+                self.cover.alpha = 0
                 return nil
             })
-            indicator.stopAnimating()
-            indicator.hidesWhenStopped = true
+            
             
         }
         
         else {
+            self.indicator.stopAnimating()
+            cover.alpha = 0
             usernameLabel?.alpha = 0
             userVescle.alpha = 0
             caption.alpha = 0
@@ -98,13 +99,6 @@ class SeeVescleViewController : UIViewController {
         
         
         
-    }
-    
-    func activityIndicator() {
-        indicator = UIActivityIndicatorView(frame: CGRect(x:0, y:0, width:40, height:40))
-        indicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
-        indicator.center = self.view.center
-        self.view.addSubview(indicator)
     }
     
     func buttonClicked() {

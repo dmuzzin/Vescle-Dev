@@ -106,6 +106,18 @@
                                 <rect key="frame" x="120" y="65" width="135" height="135"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5cd-YR-5IY">
+                                <rect key="frame" x="0.0" y="-2" width="375" height="669"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" animating="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="iHm-RN-MEb">
+                                <rect key="frame" x="177" y="311" width="20" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -113,6 +125,8 @@
                     <connections>
                         <outlet property="backToMap" destination="Pf9-1x-9tQ" id="A0R-uN-Hz2"/>
                         <outlet property="caption" destination="o5w-XX-Nnk" id="Vg9-XQ-yQD"/>
+                        <outlet property="cover" destination="5cd-YR-5IY" id="cfn-e2-CYd"/>
+                        <outlet property="indicator" destination="iHm-RN-MEb" id="cEQ-ZL-VmL"/>
                         <outlet property="speechBub" destination="8rL-gy-4FM" id="1Dv-NH-Uow"/>
                         <outlet property="time_posted_label" destination="7AN-di-5gZ" id="S7c-7k-2I5"/>
                         <outlet property="time_remaining_label" destination="EQ0-GA-Egb" id="U3r-eL-ssF"/>
