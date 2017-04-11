@@ -24,6 +24,7 @@ class SeeVescleViewController : UIViewController {
     @IBOutlet weak var time_posted_label: UILabel!
     @IBOutlet weak var vescle_logo: UIImageView!
     @IBOutlet weak var top_username_background: UILabel!
+    @IBOutlet weak var bottomBackground: UILabel!
     @IBOutlet weak var cover: UILabel!
     @IBOutlet weak var indicator: UIActivityIndicatorView!
     
@@ -85,6 +86,7 @@ class SeeVescleViewController : UIViewController {
         else {
             self.indicator.stopAnimating()
             cover.alpha = 0
+            bottomBackground.alpha = 0
             usernameLabel?.alpha = 0
             userVescle.alpha = 0
             caption.alpha = 0

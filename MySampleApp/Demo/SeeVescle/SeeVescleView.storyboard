@@ -124,6 +124,7 @@
                     <navigationItem key="navigationItem" id="d3T-Cr-8ue"/>
                     <connections>
                         <outlet property="backToMap" destination="Pf9-1x-9tQ" id="A0R-uN-Hz2"/>
+                        <outlet property="bottomBackground" destination="Fb0-yW-Ev6" id="Atd-xM-EuA"/>
                         <outlet property="caption" destination="o5w-XX-Nnk" id="Vg9-XQ-yQD"/>
                         <outlet property="cover" destination="5cd-YR-5IY" id="cfn-e2-CYd"/>
                         <outlet property="indicator" destination="iHm-RN-MEb" id="cEQ-ZL-VmL"/>
