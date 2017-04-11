@@ -47,7 +47,7 @@ class SeeVescleViewController : UIViewController {
         if String(imageURL_to_show.characters.suffix(5)) == ".jpeg" {
             usernameLabel2?.alpha = 0
             speechBub.alpha = 0
-            vescle_logo.alpha = 0
+            
             time_posted_label.alpha = 0
             if caption_to_show == "198423cyiqshkfcajkhmz1kaskjdfbhi2ueg01285u" {
                 self.caption.alpha = 0
@@ -76,6 +76,7 @@ class SeeVescleViewController : UIViewController {
                 self.userVescle.image = UIImage(contentsOfFile: downloadingFileURL.path)
                 
                 self.indicator.stopAnimating()
+                self.vescle_logo.alpha = 0
                 self.cover.alpha = 0
                 return nil
             })
