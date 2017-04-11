@@ -22,6 +22,8 @@ class UserIdentityViewController: UIViewController {
     @IBOutlet weak var userName: UILabel!
     @IBOutlet weak var fullName: UILabel!
     @IBOutlet weak var dob: UILabel!
+    @IBOutlet weak var cover: UILabel!
+    @IBOutlet weak var indicator: UIActivityIndicatorView!
     // MARK: - View lifecycle
     
     override func viewWillAppear(_ animated: Bool) {
@@ -82,6 +84,9 @@ class UserIdentityViewController: UIViewController {
                     self.fullName.text = NSLocalizedString(attribute.value!, comment: "Replaced")
                 }
             }
+            
+            self.cover.alpha = 0
+            self.indicator.stopAnimating()
             return nil
         }
         
