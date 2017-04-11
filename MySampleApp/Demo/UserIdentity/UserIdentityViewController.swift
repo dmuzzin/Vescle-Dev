@@ -32,6 +32,17 @@ class UserIdentityViewController: UIViewController {
             userName.text = NSLocalizedString("Guest User", comment: "Placeholder text for the guest user.")
         }
         
+        let pool = AWSCognitoIdentityUserPool.init(forKey: AWSCognitoUserPoolsSignInProviderKey)
+        let user = pool.getUser(userName.text!)
+        user.getDetails().continueWith { (task) -> AnyObject! in
+            let response = task.result
+            for attribute in (response?.userAttributes)! {
+                if attribute.name == "picture" {
+                    var thing = 9
+                }
+            }
+        }
+
         if let imageURL = identityManager.imageURL {
             let imageData = try! Data(contentsOf: imageURL)
             if let profileImage = UIImage(data: imageData) {
@@ -41,6 +52,7 @@ class UserIdentityViewController: UIViewController {
             }
         }
     }
+    
     
 }
 

@@ -17,12 +17,15 @@ import UIKit
 import AWSMobileHubHelper
 import AWSCognitoIdentityProvider
 import AWSDynamoDB
+import AWSS3
 
-class UserPoolSignUpViewController: UIViewController {
+class UserPoolSignUpViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate
+{
     let signUpData = SignUpData.signUpData
     let mapper = AWSDynamoDBObjectMapper.default()
     var pool: AWSCognitoIdentityUserPool?
     var sentTo: String?
+    var myActivityIndicator: UIActivityIndicatorView!
 
     @IBOutlet weak var fullname: UITextField!
     @IBOutlet weak var dob: UITextField!
@@ -30,6 +33,13 @@ class UserPoolSignUpViewController: UIViewController {
     @IBOutlet weak var password2: UITextField!
     @IBOutlet weak var username: UITextField!
     @IBOutlet weak var phone: UITextField!
+    @IBOutlet weak var imagePicked: UIImageView!
+    @IBOutlet weak var takePhoto: UIButton!
+    @IBOutlet weak var nextButton: UIButton!
+    
+    var imageURL: NSURL!
+    var createFileName: String = ""
+
     
     var setName = false
     var setDOB = false
@@ -38,7 +48,48 @@ class UserPoolSignUpViewController: UIViewController {
     var setPhone = false
     var setPhoto = false
     
+    let imagePicker = UIImagePickerController()
+    
     var movingBackwards = false
+    
+    @IBAction func openCameraButton(sender: AnyObject) {
+        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.camera) {
+            imagePicker.delegate = self
+            imagePicker.sourceType = UIImagePickerControllerSourceType.camera;
+            imagePicker.allowsEditing = true
+            self.present(imagePicker, animated: true, completion: nil)
+        }
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        let image_selected = info[UIImagePickerControllerEditedImage] as? UIImage
+        self.imagePicked.image = image_selected
+        self.imagePicked.backgroundColor = UIColor.clear
+        self.imagePicked.contentMode = UIViewContentMode.scaleAspectFill
+        
+        var imageToSave: UIImage = info[UIImagePickerControllerOriginalImage] as! UIImage
+        
+        createFileName = ProcessInfo.processInfo.globallyUniqueString + ".jpeg"
+        
+        let writePath = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(createFileName)
+        
+        //getting actual image
+        let image = info[UIImagePickerControllerOriginalImage] as! UIImage
+        let data = UIImageJPEGRepresentation(imagePicked.image!, 0.6)
+        do {
+            _ = try data?.write(to: writePath)
+        } catch let error {
+            print(error)
+        }
+        
+        imageURL = writePath as NSURL!
+        takePhoto.isHidden = true
+        nextButton.setTitle( "Next" , for: .normal )
+        imagePicked.layer.cornerRadius = imagePicked.frame.size.height/2
+        imagePicked.layer.masksToBounds = false
+        imagePicked.clipsToBounds = true
+        dismiss(animated: true, completion: nil)
+    }
     
     @IBAction func backToName(_ sender: AnyObject) {
         self.signUpData.fullname = nil
@@ -81,11 +132,12 @@ class UserPoolSignUpViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setUpActivityIndicator()
         UINavigationBar.appearance().shadowImage = UIImage()
         UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
         self.pool = AWSCognitoIdentityUserPool.init(forKey: AWSCognitoUserPoolsSignInProviderKey)
     }
-    
+
     override func viewDidLayoutSubviews() {
         if (self.signUpData.photo != nil) {
             phone.layer.sublayers![0].isHidden = true
@@ -255,8 +307,97 @@ class UserPoolSignUpViewController: UIViewController {
     }
     
     @IBAction func onPhoto(_ sender: AnyObject) {
-        signUpData.photo = "https://s3.amazonaws.com/vescle-userfiles-mobilehub-1713265082/Icon-57%403x.png"
+        let configuration = AWSServiceConfiguration(region:AWSCognitoUserPoolRegion, credentialsProvider:AWSCognitoCredentialsProvider(regionType: AWSCognitoUserPoolRegion, identityPoolId: AWSCognitoIdentityPoolId))
+        AWSServiceManager.default().defaultServiceConfiguration = configuration
+        
+        myActivityIndicator.startAnimating()
+        
+        //prepare uploader
+        var s3URL = ""
+        let uploadRequest = AWSS3TransferManagerUploadRequest()
+        uploadRequest?.body = imageURL as URL
+        uploadRequest?.key = createFileName
+        uploadRequest?.bucket = S3BucketName
+        uploadRequest?.contentType = "image/jpeg"
+        print(uploadRequest?.body)
+        print(uploadRequest?.key)
+        print(uploadRequest?.bucket)
+        //push to server
+        let transferManager = AWSS3TransferManager.default()
+        transferManager.upload(uploadRequest!).continueWith { (task) -> AnyObject! in
+            DispatchQueue.global(qos: .userInitiated).async {
+                self.myActivityIndicator.stopAnimating()
+            }
+            
+            if let error = task.error {
+                print("Upload failed with error: (\(error.localizedDescription))")
+            }
+            
+            if let exception = task.error {
+                print("Upload failed with exception (\(exception))")
+            }
+            
+            if task.result != nil {
+                s3URL = "https://s3.amazonaws.com/" + S3BucketName + "/" + self.createFileName
+                self.signUpData.photo = s3URL
+                print("Uploaded to:\n\(s3URL)")
+                // Remove locally stored file
+                self.remoteImageWithUrl(fileName: (uploadRequest?.key!)!)
+            }
+            else {
+                print("Unexpected empty result.")
+            }
+            return nil
+        }
+        if s3URL != "" {
+            signUpData.photo = s3URL
+        } else {
+            signUpData.photo = "https://s3.amazonaws.com/vescle-userfiles-mobilehub-1713265082/Icon-57%403x.png"
+        }
         self.setPhoto = true
+    }
+    
+    func setUpActivityIndicator()
+    {
+        //Create Activity Indicator
+        myActivityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.gray)
+        
+        // Position Activity Indicator in the center of the main view
+        myActivityIndicator.center = view.center
+        
+        // If needed, you can prevent Acivity Indicator from hiding when stopAnimating() is called
+        myActivityIndicator.hidesWhenStopped = true
+        
+        myActivityIndicator.backgroundColor = UIColor.clear
+        
+        view.addSubview(myActivityIndicator)
+    }
+
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func generateImageUrl(fileName: String) -> NSURL
+    {
+        let fileURL = NSURL(fileURLWithPath: NSTemporaryDirectory().appending(fileName))
+        let data = UIImageJPEGRepresentation(imagePicked.image!, 0.6)
+        do {
+            _ = try data?.write(to: fileURL as URL, options: .atomic)
+        } catch let error {
+            print(error)
+        }
+        return fileURL
+    }
+    
+    func remoteImageWithUrl(fileName: String)
+    {
+        let fileURL = NSURL(fileURLWithPath: NSTemporaryDirectory().appending(fileName))
+        do {
+            try FileManager.default.removeItem(at: fileURL as URL)
+        } catch
+        {
+            print(error)
+        }
     }
     
     @IBAction func onSignUp(_ sender: AnyObject) {
@@ -288,7 +429,7 @@ class UserPoolSignUpViewController: UIViewController {
         if let photoValue = self.signUpData.photo, !photoValue.isEmpty {
             let photo = AWSCognitoIdentityUserAttributeType()
             photo?.name = "picture"
-            photo?.value = phoneValue
+            photo?.value = photoValue
             attributes.append(photo!)
         }
         
