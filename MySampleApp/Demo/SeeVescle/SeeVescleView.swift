@@ -143,18 +143,18 @@ class SeeVescleViewController : UIViewController {
         let days = (ti / 3600) / 24
         
         if days > 0 {
-            time_remaining_label.text = NSString(format: "%0.2d days %0.2d hrs",days,hours) as String
+            time_remaining_label.text = NSString(format: "%0.2d days %0.2d hrs remaining",days,hours) as String
         }
         else {
             if hours > 0 {
-                time_remaining_label.text = NSString(format: "%0.2d hrs %0.2d mins",hours,minutes) as String
+                time_remaining_label.text = NSString(format: "%0.2d hrs %0.2d mins remaining",hours,minutes) as String
             }
             else {
                 if minutes > 0 {
-                    time_remaining_label.text = NSString(format: "%0.2d mins %0.2d secs",minutes,seconds) as String
+                    time_remaining_label.text = NSString(format: "%0.2d mins %0.2d seconds remaining",minutes,seconds) as String
                 }
                 else {
-                    time_remaining_label.text = NSString(format: "%0.2d seconds",seconds) as String
+                    time_remaining_label.text = NSString(format: "%0.2d seconds remaining",seconds) as String
                 }
             }
         }
