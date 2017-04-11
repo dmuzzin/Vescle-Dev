@@ -338,7 +338,7 @@ class UserPoolSignUpViewController: UIViewController, UIImagePickerControllerDel
             }
             
             if task.result != nil {
-                s3URL = "https://s3.amazonaws.com/" + S3BucketName + "/" + self.createFileName
+                s3URL = self.createFileName
                 self.signUpData.photo = s3URL
                 print("Uploaded to:\n\(s3URL)")
                 // Remove locally stored file

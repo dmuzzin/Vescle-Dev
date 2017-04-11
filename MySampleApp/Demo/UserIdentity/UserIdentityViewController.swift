@@ -14,6 +14,7 @@
 import Foundation
 import UIKit
 import AWSMobileHubHelper
+import AWSS3
 import AWSCognitoIdentityProvider
 
 class UserIdentityViewController: UIViewController {
@@ -38,19 +39,43 @@ class UserIdentityViewController: UIViewController {
             let response = task.result
             for attribute in (response?.userAttributes)! {
                 if attribute.name == "picture" {
-                    var thing = 9
+                    let transferManager = AWSS3TransferManager.default()
+                    let downloadingFileURL = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("vescle.jpg")
+                    let downloadRequest = AWSS3TransferManagerDownloadRequest()
+                    print(S3BucketName)
+                    downloadRequest?.bucket = S3BucketName
+                    downloadRequest?.key = attribute.value
+                    print(attribute.value)
+                    
+                    downloadRequest?.downloadingFileURL = downloadingFileURL
+                    
+                    transferManager.download(downloadRequest!).continueWith(executor: AWSExecutor.mainThread(), block: { (task:AWSTask<AnyObject>) -> Any? in
+                        
+                        if let error = task.error as? NSError {
+                            if error.domain == AWSS3TransferManagerErrorDomain, let code = AWSS3TransferManagerErrorType(rawValue: error.code) {
+                                switch code {
+                                case .cancelled, .paused:
+                                    break
+                                default:
+                                    print("Error downloading: \(downloadRequest?.key) Error: \(error)")
+                                }
+                            } else {
+                                print("Error downloading: \(downloadRequest?.key) Error: \(error)")
+                            }
+                            return nil
+                        }
+                        print("Download complete for: \(downloadRequest?.key)")
+                        self.userImageView.image = UIImage(contentsOfFile: downloadingFileURL.path)
+                        return nil
+                    })
+
+
                 }
             }
+            return nil
         }
-
-        if let imageURL = identityManager.imageURL {
-            let imageData = try! Data(contentsOf: imageURL)
-            if let profileImage = UIImage(data: imageData) {
-                userImageView.image = profileImage
-            } else {
-                userImageView.image = UIImage(named: "UserIcon")
-            }
-        }
+        
+        super.viewWillAppear(animated)
     }
     
     
